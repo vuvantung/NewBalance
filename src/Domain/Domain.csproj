@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NewBalance.Domain</RootNamespace>
+    <AssemblyName>NewBalance.Domain</AssemblyName>
+    <BlazorWebAssemblyEnableLinking>true</BlazorWebAssemblyEnableLinking>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EfCore.SchemaCompare" Version="8.0.1" />
+    <PackageReference Include="EPPlus" Version="7.0.9" />
+  </ItemGroup>
+
+</Project>

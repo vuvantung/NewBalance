@@ -1,0 +1,86 @@
+﻿@page "/doi-soat/xu-ly-du-lieu"
+@attribute [Authorize(Policy = Permissions.DS_Xu_Ly_Du_Lieu.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Xu_Ly_Du_Lieu> _localizer
+@using NewBalance.Application.Features.Documents.Queries.GetAll
+@using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.GetAll
+
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+</style>
+
+<HeroTitle Title="@_localizer["Dữ liệu"]" Description="@_localizer["Xử lý dữ liệu chi tiết"]" />
+@if (!_loaded)
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+    <MudTable Elevation="25" ServerData="@(new Func<TableState, Task<TableData<GetAllDS_MATINH_FILESResponse>>>(ServerReload))" Hover="true" Dense="@_dense" Bordered="@_bordered" Striped="@_striped" @ref="_table" MultiSelection="true" @bind-SelectedItems="selectedItems">
+        <ToolBarContent>
+            <div class="justify-center mud-text-align-center">
+            
+                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" @onclick="SaveAsync" StartIcon="@Icons.Material.Filled.Save" IconColor="Color.Surface">@_localizer["Save"]</MudButton>
+               
+                <MudButton DisableElevation Variant="Variant.Filled" OnClick="@(() => OnSearch(""))" StartIcon="@Icons.Material.Filled.Refresh" IconColor="Color.Surface" Color="Color.Secondary">@_localizer["Reload"]</MudButton>
+            </div>
+            <MudSpacer />
+            @if (_canSearchDocuments)
+            {
+                <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="@_localizer["Search"]" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            }
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="ID">@_localizer["ID"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="MATINH">@_localizer["MATINH"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="TENTINH">@_localizer["TENTINH"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="THANG">@_localizer["THANG"]</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="GetAllDocumentsResponse" SortLabel="NOTES">@_localizer["NOTES"]</MudTableSortLabel></MudTh>
+            <MudTh>@_localizer["LINKS"]</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+
+            <MudTd DataLabel="ID">@context.ID.ToString()</MudTd>
+            <MudTd DataLabel="MATINH">
+                <MudHighlighter Text="@context.MATINH.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="TENTINH">
+                <MudHighlighter Text="@context.TENTINH.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="THANG">
+                <MudHighlighter Text="@context.THANG.ToString()" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="NOTES">
+                <MudHighlighter Text="@context.NOTES" HighlightedText="@_searchString" />
+            </MudTd>
+            <MudTd DataLabel="Đường dẫn">
+                @if (_canDowloadXu_ly_Du_Lieu)
+                {
+
+                    <MudLink Href="@context.LINKS" Disabled="@(string.IsNullOrWhiteSpace(context.LINKS))" Target="_blank">@context.LINKS</MudLink>
+                }
+                else
+                {
+                    <MudButton Variant="Variant.Filled"
+                               DisableElevation="true"
+                               StartIcon="@Icons.Material.Filled.DoNotTouch"
+                               IconColor="Color.Secondary"
+                               Size="Size.Small"
+                               Color="Color.Surface">
+                        @_localizer["No Allowed Actions"]
+                    </MudButton>
+                }
+                
+            </MudTd>
+        </RowTemplate>
+        <FooterContent>
+            <MudSwitch @bind-Value="@_dense" Color="Color.Secondary" Style="margin-left: 5px;">@_localizer["Dense"]</MudSwitch>
+            <MudSwitch @bind-Value="@_striped" Color="Color.Tertiary" Style="margin-left: 5px;">@_localizer["Striped"]</MudSwitch>
+            <MudSwitch @bind-Value="@_bordered" Color="Color.Warning" Style="margin-left: 5px;">@_localizer["Bordered"]</MudSwitch>
+        </FooterContent>
+        <PagerContent>
+            <TablePager />
+        </PagerContent>
+    </MudTable>
+}
