@@ -103,6 +103,14 @@ namespace NewBalance.Client.Pages.Doi_Soat
             _currentPage = pageNumber;// response.CurrentPage;
 
             _pagedData = data_list;
+
+            foreach (var item in data_list)
+            {
+                if(item.STATUS == 1)
+                {
+                    selectedItems.Add(item);
+                }
+            }
            
         }
 
