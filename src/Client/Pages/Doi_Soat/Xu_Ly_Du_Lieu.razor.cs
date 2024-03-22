@@ -101,6 +101,8 @@ namespace NewBalance.Client.Pages.Doi_Soat
 
             _totalItems = res_data.total;// response.TotalCount;
             _currentPage = pageNumber;// response.CurrentPage;
+            
+
 
             _pagedData = data_list;
 
