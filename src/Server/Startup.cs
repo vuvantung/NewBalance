@@ -19,6 +19,8 @@ using NewBalance.Infrastructure.OR.Repository;
 using NewBalance.Server.Settings.Managers.Preferences;
 using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.IServices;
 using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.Services;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace NewBalance.Server
 {
@@ -69,6 +71,15 @@ namespace NewBalance.Server
             services.AddExtendedAttributesValidators();
             services.AddExtendedAttributesHandlers();
             services.AddRazorPages();
+            //services.AddServerSideBlazor().AddHubOptions(o =>
+            //{
+            //    o.MaximumReceiveMessageSize = 100 * 1024 * 1024;
+            //});
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 200*1024*1024; // 200 MB
+            });
+
             services.AddApiVersioning(config =>
             {
                 config.DefaultApiVersion = new ApiVersion(1, 0);

@@ -18,6 +18,7 @@ using NewBalance.Client.Infrastructure.Managers.ExtendedAttribute;
 using NewBalance.Domain.Entities.ExtendedAttributes;
 using NewBalance.Domain.Entities.Misc;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 
 namespace NewBalance.Client.Extensions
 {
@@ -70,6 +71,8 @@ namespace NewBalance.Client.Extensions
                     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
                 })
                 .AddHttpMessageHandler<AuthenticationHeaderHandler>();
+                //.AddSingleton<IHostingEnvironment>(new HostingEnvironment());
+
             builder.Services.AddHttpClientInterceptor();
             return builder;
         }

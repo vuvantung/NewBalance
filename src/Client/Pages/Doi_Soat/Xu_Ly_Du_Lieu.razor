@@ -1,4 +1,4 @@
-﻿@page "/doi-soat/xu-ly-du-lieu"
+﻿@page "/doi-soat/thong-tin-du-lieu"
 @attribute [Authorize(Policy = Permissions.DS_Xu_Ly_Du_Lieu.View)]
 @inject Microsoft.Extensions.Localization.IStringLocalizer<Xu_Ly_Du_Lieu> _localizer
 @using NewBalance.Application.Features.Documents.Queries.GetAll
@@ -10,7 +10,7 @@
     }
 </style>
 
-<HeroTitle Title="@_localizer["Dữ liệu"]" Description="@_localizer["Xử lý dữ liệu chi tiết"]" />
+<HeroTitle Title="@_localizer["Dữ liệu"]" Description="@_localizer["Thông tin dữ liệu chi tiết"]" />
 @if (!_loaded)
 {
     <MudProgressCircular Color="Color.Primary" Indeterminate="true" />

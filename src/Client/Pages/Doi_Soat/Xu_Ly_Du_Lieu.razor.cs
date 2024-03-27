@@ -28,7 +28,7 @@ namespace NewBalance.Client.Pages.Doi_Soat
 {
     public partial class Xu_Ly_Du_Lieu
     {
-        [Inject] private IDocumentManager DocumentManager { get; set; }
+        //[Inject] private IDocumentManager DocumentManager { get; set; }
 
         [Inject] private IDS_MATINH_FILESService _ods_matinh_file_service { get; set; }
 

@@ -14,6 +14,8 @@ using EMS.Internal.BlazorWeb.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+//using Microsoft.AspNetCore.Hosting;
+
 
 namespace NewBalance.Client
 {
@@ -26,8 +28,7 @@ namespace NewBalance.Client
                           .AddRootComponents()
                           .AddClientServices();
             builder.Services.AddScoped<IDS_MATINH_FILESService, DS_MATINH_FILESService>();
-            //builder.Services.AddScoped<HttpClientFactoryWrapper>();
-            
+           
             var host = builder.Build();
             
             var storageService = host.Services.GetRequiredService<ClientPreferenceManager>();

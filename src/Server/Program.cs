@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.AspNetCore;
 
 namespace NewBalance.Server
 {
@@ -38,16 +41,30 @@ namespace NewBalance.Server
                     throw;
                 }
             }
+            //var builder = WebApplication.CreateBuilder(args);
+            //builder.Services.Configure<IISServerOptions>(options =>
+            //{
+            //    options.MaxRequestBodySize = long.MaxValue;
+            //});
+            //builder.Services.Configure<KestrelServerOptions>(options =>
+            //{
+            //    options.Limits.MaxRequestBodySize = long.MaxValue; // if don't set default value is: 30 MB
+            //});
 
             await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+
             .UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStaticWebAssets();
+                    webBuilder.ConfigureKestrel((context, options) =>
+                    {
+                        options.Limits.MaxRequestBodySize = 200 * 1024 * 1024; // 200 MB
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

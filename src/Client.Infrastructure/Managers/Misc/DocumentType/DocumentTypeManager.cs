@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using NewBalance.Application.Features.DocumentTypes.Commands.AddEdit;
 using NewBalance.Application.Features.DocumentTypes.Queries.GetAll;
+using NewBalance.Application.Features.DocumentTypes.Queries.GetById;
 using NewBalance.Client.Infrastructure.Extensions;
 using NewBalance.Shared.Wrapper;
 
@@ -36,6 +37,11 @@ namespace NewBalance.Client.Infrastructure.Managers.Misc.DocumentType
         {
             var response = await _httpClient.GetAsync(Routes.DocumentTypesEndpoints.GetAll);
             return await response.ToResult<List<GetAllDocumentTypesResponse>>();
+        }
+        public async Task<IResult<GetDocumentTypeByIdResponse>> GetById(int id)
+        {
+            var response = await _httpClient.GetAsync($"{Routes.DocumentTypesEndpoints.GetAll}/{id}");
+            return await response.ToResult<GetDocumentTypeByIdResponse>();
         }
 
         public async Task<IResult<int>> SaveAsync(AddEditDocumentTypeCommand request)

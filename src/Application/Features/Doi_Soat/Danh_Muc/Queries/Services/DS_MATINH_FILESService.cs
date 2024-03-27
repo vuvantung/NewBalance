@@ -1,6 +1,8 @@
 ﻿//using Blazored.LocalStorage;
 using Azure.Core;
 using EMS.Internal.BlazorWeb.Helper;
+using Microsoft.AspNetCore.Http;
+
 //using EMS.Internal.BlazorWeb.IServices;
 using NewBalance.Application.Features.Doi_Soat;
 using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.GetAll;
@@ -59,6 +61,34 @@ namespace NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.Services
                 };
 
                 var result = await _httpClient.PostAsJsonAsync($"api/DS_MATINH_FILES/modify_status", data);
+
+                var response = await result.Content.ReadFromJsonAsync<ResponseData<int>>();
+
+                if (response.code != "success")
+                {
+                    response.message = $"Error: {response.message}";
+                }
+
+                return response;
+            }
+            catch (HttpRequestException ex)
+            {
+                var errorResponse = new ResponseData<int>
+                {
+                    code = "error",
+                    message = $"Error: {ex.Message}"
+                };
+
+                return errorResponse;
+            }
+        }
+
+        public async Task<ResponseData<int>> UploadFile(MultipartFormDataContent content)
+        {
+            try
+            {
+
+                var result = await _httpClient.PostAsync($"api/DS_MATINH_FILES/upload_file", content);
 
                 var response = await result.Content.ReadFromJsonAsync<ResponseData<int>>();
 

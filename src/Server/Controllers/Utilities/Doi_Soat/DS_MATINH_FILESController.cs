@@ -7,6 +7,8 @@ using static Org.BouncyCastle.Math.EC.ECCurve;
 using NewBalance.Infrastructure.OR.IRepository;
 using System.Collections.Generic;
 using NewBalance.Application.Features.Doi_Soat;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
 {
@@ -56,6 +58,35 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
+        }
+        [HttpPost("upload_file")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            try
+            {
+                if (file != null && file.Length > 0)
+                {
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "Files\\Doi_Soat\\cast_file", file.FileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    } 
+
+                }
+                var response = new ResponseData<int>()
+                {
+                    code = "success",
+                    message = "Lưu file thành công"
+                };
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+
+            
         }
     }
 }

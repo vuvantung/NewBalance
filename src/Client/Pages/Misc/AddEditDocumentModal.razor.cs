@@ -15,6 +15,12 @@ using NewBalance.Client.Infrastructure.Managers.Misc.DocumentType;
 using Microsoft.AspNetCore.Mvc;
 using Azure.Core;
 using OfficeOpenXml.Style;
+using Microsoft.AspNetCore.Hosting;
+using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.IServices;
+using static System.Net.WebRequestMethods;
+using System.Net.Http;
+using System.Net.Mime;
+using System.Net.Http.Headers;
 
 namespace NewBalance.Client.Pages.Misc
 {
@@ -22,80 +28,61 @@ namespace NewBalance.Client.Pages.Misc
     {
         [Inject] private IDocumentManager DocumentManager { get; set; }
         [Inject] private IDocumentTypeManager DocumentTypeManager { get; set; }
+        [Inject] private IDS_MATINH_FILESService _ods_matinh_file_service { get; set; }
+
+
+        //[Inject] protected IHostingEnvironment hostEnvironment { get; set; }
+        //private IHostingEnvironment hostEnvironment;
 
         [Parameter] public AddEditDocumentCommand AddEditDocumentModel { get; set; } = new();
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
 
         private FluentValidationValidator _fluentValidationValidator;
+       
+
+
         private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });
         private List<GetAllDocumentTypesResponse> _documentTypes = new();
 
+        //public AddEditDocumentModal()
+        //{
+           
+        //}
         public void Cancel()
         {
             MudDialog.Cancel();
         }
 
         //[RequestFormLimits(MultipartBodyLengthLimit = 104857600)]
-        [RequestSizeLimit(2028*1024*1024)]
+        //[RequestSizeLimit(2028 * 1024 * 1024)]
         private async Task SaveAsync()
         {
+            // xu ly luu file dữ liệu lớn
+            if(AddEditDocumentModel.DocumentTypeId < 1)
+            {
+                _snackBar.Add("Bạn hãy chọn file cần Upload", Severity.Success);
+                MudDialog.Close();
+                return;
+            }
+            var data = AddEditDocumentModel;
+            var model = await DocumentTypeManager.GetById(data.DocumentTypeId);
 
-            //// xử lý save file
-            /////var data = AddEditDocumentModel;
-            //var request = AddEditDocumentModel.UploadRequest;
-            ////var file = model.
-            //if (request != null)
-            //{
+            if (model.Data.Name == "doi_soat_cast_file")
+            {
+                // Allow reading any file size.
+                using var content = new MultipartFormDataContent();
+                var fileContent = new StreamContent(_file.OpenReadStream(Int64.MaxValue));
 
-            //    var streamData = new MemoryStream(request.Data);
-            //    if (streamData.Length > 0)
-            //    {
-            //        try
-            //        {
-            //            string folder = "Doi_Soat";
-            //            var folderName = Path.Combine("Files", folder);
-            //            //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            //            //string FilePath = Path.Combine(Directory.GetCurrentDirectory(), pathToSave);
+                fileContent.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Application.Octet);
 
-            //            //if (!Directory.Exists(FilePath))
-            //            //    Directory.CreateDirectory(FilePath);
+                content.Add(fileContent, "\"file\"", _file.Name);
+                var res_file = await _ods_matinh_file_service.UploadFile(content);
 
+                data.URL = _file.Name;
+                data.UploadRequest = null;
+            }
 
-
-
-            //            ////var folder = request.UploadType.ToDescriptionString();
-            //            //var folderName = FilePath;// Path.Combine("Files", folder);
-            //            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-            //            bool exists = System.IO.Directory.Exists(pathToSave);
-            //            if (!exists)
-            //                System.IO.Directory.CreateDirectory(pathToSave);
-            //            var fileName = request.FileName.Trim('"');
-            //            var fullPath = Path.Combine(pathToSave, fileName);
-            //            var dbPath = Path.Combine("D:\\EMS\\Project\\ReportSystem\\src\\Client\\Files\\Doi_Soat\\Xu_Ly_Du_Lieu", fileName);
-            //            var dbPathtest = "D:\\EMS\\Project\\ReportSystem\\src\\Client\\Files\\Doi_Soat\\Xu_Ly_Du_Lieu\\" + fileName;
-            //            //if (File.Exists(dbPath))
-            //            //{
-            //            //    dbPath = NextAvailableFilename(dbPath);
-            //            //    fullPath = NextAvailableFilename(fullPath);
-            //            //}
-            //            using (var stream = new FileStream(dbPathtest, FileMode.Create))
-            //            {
-            //                stream.Position = 0;
-            //                streamData.CopyTo(stream);
-            //            }
-            //            data.URL = dbPath;
-            //            //data.UploadRequest = null;
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Console.WriteLine(ex.ToString());
-            //        }
-
-            //    }
-            //}
-
-
-            var response = await DocumentManager.SaveAsync(AddEditDocumentModel);
+            var response = await DocumentManager.SaveAsync(data);
             if (response.Succeeded)
             {
                 _snackBar.Add(response.Messages[0], Severity.Success);
@@ -136,12 +123,18 @@ namespace NewBalance.Client.Pages.Misc
             _file = e.File;
             if (_file != null)
             {
+                //var buffer = new byte[_file.Size];
+                //var extension = Path.GetExtension(_file.Name);
+                //var format = "application/octet-stream";
+                //await _file.OpenReadStream(_file.Size).ReadAsync(buffer);
+                //AddEditDocumentModel.URL = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+                //AddEditDocumentModel.UploadRequest = new UploadRequest { FileName = _file.Name, Data = buffer, UploadType = Application.Enums.UploadType.Document, Extension = extension };
                 var buffer = new byte[_file.Size];
                 var extension = Path.GetExtension(_file.Name);
                 var format = "application/octet-stream";
-                await _file.OpenReadStream(_file.Size).ReadAsync(buffer);
+                await _file.OpenReadStream(long.MaxValue).ReadAsync(buffer);
                 AddEditDocumentModel.URL = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-                AddEditDocumentModel.UploadRequest = new UploadRequest { FileName= _file.Name, Data = buffer, UploadType = Application.Enums.UploadType.Document, Extension = extension };
+                AddEditDocumentModel.UploadRequest = new UploadRequest { FileName = _file.Name, Data = buffer, UploadType = Application.Enums.UploadType.Document, Extension = extension };
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using NewBalance.Application.Features.DocumentTypes.Commands.AddEdit;
 using NewBalance.Application.Features.DocumentTypes.Queries.GetAll;
+using NewBalance.Application.Features.DocumentTypes.Queries.GetById;
 using NewBalance.Shared.Wrapper;
 
 namespace NewBalance.Client.Infrastructure.Managers.Misc.DocumentType
@@ -15,5 +16,7 @@ namespace NewBalance.Client.Infrastructure.Managers.Misc.DocumentType
         Task<IResult<int>> DeleteAsync(int id);
 
         Task<IResult<string>> ExportToExcelAsync(string searchString = "");
+
+        Task<IResult<GetDocumentTypeByIdResponse>> GetById(int id);
     }
 }

@@ -7,11 +7,15 @@ using NewBalance.Application.Features.DocumentTypes.Queries.GetById;
 using NewBalance.Shared.Constants.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace NewBalance.Server.Controllers.Utilities.Misc
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
     public class DocumentTypesController : BaseApiController<DocumentTypesController>
     {
         /// <summary>
@@ -46,6 +50,7 @@ namespace NewBalance.Server.Controllers.Utilities.Misc
         /// <returns>Status 200 OK</returns>
         [Authorize(Policy = Permissions.DocumentTypes.Create)]
         [HttpPost]
+       
         public async Task<IActionResult> Post(AddEditDocumentTypeCommand command)
         {
             return Ok(await _mediator.Send(command));
@@ -74,5 +79,6 @@ namespace NewBalance.Server.Controllers.Utilities.Misc
         {
             return Ok(await _mediator.Send(new ExportDocumentTypesQuery(searchString)));
         }
+        
     }
 }
