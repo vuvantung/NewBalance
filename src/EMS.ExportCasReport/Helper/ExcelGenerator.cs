@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace EMS.ExportCasReport.Helper
 {
@@ -126,5 +127,63 @@ namespace EMS.ExportCasReport.Helper
             }
         }
 
+
+        public string ReadExcelToXml(string filePath )
+        {
+            // Load Excel file
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            FileInfo excelFile = new FileInfo(filePath);
+            using ( ExcelPackage package = new ExcelPackage(excelFile) )
+            {
+                // Assume you want data from the first worksheet
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
+
+                // Get headers from the first row
+                var headers = new Dictionary<int, string>();
+                int colCount = worksheet.Dimension.Columns;
+                for ( int col = 1; col <= colCount; col++ )
+                {
+                    string header = worksheet.Cells[1, col].Value?.ToString() ?? "";
+                    headers[col] = header;
+                }
+                // Create XML document
+                XmlDocument xmlDocument = new XmlDocument();
+                XmlElement root = xmlDocument.CreateElement("Data");
+                xmlDocument.AppendChild(root);
+
+                // Iterate through rows and columns to read data
+                int rowCount = worksheet.Dimension.Rows;
+                for ( int row = 2; row <= rowCount; row++ )
+                {
+                    XmlElement rowElement = xmlDocument.CreateElement("Row");
+                    root.AppendChild(rowElement);
+
+                    for ( int col = 1; col <= colCount; col++ )
+                    {
+                        // Get cell value and add to XML
+                        string cellValue = worksheet.Cells[row, col].Value?.ToString() ?? "";
+                        string header = headers[col];
+                        XmlElement cellElement = xmlDocument.CreateElement(header);
+                        cellElement.InnerText = cellValue;
+                        rowElement.AppendChild(cellElement);
+                    }
+                }
+
+                // Convert XML document to string
+                StringBuilder sb = new StringBuilder();
+                XmlWriterSettings settings = new XmlWriterSettings
+                {
+                    Indent = true,
+                    OmitXmlDeclaration = true // Omitting XML declaration if not needed
+                };
+                using ( XmlWriter writer = XmlWriter.Create(sb, settings) )
+                {
+                    xmlDocument.WriteTo(writer);
+                }
+
+                string xmlString = sb.ToString();
+                return xmlString;
+            }
+        }
     }
 }
