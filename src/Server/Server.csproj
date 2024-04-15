@@ -54,6 +54,7 @@
     <ProjectReference Include="..\Client\Client.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Files\Doi_Soat\chi_tiet_doanh_thu_gia_von\" />
     <Folder Include="Files\Images\ProfilePictures\" />
   </ItemGroup>
   <ItemGroup>
