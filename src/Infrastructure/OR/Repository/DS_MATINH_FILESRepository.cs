@@ -2,20 +2,14 @@
 using Microsoft.Extensions.Configuration;
 using NewBalance.Infrastructure.OR.IRepository;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Dapper.Oracle;
 using Oracle.ManagedDataAccess.Client;
 using NewBalance.Application.Features.Doi_Soat;
 using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.GetAll;
 using Dapper;
-using System.Reflection.Emit;
-using Microsoft.IdentityModel.Tokens;
-using NewBalance.Application.Requests.Identity;
-using static NewBalance.Shared.Constants.Storage.StorageConstants;
+
 
 
 namespace NewBalance.Infrastructure.OR.Repository

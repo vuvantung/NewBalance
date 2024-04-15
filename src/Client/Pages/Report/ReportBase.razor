@@ -1,0 +1,45 @@
+﻿@page "/Doi-Soat/ReportBase"
+@attribute [Authorize(Policy = Permissions.ReportBasePermisstion.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<ReportBase> _localizer
+<style>
+    .mud-table-container {
+        overflow: auto;
+    }
+</style>
+
+<HeroTitle Title="@_localizer["Báo cáo"]" Description="@_localizer["Báo cáo đối soát"]" />
+@if ( !_loaded )
+{
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+}
+else
+{
+    <MudCard Class="mb-10">
+        <MudCardContent Class="d-flex flex-wrap gap-4">
+            <MudSelect @bind-Value="_account" T="string" Label="Mã tỉnh" AnchorOrigin="Origin.BottomCenter">
+                @foreach ( var item in _accountFilter )
+                {
+                    <MudSelectItem Value="@item.VALUE">@item.TEXT</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSelect @bind-Value="_reportType" T="string" Label="Loại báo cáo" AnchorOrigin="Origin.BottomCenter">
+                @foreach ( var item in _typeReportFilter )
+                {
+                    <MudSelectItem Value="@item.VALUE">@item.TEXT</MudSelectItem>
+                }
+            </MudSelect>
+            <MudDatePicker Label="Từ ngày" @bind-Date="_fromDate" DisableToolbar="true"/>
+            <MudDatePicker Label="Đến ngày" @bind-Date="_toDate" DisableToolbar="true"/>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="HandleChangeReport">Xác nhận</MudButton>
+        </MudCardContent>
+    </MudCard>
+    if ( _reportType == "BDT/TH01" )
+    { 
+        <ReportBDT_TH01 LoadReport="loadReport" Account="Convert.ToInt32(_account)" FromDate="_fromDate" ToDate="_toDate" IsLoadChanged="HandleIsLoadChanged"></ReportBDT_TH01>
+    }
+    else
+    {
+
+    }
+    
+}

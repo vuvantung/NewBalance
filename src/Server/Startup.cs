@@ -21,6 +21,8 @@ using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.IServices;
 using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Http.Features;
+using System.Net.Http;
+using System;
 
 namespace NewBalance.Server
 {
@@ -38,6 +40,8 @@ namespace NewBalance.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
+           
+
             services.AddCors();
             services.AddSignalR();
             services.AddLocalization(options =>
@@ -52,6 +56,8 @@ namespace NewBalance.Server
             #region OR
 
             services.AddScoped<IDS_MATINH_FILESRepository, DS_MATINH_FILESRepository>();
+            services.AddScoped<IFilterRepository, FilterRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
             
             #endregion
 

@@ -1,28 +1,15 @@
-﻿using NewBalance.Application.Features.Documents.Queries.GetAll;
-using NewBalance.Application.Requests.Documents;
-using NewBalance.Client.Extensions;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using System;
+using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.GetAll;
+using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.IServices;
+using NewBalance.Client.Extensions;
+using NewBalance.Domain.Entities.Misc;
+using NewBalance.Shared.Constants.Permission;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using NewBalance.Application.Features.Documents.Commands.AddEdit;
-using NewBalance.Client.Infrastructure.Managers.Misc.Document;
-using NewBalance.Domain.Entities.Misc;
-using NewBalance.Shared.Constants.Permission;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using NewBalance.Client.Infrastructure.Managers.Identity.Authentication;
-using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.IServices;
-using System.Text.Json.Nodes;
-using Newtonsoft.Json;
-using NewBalance.Domain.Entities.Doi_Soat.Danh_Muc;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using NewBalance.Application.Features.Doi_Soat.Danh_Muc.Queries.GetAll;
-using static MudBlazor.CategoryTypes;
-using NewBalance.Application.Requests.Identity;
-using NewBalance.Client.Pages.Misc;
 
 namespace NewBalance.Client.Pages.Doi_Soat
 {
@@ -63,13 +50,13 @@ namespace NewBalance.Client.Pages.Doi_Soat
 
             var state = await _stateProvider.GetAuthenticationStateAsync();
             var user = state.User;
-            if (user == null) return;
-            if (user.Identity?.IsAuthenticated == true)
+            if ( user == null ) return;
+            if ( user.Identity?.IsAuthenticated == true )
             {
                 CurrentUserId = user.GetUserId();
             }
         }
-        private Task HandleCheck(bool value)
+        private Task HandleCheck( bool value )
         {
             // Set the value in the model
             // Do what you want
@@ -77,9 +64,9 @@ namespace NewBalance.Client.Pages.Doi_Soat
             return kq;
             //return Task.CompletedTask;
         }
-        private async Task<TableData<GetAllDS_MATINH_FILESResponse>> ServerReload(TableState state)
+        private async Task<TableData<GetAllDS_MATINH_FILESResponse>> ServerReload( TableState state )
         {
-            if (!string.IsNullOrWhiteSpace(_searchString))
+            if ( !string.IsNullOrWhiteSpace(_searchString) )
             {
                 state.Page = 0;
             }
@@ -88,7 +75,7 @@ namespace NewBalance.Client.Pages.Doi_Soat
             return new TableData<GetAllDS_MATINH_FILESResponse> { TotalItems = _totalItems, Items = _pagedData };
         }
 
-        private async Task LoadData(int pageNumber, int pageSize, TableState state)
+        private async Task LoadData( int pageNumber, int pageSize, TableState state )
         {
             ///Dữ liệu oracle
             //pageNumber = pageNumber + 1;
@@ -101,22 +88,22 @@ namespace NewBalance.Client.Pages.Doi_Soat
 
             _totalItems = res_data.total;// response.TotalCount;
             _currentPage = pageNumber;// response.CurrentPage;
-            
+
 
 
             _pagedData = data_list;
 
-            foreach (var item in data_list)
+            foreach ( var item in data_list )
             {
-                if(item.STATUS == 1)
+                if ( item.STATUS == 1 )
                 {
                     selectedItems.Add(item);
                 }
             }
-           
+
         }
 
-        private void OnSearch(string text)
+        private void OnSearch( string text )
         {
             _searchString = text;
             _table.ReloadServerData();
@@ -132,7 +119,7 @@ namespace NewBalance.Client.Pages.Doi_Soat
 
                 var currentPageItems = _table.FilteredItems.Skip(currentPage * rowsPerPage).Take(rowsPerPage);
 
-                if (!selectedItems1.Any(x => currentPageItems.Any(y => x == y)))
+                if ( !selectedItems1.Any(x => currentPageItems.Any(y => x == y)) )
                 {
                     return false;
                 }
@@ -149,16 +136,16 @@ namespace NewBalance.Client.Pages.Doi_Soat
 
             var currentPageItems = _table.FilteredItems.Skip(currentPage * rowsPerPage).Take(rowsPerPage);
 
-            if (!selectedItems1.Any(x => currentPageItems.Any(y => x == y)))
+            if ( !selectedItems1.Any(x => currentPageItems.Any(y => x == y)) )
             {
-                foreach (var item in currentPageItems)
+                foreach ( var item in currentPageItems )
                 {
                     selectedItems1.Add(item);
                 }
             }
             else
             {
-                foreach (var item in currentPageItems)
+                foreach ( var item in currentPageItems )
                 {
                     selectedItems1.Remove(item);
                 }
@@ -169,12 +156,12 @@ namespace NewBalance.Client.Pages.Doi_Soat
         {
             List<int> _list = new List<int>();
             string _fullname = _currentUser.GetFirstName() + " " + _currentUser.GetLastName();
-            foreach (var item in selectedItems)
+            foreach ( var item in selectedItems )
             {
                 _list.Add(item.ID);
             }
             var response = await _ods_matinh_file_service.DS_MATINH_FILES_MODIFY_STATUS(_list, _fullname);
-            if (response.code == "success")
+            if ( response.code == "success" )
             {
                 _snackBar.Add(response.message, Severity.Success);
 
@@ -189,7 +176,7 @@ namespace NewBalance.Client.Pages.Doi_Soat
 
 
 
-        private void ManageExtendedAttributes(int documentId)
+        private void ManageExtendedAttributes( int documentId )
         {
             _navigationManager.NavigateTo($"/extended-attributes/{typeof(Document).Name}/{documentId}");
         }

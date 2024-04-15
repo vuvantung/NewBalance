@@ -152,6 +152,11 @@ namespace NewBalance.Shared.Constants.Permission
             public const string Search = "Permissions.DS_Xu_Ly_Du_Lieu.Search";
             public const string Dowload = "Permissions.DS_Xu_Ly_Du_Lieu.Dowload";
         }
+
+        public static class ReportBasePermisstion
+        {
+            public const string View = "Permissions.ReportBasePermisstion.View";
+        }
         #endregion
         //----------------------------------------------------------------------
         /// <summary>
