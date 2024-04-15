@@ -54,6 +54,7 @@
     <ProjectReference Include="..\Client\Client.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Files\Doi_Soat\cast_file_done\" />
     <Folder Include="Files\Images\ProfilePictures\" />
   </ItemGroup>
   <ItemGroup>

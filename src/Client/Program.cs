@@ -14,6 +14,8 @@ using EMS.Internal.BlazorWeb.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
+using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Report;
 //using Microsoft.AspNetCore.Hosting;
 
 
@@ -28,6 +30,8 @@ namespace NewBalance.Client
                           .AddRootComponents()
                           .AddClientServices();
             builder.Services.AddScoped<IDS_MATINH_FILESService, DS_MATINH_FILESService>();
+            builder.Services.AddScoped<IFilterManager, FilterManager>();
+            builder.Services.AddScoped<IReportManager, ReportManager>();
            
             var host = builder.Build();
             

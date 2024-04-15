@@ -145,6 +145,12 @@
             <MudNavLink Href="/doi-soat/thong-tin-du-lieu" Icon="@Icons.Material.Outlined.CallToAction">Thông tin dữ liệu</MudNavLink>
         </MudNavGroup>
     }
+    @if ( _canViewReportDs )
+    {
+        <MudNavGroup Title="Báo cáo" @bind-Expanded=_isExpanded_ReportDs>
+            <MudNavLink Href="/Doi-Soat/ReportBase" Icon="@Icons.Material.Outlined.CallToAction">Báo cáo đối soát</MudNavLink>
+        </MudNavGroup>
+    }
    @*  @if (_canViewBaoCaoKT || _canViewBaoCaoPhat || _canViewBaoCaoGiaoDich)
     {
         <MudNavGroup Title="Báo cáo" @bind-Expanded=_isExpanded_Report>
@@ -193,9 +199,11 @@
 
     //-------------Đối soát---------
     private bool _canViewDS_XLDL;
+    private bool _canViewReportDs;
 
     #region
     bool _isExpanded_DS_XLDL = true;
+    bool _isExpanded_ReportDs = false;
     #endregion
 
     //----------------------------
@@ -227,6 +235,7 @@
         _canViewBaoCaoGiaoDich = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.BaoCaoGiaoDich.View)).Succeeded;
         //---------------------------------------------------------------------------------------------------------------------------------------
         _canViewDS_XLDL = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.DS_Xu_Ly_Du_Lieu.View)).Succeeded;
+        _canViewReportDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.ReportBasePermisstion.View)).Succeeded;
 
     }
 }

@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
     <PackageReference Include="bootstrap" Version="5.3.3" />
+    <PackageReference Include="ClosedXML.Report" Version="0.2.10" />
     <PackageReference Include="EfCore.SchemaCompare" Version="8.0.1" />
     <PackageReference Include="EPPlus" Version="7.0.9" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />

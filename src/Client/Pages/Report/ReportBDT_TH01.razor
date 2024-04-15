@@ -1,0 +1,36 @@
+﻿@using NewBalance.Domain.Entities.Doi_Soat.Report
+<MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<BDT_TH01,bool>(FilterFunc1)" FixedHeader="true" FixedFooter="true" Height="400px">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Báo cáo BDT/TH_01</MudText>
+        <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => ClickTemplateXLS())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">Excel</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>STT</MudTh>
+        <MudTh>Dịch vụ</MudTh>
+        <MudTh>Sản lượng</MudTh>
+        <MudTh>Khối lượng</MudTh>
+        <MudTh>Cước chính công bố</MudTh>
+        <MudTh>Cước DVCT công bố</MudTh>
+        <MudTh>Tổng cước</MudTh>
+        <MudTh>Giá vốn chưa VAT</MudTh>
+        <MudTh>Thuế VAT</MudTh>
+        <MudTh>Ghi chú</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="STT">@context.STT</MudTd>
+        <MudTd DataLabel="DICH_VU">@context.DICH_VU</MudTd>
+        <MudTd DataLabel="SAN_LUONG">@context.SAN_LUONG</MudTd>
+        <MudTd DataLabel="KHOI_LUONG">@context.KHOI_LUONG</MudTd>
+        <MudTd DataLabel="CUOC_CHINH_CONG_BO">@context.CUOC_CHINH_CONG_BO</MudTd>
+        <MudTd DataLabel="CUOC_DVCT_CONG_BO">@context.CUOC_DVCT_CONG_BO</MudTd>
+        <MudTd DataLabel="TONG_CUOC">@context.TONG_CUOC</MudTd>
+        <MudTd DataLabel="GIA_VON_CHUA_VAT">@context.GIA_VON_CHUA_VAT</MudTd>
+        <MudTd DataLabel="THUE_VAT">@context.THUE_VAT</MudTd>
+        <MudTd DataLabel="GHI_CHU">@context.GHI_CHU</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
