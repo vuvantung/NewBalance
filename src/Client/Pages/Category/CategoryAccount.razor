@@ -1,0 +1,50 @@
+﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
+@if ( _loaded )
+{
+    <MudTable ServerData="@(new Func<TableState, Task<TableData<Account>>>(ServerReload))"
+              Dense="true" Hover="true" @ref="table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Danh mục tỉnh</MudText>
+            <MudSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortLabel="ACCOUNTUSERNAME" T="Account">ACCOUNTUSERNAME</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ACCOUNTPASS" T="Account">ACCOUNTPASS</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ACCOUNTADMIN" T="Account">ACCOUNTADMIN</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ACCOUNTNAME" T="Account">ACCOUNTNAME</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ACCOUNTPOSTCODE" T="Account">ACCOUNTPOSTCODE</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ACCOUNTTYPE" T="Account">ACCOUNTTYPE</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="MUC_HH" T="Account">MUC_HH</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="MUCGIATRI" T="Account">MUCGIATRI</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="VNPE" T="Account">VNPE</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="ACCOUNTUSERNAME">@context.ACCOUNTUSERNAME</MudTd>
+            <MudTd DataLabel="ACCOUNTPASS">@context.ACCOUNTPASS</MudTd>
+            <MudTd DataLabel="ACCOUNTADMIN">@context.ACCOUNTADMIN</MudTd>
+            <MudTd DataLabel="ACCOUNTNAME">@context.ACCOUNTNAME</MudTd>
+            <MudTd DataLabel="ACCOUNTPOSTCODE">@context.ACCOUNTPOSTCODE</MudTd>
+            <MudTd DataLabel="ACCOUNTTYPE">@context.ACCOUNTTYPE</MudTd>
+            <MudTd DataLabel="MUC_HH">@context.MUC_HH</MudTd>
+            <MudTd DataLabel="MUCGIATRI">@context.MUCGIATRI</MudTd>
+            <MudTd DataLabel="VNPE">@context.VNPE</MudTd>
+
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
+
+
+
+
+

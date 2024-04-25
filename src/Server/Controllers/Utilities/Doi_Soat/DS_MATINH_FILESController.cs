@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using System;
 using Microsoft.Extensions.Configuration;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 using NewBalance.Infrastructure.OR.IRepository;
 using System.Collections.Generic;
 using NewBalance.Application.Features.Doi_Soat;

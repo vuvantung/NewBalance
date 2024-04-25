@@ -58,6 +58,7 @@ namespace NewBalance.Server
             services.AddScoped<IDS_MATINH_FILESRepository, DS_MATINH_FILESRepository>();
             services.AddScoped<IFilterRepository, FilterRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             
             #endregion
 

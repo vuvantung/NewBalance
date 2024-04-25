@@ -7,7 +7,7 @@ var builder = Host.CreateApplicationBuilder(args);
 
 builder.Services.AddSingleton<IExportCasReportRepository, ExportCasRepository>();
 builder.Services.AddWindowsService();
-//builder.Services.AddHostedService<ExportCasReport>();
-builder.Services.AddHostedService<ImportMpitsData>();
+builder.Services.AddHostedService<ExportCasReport>();
+//builder.Services.AddHostedService<ImportMpitsData>();
 var host = builder.Build();
 host.Run();

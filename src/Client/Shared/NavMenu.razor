@@ -137,6 +137,10 @@
         <MudNavGroup Title="Quản lý danh mục" @bind-Expanded=_isExpanded_CatalogManagement>
             <MudNavLink Href="/catalog/products" Icon="@Icons.Material.Outlined.CallToAction">Sản phẩm</MudNavLink>
             <MudNavLink Href="/catalog/brands" Icon="@Icons.Material.Outlined.CallToAction">Nhãn hiệu</MudNavLink>
+            @if ( _canViewCategoryDs)
+            {
+                <MudNavLink Href="/Doi-Soat/Category" Icon="@Icons.Material.Outlined.CallToAction">Nhãn hiệu</MudNavLink>
+            }
         </MudNavGroup>
     }
     @if (_canViewDS_XLDL)
@@ -200,6 +204,7 @@
     //-------------Đối soát---------
     private bool _canViewDS_XLDL;
     private bool _canViewReportDs;
+    private bool _canViewCategoryDs;
 
     #region
     bool _isExpanded_DS_XLDL = true;
@@ -236,6 +241,7 @@
         //---------------------------------------------------------------------------------------------------------------------------------------
         _canViewDS_XLDL = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.DS_Xu_Ly_Du_Lieu.View)).Succeeded;
         _canViewReportDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.ReportBasePermisstion.View)).Succeeded;
+        _canViewCategoryDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.CategoryBasePermisstion.View)).Succeeded;
 
     }
 }

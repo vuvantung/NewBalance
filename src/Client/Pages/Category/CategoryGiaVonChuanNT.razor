@@ -1,0 +1,49 @@
+﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
+@if ( _loaded )
+{
+    <MudTable ServerData="@(new Func<TableState, Task<TableData<GiaVonChuanNT>>>(ServerReload))"
+              Dense="true" Hover="true" @ref="table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Danh mục tỉnh</MudText>
+            <MudSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortLabel="MATINH" T="GiaVonChuanNT">MATINH</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DICHVU" T="GiaVonChuanNT">DICHVU</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="MADV" T="GiaVonChuanNT">MADV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="PHANLOAI" T="GiaVonChuanNT">PHANLOAI</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TYLEGIAVON" T="GiaVonChuanNT">TYLEGIAVON</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DONVICHIUAP" T="GiaVonChuanNT">DONVICHIUAP</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="GHICHU" T="GiaVonChuanNT">GHICHU</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TUNGAY" T="GiaVonChuanNT">TUNGAY</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DENNGAY" T="GiaVonChuanNT">DENNGAY</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="MATINH">@context.MATINH</MudTd>
+            <MudTd DataLabel="DICHVU">@context.DICHVU</MudTd>
+            <MudTd DataLabel="MADV">@context.MADV</MudTd>
+            <MudTd DataLabel="PHANLOAI">@context.PHANLOAI</MudTd>
+            <MudTd DataLabel="TYLEGIAVON">@context.TYLEGIAVON</MudTd>
+            <MudTd DataLabel="DONVICHIUAP">@context.DONVICHIUAP</MudTd>
+            <MudTd DataLabel="GHICHU">@context.GHICHU</MudTd>
+            <MudTd DataLabel="TUNGAY">@context.TUNGAY</MudTd>
+            <MudTd DataLabel="DENNGAY">@context.DENNGAY</MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
+
+
+
+
+

@@ -1,0 +1,73 @@
+﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
+@if ( _loaded )
+{
+    <MudTable ServerData="@(new Func<TableState, Task<TableData<GiaVonChuan>>>(ServerReload))"
+              Dense="true" Hover="true" @ref="table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Danh mục tỉnh</MudText>
+            <MudSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortLabel="ACCOUNT" T="GiaVonChuan">ACCOUNT</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="NOITINH" T="GiaVonChuan">NOITINH</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ETLNV" T="GiaVonChuan">ETLNV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ETLLV" T="GiaVonChuan">ETLLV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="EHNNV" T="GiaVonChuan">EHNNV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="EHNLV" T="GiaVonChuan">EHNLV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ENNNV" T="GiaVonChuan">ENNNV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ENNLV" T="GiaVonChuan">ENNLV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="LONV" T="GiaVonChuan">LONV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="LOLV" T="GiaVonChuan">LOLV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="PHTNT" T="GiaVonChuan">PHTNT</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="PHTLT" T="GiaVonChuan">PHTLT</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="THOATHUAN" T="GiaVonChuan">THOATHUAN</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TTB" T="GiaVonChuan">TTB</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TTC" T="GiaVonChuan">TTC</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TTV" T="GiaVonChuan">TTV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ECT" T="GiaVonChuan">ECT</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="QUOCTE" T="GiaVonChuan">QUOCTE</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TUNGAY" T="GiaVonChuan">TUNGAY</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DENNGAY" T="GiaVonChuan">DENNGAY</MudTableSortLabel></MudTh>
+
+
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="ACCOUNT">@context.ACCOUNT</MudTd>
+            <MudTd DataLabel="NOITINH">@context.NOITINH</MudTd>
+            <MudTd DataLabel="ETLNV">@context.ETLNV</MudTd>
+            <MudTd DataLabel="ETLLV">@context.ETLLV</MudTd>
+            <MudTd DataLabel="EHNNV">@context.EHNNV</MudTd>
+            <MudTd DataLabel="EHNLV">@context.EHNLV</MudTd>
+            <MudTd DataLabel="ENNNV">@context.ENNNV</MudTd>
+            <MudTd DataLabel="ENNLV">@context.ENNLV</MudTd>
+            <MudTd DataLabel="LONV">@context.LONV</MudTd>
+            <MudTd DataLabel="LOLV">@context.LOLV</MudTd>
+            <MudTd DataLabel="PHTNT">@context.PHTNT</MudTd>
+            <MudTd DataLabel="PHTLT">@context.PHTLT</MudTd>
+            <MudTd DataLabel="THOATHUAN">@context.THOATHUAN</MudTd>
+            <MudTd DataLabel="TTB">@context.TTB</MudTd>
+            <MudTd DataLabel="TTC">@context.TTC</MudTd>
+            <MudTd DataLabel="TTV">@context.TTV</MudTd>
+            <MudTd DataLabel="ECT">@context.ECT</MudTd>
+            <MudTd DataLabel="QUOCTE">@context.QUOCTE</MudTd>
+            <MudTd DataLabel="TUNGAY">@context.TUNGAY</MudTd>
+            <MudTd DataLabel="DENNGAY">@context.DENNGAY</MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
+
+
+
+
+

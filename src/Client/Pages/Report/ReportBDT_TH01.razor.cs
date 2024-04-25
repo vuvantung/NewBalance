@@ -9,7 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace NewBalance.Client.Pages.Report
 {
@@ -17,6 +17,7 @@ namespace NewBalance.Client.Pages.Report
     {
         [Inject] HttpClient _httpClientFilte { get; set; }
         [Inject] IJSRuntime js { get; set; }
+
         [Inject] private IReportManager _reportManager { get; set; }
         [Parameter] public bool LoadReport { get; set; } = false;
         [Parameter] public int Account { get; set; }
@@ -60,13 +61,13 @@ namespace NewBalance.Client.Pages.Report
             return false;
         }
 
-        private async void ClickTemplateXLS()
+        private async void ClickTemplateXLS(string isType)
         {
-        
+            
             Stream streamTemplate = await _httpClientFilte.GetStreamAsync("xlstemplate/BDT-TH01.xlsx");
 
             var xls = new Excel();
-            await xls.TemplateWeatherForecastAsync(js, streamTemplate, Elements.ToArray(), "report.xlsx");
+            await xls.TemplateWeatherForecastAsync(js, streamTemplate, Elements.ToArray(), isType, $"report{isType}");
         }
 
 

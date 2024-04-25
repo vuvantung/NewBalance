@@ -2,7 +2,7 @@
 <MudTable Items="@Elements" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<BDT_TH01,bool>(FilterFunc1)" FixedHeader="true" FixedFooter="true" Height="400px">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Báo cáo BDT/TH_01</MudText>
-        <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => ClickTemplateXLS())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">Excel</MudButton>
+        <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => ClickTemplateXLS(".xlsx"))" StartIcon="@Icons.Material.Filled.Download" IconColor="Color.Surface">Excel</MudButton>
         <MudSpacer />
         <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>

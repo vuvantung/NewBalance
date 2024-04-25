@@ -54,13 +54,14 @@ namespace EMS.ExportCasReport
 
 
                                 tasks.Add(task);
+                                index++;
                                 
                             }
                             await Task.WhenAll(tasks);
                             string outputFilePath = Path.Combine(outDir, fileName);
                             try
                             {
-                                excelGenerator.FillExcelWithMultipleSheetsCas(dataLists, outputFilePath);
+                                excelGenerator.FillExcelWithMultipleSheetsCas(dataLists, outputFilePath,$"{inforFile.MATINH}-{inforFile.TENTINH}",$"{inforFile.TUNGAY}-{inforFile.DENNGAY}");
                                 var filePath = @"\Files\Doi_Soat\chi_tiet_doanh_thu_gia_von\" + fileName;
                                 await _exportCasReportRepository.UpdateFileCasReportSuccessAsync(inforFile.ID, filePath);
                             }

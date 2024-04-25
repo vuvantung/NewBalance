@@ -1,0 +1,57 @@
+﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
+@if ( _loaded )
+{
+    <MudTable ServerData="@(new Func<TableState, Task<TableData<PostOffice>>>(ServerReload))"
+              Dense="true" Hover="true" @ref="table">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Danh mục bưu cục</MudText>
+            <MudSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortLabel="MABC" T="PostOffice">MABC</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TENBC" T="PostOffice">TENBC</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="MADV" T="PostOffice">MADV</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="KHUVUC" T="PostOffice">KHUVUC</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="PLDUONGTHU" T="PostOffice">PLDUONGTHU</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="MABC_GOC" T="PostOffice">MABC_GOC</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TRUYENDL" T="PostOffice">TRUYENDL</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="HUONG" T="PostOffice">HUONG</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="MADV_GOC" T="PostOffice">MADV_GOC</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ACCOUNT" T="PostOffice">ACCOUNT</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="LUU_KHO" T="PostOffice">LUU_KHO</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="TTAM" T="PostOffice">TTAM</MudTableSortLabel></MudTh>
+
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="MABC">@context.MABC</MudTd>
+            <MudTd DataLabel="TENBC">@context.TENBC</MudTd>
+            <MudTd DataLabel="MADV">@context.MADV</MudTd>
+            <MudTd DataLabel="KHUVUC">@context.KHUVUC</MudTd>
+            <MudTd DataLabel="PLDUONGTHU">@context.PLDUONGTHU</MudTd>
+            <MudTd DataLabel="MABC_GOC">@context.MABC_GOC</MudTd>
+            <MudTd DataLabel="TRUYENDL">@context.TRUYENDL</MudTd>
+            <MudTd DataLabel="HUONG">@context.HUONG</MudTd>
+            <MudTd DataLabel="MADV_GOC">@context.MADV_GOC</MudTd>
+            <MudTd DataLabel="ACCOUNT">@context.ACCOUNT</MudTd>
+            <MudTd DataLabel="LUU_KHO">@context.LUU_KHO</MudTd>
+            <MudTd DataLabel="TTAM">@context.TTAM</MudTd>
+
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+}
+
+
+
+
+

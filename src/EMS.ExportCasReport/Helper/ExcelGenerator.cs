@@ -72,7 +72,7 @@ namespace EMS.ExportCasReport.Helper
 
         }
 
-        public void FillExcelWithMultipleSheetsCas( List<List<DetailCasReport>> allDataLists, string excelFilePath )
+        public void FillExcelWithMultipleSheetsCas( List<List<DetailCasReport>> allDataLists, string excelFilePath,string Unit,string Date )
         {
             FileInfo file = new FileInfo(excelFilePath);
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -81,6 +81,15 @@ namespace EMS.ExportCasReport.Helper
                 for ( int i = 0; i < allDataLists.Count; i++ )
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[i]; // Sheet có chỉ mục bắt đầu từ 1
+                    
+                    worksheet.Cells[2, 26].Value = "BDT/CT01";
+                    worksheet.Cells[3, 1].Value = Unit;
+                    worksheet.Cells[5, 1].Value = "Chi tiết doanh thu giá vốn";
+                    worksheet.Cells[6, 1].Value = Date;
+                    worksheet.Cells["A2:B2"].Merge = true;
+                    worksheet.Cells["A3:B3"].Merge = true;
+                    worksheet.Cells["A5:Z5"].Merge = true;
+                    worksheet.Cells["A6:Z6"].Merge = true;
 
                     List<DetailCasReport> dataList = allDataLists[i];
 
@@ -120,6 +129,10 @@ namespace EMS.ExportCasReport.Helper
                         worksheet.Cells[startRow + j, 26].Value = item.Trang_Thai;
                         // Tiếp tục điền các trường dữ liệu khác tương tự
                     }
+                    worksheet.Column(2).AutoFit();
+                    worksheet.Column(3).AutoFit();
+                    worksheet.Column(6).AutoFit();
+                    worksheet.Column(26).AutoFit();
                 }
 
                 // Lưu thay đổi vào tệp Excel
