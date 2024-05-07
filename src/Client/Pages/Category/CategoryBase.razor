@@ -16,38 +16,50 @@ else
 {
     <MudCard Class="mb-10">
         <MudCardContent Class="d-flex flex-wrap gap-4">
-            <MudSelect @bind-Value="_account" T="string" Label="Mã tỉnh" AnchorOrigin="Origin.BottomCenter">
-                @foreach ( var item in _accountFilter )
-                {
-                    <MudSelectItem Value="@item.VALUE">@item.TEXT</MudSelectItem>
-                }
-            </MudSelect>
             <MudSelect @bind-Value="_categoryType" T="string" Label="Loại danh mục" AnchorOrigin="Origin.BottomCenter">
-                <MudSelectItem Value="@("1")">Danh mục tỉnh</MudSelectItem>
+                <MudSelectItem Value="@("1")">Danh mục account</MudSelectItem>
                 <MudSelectItem Value=@("2")>Danh mục bưu cục</MudSelectItem>
                 <MudSelectItem Value=@("3")>Danh mục giá vốn chuẩn</MudSelectItem>
                 <MudSelectItem Value=@("4")>Danh mục giá vốn chuẩn NT</MudSelectItem>
+                <MudSelectItem Value=@("5")>Danh mục tỉnh</MudSelectItem>
+                <MudSelectItem Value=@("6")>Danh mục quận</MudSelectItem>
+                <MudSelectItem Value=@("7")>Danh mục huyện</MudSelectItem>
             </MudSelect>
         </MudCardContent>
     </MudCard>
 
     if ( _categoryType == "1" )
     {
-        <CategoryAccount Account="Convert.ToInt32(_account)"></CategoryAccount>
+        <CategoryAccount></CategoryAccount>
     }
 
     if ( _categoryType == "2" )
     {
-        <CategoryPostOffice Account="Convert.ToInt32(_account)"></CategoryPostOffice>
+        <CategoryPostOffice></CategoryPostOffice>
     }
 
     if ( _categoryType == "3" )
     {
-        <CategoryGiaVonChuan Account="Convert.ToInt32(_account)"></CategoryGiaVonChuan>
+        <CategoryGiaVonChuan></CategoryGiaVonChuan>
     }
 
     if ( _categoryType == "4" )
     {
-        <CategoryGiaVonChuanNT Account="Convert.ToInt32(_account)"></CategoryGiaVonChuanNT>
+        <CategoryGiaVonChuanNT></CategoryGiaVonChuanNT>
+    }
+
+    if ( _categoryType == "5" )
+    {
+        <CategoryProvince></CategoryProvince>
+    }
+
+    if ( _categoryType == "6" )
+    {
+        <CategoryDistrict></CategoryDistrict>
+    }
+
+    if ( _categoryType == "7" )
+    {
+        <CategoryCommune></CategoryCommune>
     }
 }

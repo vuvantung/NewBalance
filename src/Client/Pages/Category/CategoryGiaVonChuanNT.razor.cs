@@ -7,22 +7,31 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category;
 using System;
+using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
+using NewBalance.Domain.Entities.Doi_Soat.Filter;
 
 
 namespace NewBalance.Client.Pages.Category
 {
     public partial class CategoryGiaVonChuanNT
     {
-        [Parameter] public int Account { get; set; } = 0;
+        [Inject] private IFilterManager _filterManager { get; set; }
+        private IEnumerable<FilterData> _accountFilter;
+        private string _account = "0";
         [Inject] private ICategoryManager _categoryManager { get; set; }
+        [Inject] private ISnackbar Snackbar { get; set; }
         private IEnumerable<GiaVonChuanNT> pagedData;
         private MudTable<GiaVonChuanNT> table;
         private int totalItems;
         private bool _loaded;
         private string searchString = null;
+        private GiaVonChuanNT selectedItem1 = null;
+        private List<string> editEvents = new();
+        private GiaVonChuanNT elementBeforeEdit;
         protected async override Task OnParametersSetAsync()
         {
-            if( _loaded )
+            _accountFilter = await _filterManager.GetAccountFilterAsync();
+            if ( _loaded )
             {
                 table.ReloadServerData();
             }
@@ -35,7 +44,7 @@ namespace NewBalance.Client.Pages.Category
 
         private async Task<TableData<GiaVonChuanNT>> ServerReload( TableState state )
         {
-            var res = await _categoryManager.GetCategoryGiaVonChuanNTAsync(state.Page, state.PageSize, Account);
+            var res = await _categoryManager.GetCategoryGiaVonChuanNTAsync(state.Page, state.PageSize, Convert.ToInt32(_account));
             IEnumerable<GiaVonChuanNT> data = res.data;
 
             //data = data.Where(element =>
@@ -91,9 +100,56 @@ namespace NewBalance.Client.Pages.Category
             searchString = text;
             table.ReloadServerData();
         }
+        private void OnChangeSelect()
+        {
+            table.ReloadServerData();
+        }
         public void Dispose()
         {
             _loaded = false;
+        }
+        private void AddEditionEvent( string message )
+        {
+            editEvents.Add(message);
+            StateHasChanged();
+        }
+
+        private void BackupItem( object element )
+        {
+            elementBeforeEdit = new()
+            {
+                MATINH = ((GiaVonChuanNT)element).MATINH,
+                DICHVU = ((GiaVonChuanNT)element).DICHVU,
+                MADV = ((GiaVonChuanNT)element).MADV,
+                PHANLOAI = ((GiaVonChuanNT)element).PHANLOAI,
+                TYLEGIAVON = ((GiaVonChuanNT)element).TYLEGIAVON,
+                DONVICHIUAP = ((GiaVonChuanNT)element).DONVICHIUAP,
+                GHICHU = ((GiaVonChuanNT)element).GHICHU,
+                TUNGAY = ((GiaVonChuanNT)element).TUNGAY,
+                DENNGAY = ((GiaVonChuanNT)element).DENNGAY,
+
+
+            };
+
+        }
+
+        private void ItemHasBeenCommitted( object element )
+        {
+            AddEditionEvent($"RowEditCommit event: Changes to Element {((GiaVonChuanNT)element).MATINH} committed");
+        }
+
+        private void ResetItemToOriginalValues( object element )
+        {
+            ((GiaVonChuanNT)element).MATINH = elementBeforeEdit.MATINH;
+            ((GiaVonChuanNT)element).DICHVU = elementBeforeEdit.DICHVU;
+            ((GiaVonChuanNT)element).MADV = elementBeforeEdit.MADV;
+            ((GiaVonChuanNT)element).PHANLOAI = elementBeforeEdit.PHANLOAI;
+            ((GiaVonChuanNT)element).TYLEGIAVON = elementBeforeEdit.TYLEGIAVON;
+            ((GiaVonChuanNT)element).DONVICHIUAP = elementBeforeEdit.DONVICHIUAP;
+            ((GiaVonChuanNT)element).GHICHU = elementBeforeEdit.GHICHU;
+            ((GiaVonChuanNT)element).TUNGAY = elementBeforeEdit.TUNGAY;
+            ((GiaVonChuanNT)element).DENNGAY = elementBeforeEdit.DENNGAY;
+
         }
     }
 

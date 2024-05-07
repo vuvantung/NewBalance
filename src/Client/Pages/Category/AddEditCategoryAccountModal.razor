@@ -1,0 +1,46 @@
+﻿<EditForm Model="@AddEditAccountModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Thêm Account
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>                
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditAccountModel.ACCOUNTUSERNAME)" @bind-Value="AddEditAccountModel.ACCOUNTUSERNAME" Label="ACCOUNTUSERNAME" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField For="@(() => AddEditAccountModel.ACCOUNTPASS)" @bind-Value="AddEditAccountModel.ACCOUNTPASS" Label="ACCOUNTPASS" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditAccountModel.ACCOUNTADMIN)" @bind-Value="AddEditAccountModel.ACCOUNTADMIN" Label="ACCOUNTADMIN" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField For="@(() => AddEditAccountModel.ACCOUNTNAME)" @bind-Value="AddEditAccountModel.ACCOUNTNAME" Label="ACCOUNTNAME" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditAccountModel.ACCOUNTPOSTCODE)" @bind-Value="AddEditAccountModel.ACCOUNTPOSTCODE" Label="ACCOUNTPOSTCODE" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditAccountModel.ACCOUNTTYPE)" @bind-Value="AddEditAccountModel.ACCOUNTTYPE" Label="ACCOUNTTYPE" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField For="@(() => AddEditAccountModel.MUC_HH)" @bind-Value="AddEditAccountModel.MUC_HH" Label="MUC_HH" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="double" For="@(() => AddEditAccountModel.MUCGIATRI)" @bind-Value="AddEditAccountModel.MUCGIATRI" Label="MUCGIATRI" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField For="@(() => AddEditAccountModel.VNPE)" @bind-Value="AddEditAccountModel.VNPE" Label="VNPE" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Hủy</MudButton>
+            <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">Lưu</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>

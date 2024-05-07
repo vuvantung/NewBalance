@@ -10,30 +10,26 @@ using System;
 using static MudBlazor.CategoryTypes;
 using NewBalance.Domain.Entities.Doi_Soat.Filter;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
-using NewBalance.Application.Features.Brands.Commands.AddEdit;
-using NewBalance.Client.Pages.Catalog;
 
 
 namespace NewBalance.Client.Pages.Category
 {
-    public partial class CategoryAccount
+    public partial class CategoryDistrict
     {
-        [Inject] private IFilterManager _filterManager { get; set; }
-        private IEnumerable<FilterData> _accountFilter;
-        private string _account = "0";
+        [Parameter] public int ProvinceCode { get; set; } = 0;
+        [Parameter] public string ProvinceName { get; set; } = string.Empty;
         [Inject] private ICategoryManager _categoryManager { get; set; }
-        private IEnumerable<Account> pagedData;
-        private MudTable<Account> table;
-        private HashSet<Account> selectedItems = new HashSet<Account>();
+        private IEnumerable<District> pagedData;
+        private MudTable<District> table;
+        private HashSet<District> selectedItems = new HashSet<District>();
         private int totalItems;
         private bool _loaded;
         private string searchString = null;
         protected async override Task OnParametersSetAsync()
         {
-            _accountFilter = await _filterManager.GetAccountFilterAsync();
             if ( _loaded )
             {
-                table.ReloadServerData();
+                await table.ReloadServerData();
             }
             else
             {
@@ -42,10 +38,10 @@ namespace NewBalance.Client.Pages.Category
             
         }
 
-        private async Task<TableData<Account>> ServerReload( TableState state )
+        private async Task<TableData<District>> ServerReload( TableState state )
         {
-            var res = await _categoryManager.GetCategoryAccountAsync(state.Page, state.PageSize, Convert.ToInt32(_account));
-            IEnumerable<Account> data = res.data;
+            var res = await _categoryManager.GetCategoryDistrictAsync(state.Page, state.PageSize, ProvinceCode);
+            IEnumerable<District> data = res.data;
 
             //data = data.Where(element =>
             //{
@@ -62,37 +58,26 @@ namespace NewBalance.Client.Pages.Category
             totalItems = res.total;
             switch ( state.SortLabel )
             {
-                case "ACCOUNTUSERNAME":
-                    data = data.OrderByDirection(state.SortDirection, o => o.ACCOUNTUSERNAME);
+                case "PROVINCECODE":
+                    data = data.OrderByDirection(state.SortDirection, o => o.PROVINCECODE);
                     break;
-                case "ACCOUNTPASS":
-                    data = data.OrderByDirection(state.SortDirection, o => o.ACCOUNTPASS);
+                case "PROVINCENAME":
+                    data = data.OrderByDirection(state.SortDirection, o => o.PROVINCENAME);
                     break;
-                case "ACCOUNTADMIN":
-                    data = data.OrderByDirection(state.SortDirection, o => o.ACCOUNTADMIN);
+                case "DESCRIPTION":
+                    data = data.OrderByDirection(state.SortDirection, o => o.DESCRIPTION);
                     break;
-                case "ACCOUNTNAME":
-                    data = data.OrderByDirection(state.SortDirection, o => o.ACCOUNTNAME);
+                case "DISTRICTCODE":
+                    data = data.OrderByDirection(state.SortDirection, o => o.DISTRICTCODE);
                     break;
-                case "ACCOUNTPOSTCODE":
-                    data = data.OrderByDirection(state.SortDirection, o => o.ACCOUNTPOSTCODE);
+                case "DISTRICTNAME":
+                    data = data.OrderByDirection(state.SortDirection, o => o.DISTRICTNAME);
                     break;
-                case "ACCOUNTTYPE":
-                    data = data.OrderByDirection(state.SortDirection, o => o.ACCOUNTTYPE);
-                    break;
-                case "MUC_HH":
-                    data = data.OrderByDirection(state.SortDirection, o => o.MUC_HH);
-                    break;
-                case "MUCGIATRI":
-                    data = data.OrderByDirection(state.SortDirection, o => o.MUCGIATRI);
-                    break;
-                case "VNPE":
-                    data = data.OrderByDirection(state.SortDirection, o => o.VNPE);
-                    break;
+                
             }
 
             pagedData = data;
-            return new TableData<Account>() { TotalItems = totalItems, Items = pagedData };
+            return new TableData<District>() { TotalItems = totalItems, Items = pagedData };
 
         }
         private void OnSearch( string text )
@@ -100,10 +85,7 @@ namespace NewBalance.Client.Pages.Category
             searchString = text;
             table.ReloadServerData();
         }
-        private void OnChangeSelect( )
-        {
-            table.ReloadServerData();
-        }
+
         public void Dispose()
         {
             _loaded = false;
@@ -112,9 +94,9 @@ namespace NewBalance.Client.Pages.Category
         private async Task InvokeModal()
         {
             var parameters = new DialogParameters();
-            
+
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            var dialog = _dialogService.Show<AddEditCategoryAccountModal>("Tạo mới",parameters,options: options);
+            var dialog = _dialogService.Show<AddEditCategoryDistrictModal>("Tạo mới", parameters, options: options);
             var result = await dialog.Result;
             if ( !result.Cancelled )
             {

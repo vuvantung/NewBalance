@@ -7,22 +7,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category;
 using System;
+using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
+using NewBalance.Domain.Entities.Doi_Soat.Filter;
 
 
 namespace NewBalance.Client.Pages.Category
 {
     public partial class CategoryPostOffice
     {
-        [Parameter] public int Account { get; set; } = 0;
+        [Inject] private IFilterManager _filterManager { get; set; }
+        private IEnumerable<FilterData> _accountFilter;
+        private string _account = "0";
         [Inject] private ICategoryManager _categoryManager { get; set; }
         private IEnumerable<PostOffice> pagedData;
+        private HashSet<PostOffice> selectedItems = new HashSet<PostOffice>();
         private MudTable<PostOffice> table;
         private int totalItems;
         private bool _loaded;
         private string searchString = null;
         protected async override Task OnParametersSetAsync()
         {
-            if( _loaded )
+            _accountFilter = await _filterManager.GetAccountFilterAsync();
+            if ( _loaded )
             {
                 table.ReloadServerData();
             }
@@ -35,7 +41,7 @@ namespace NewBalance.Client.Pages.Category
 
         private async Task<TableData<PostOffice>> ServerReload( TableState state )
         {
-            var res = await _categoryManager.GetCategoryPostOfficeAsync(state.Page, state.PageSize, Account);
+            var res = await _categoryManager.GetCategoryPostOfficeAsync(state.Page, state.PageSize, Convert.ToInt32(_account));
             IEnumerable<PostOffice> data = res.data;
 
             //data = data.Where(element =>
@@ -100,9 +106,26 @@ namespace NewBalance.Client.Pages.Category
             searchString = text;
             table.ReloadServerData();
         }
+
+        private void OnChangeSelect()
+        {
+            table.ReloadServerData();
+        }
         public void Dispose()
         {
             _loaded = false;
+        }
+        private async Task InvokeModal()
+        {
+            var parameters = new DialogParameters();
+
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<AddEditCategoryPostOfficeModal>("Tạo mới", parameters, options: options);
+            var result = await dialog.Result;
+            if ( !result.Cancelled )
+            {
+                await table.ReloadServerData();
+            }
         }
     }
 

@@ -1,0 +1,45 @@
+﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
+@if ( _loaded )
+{
+    <MudTable ServerData="@(new Func<TableState, Task<TableData<Commune>>>(ServerReload))"
+              MultiSelection="true" @bind-SelectedItems="selectedItems"
+              Dense="true" Hover="true" @ref="table"
+              FixedHeader="true" FixedFooter="true" Height="600px"
+              HorizontalScrollbar="true">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Danh mục huyện</MudText>
+            <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
+            <MudSpacer />
+            <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortLabel="COMMUNECODE" T="GiaVonChuanNT">COMMUNECODE</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="COMMUNENAME" T="GiaVonChuanNT">COMMUNENAME</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DISTRICTCODE" T="GiaVonChuanNT">DISTRICTCODE</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DISTRICTNAME" T="GiaVonChuanNT">DISTRICTNAME</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="COMMUNECODE">@context.COMMUNECODE</MudTd>
+            <MudTd DataLabel="COMMUNENAME">@context.COMMUNENAME</MudTd>
+            <MudTd DataLabel="DISTRICTCODE">@context.DISTRICTCODE</MudTd>
+            <MudTd DataLabel="DISTRICTNAME">@context.DISTRICTNAME</MudTd>
+
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+
+}
+
+
+
+
+

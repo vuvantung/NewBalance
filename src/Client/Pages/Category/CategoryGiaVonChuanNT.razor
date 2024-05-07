@@ -2,9 +2,19 @@
 @if ( _loaded )
 {
     <MudTable ServerData="@(new Func<TableState, Task<TableData<GiaVonChuanNT>>>(ServerReload))"
-              Dense="true" Hover="true" @ref="table">
+              Dense="true" Hover="true" @ref="table"
+              @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
+              OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+              RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="false" ApplyButtonPosition="TableApplyButtonPosition.End" EditButtonPosition="TableEditButtonPosition.End" EditTrigger="TableEditTrigger.EditButton">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Danh mục tỉnh</MudText>
+
+            <MudSelect @bind-Value="_account" T="string" Label="Mã tỉnh" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" SelectedValuesChanged="OnChangeSelect" Class="ms-5" Style="max-width: 200px">
+                @foreach ( var item in _accountFilter )
+                {
+                    <MudSelectItem Value="@item.VALUE">@item.TEXT</MudSelectItem>
+                }
+            </MudSelect>
             <MudSpacer />
             <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
@@ -31,6 +41,35 @@
             <MudTd DataLabel="TUNGAY">@context.TUNGAY</MudTd>
             <MudTd DataLabel="DENNGAY">@context.DENNGAY</MudTd>
         </RowTemplate>
+        <RowEditingTemplate>
+            <MudTd DataLabel="MATINH">
+                <MudTextField @bind-Value="@context.MATINH" ReadOnly/>
+            </MudTd>
+            <MudTd DataLabel="DICHVU">
+                <MudTextField @bind-Value="@context.DICHVU" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="MADV">
+                <MudTextField @bind-Value="@context.MADV" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="PHANLOAI">
+                <MudTextField @bind-Value="@context.PHANLOAI" ReadOnly/>
+            </MudTd>
+            <MudTd DataLabel="TYLEGIAVON">
+                <MudTextField @bind-Value="@context.TYLEGIAVON" />
+            </MudTd>
+            <MudTd DataLabel="DONVICHIUAP">
+                <MudTextField @bind-Value="@context.DONVICHIUAP" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="GHICHU">
+                <MudTextField @bind-Value="@context.GHICHU" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="TUNGAY">
+                <MudTextField @bind-Value="@context.TUNGAY" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="DENNGAY">
+                <MudTextField @bind-Value="@context.DENNGAY" ReadOnly />
+            </MudTd>
+        </RowEditingTemplate>
         <NoRecordsContent>
             <MudText>No matching records found</MudText>
         </NoRecordsContent>
@@ -40,6 +79,9 @@
         <PagerContent>
             <MudTablePager />
         </PagerContent>
+        <EditButtonContent Context="button">
+            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+        </EditButtonContent>
     </MudTable>
 }
 

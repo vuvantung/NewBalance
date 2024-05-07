@@ -1,0 +1,57 @@
+﻿@page "/Doi-Soat/CategoryProvinceDistrictCommune"
+@using NewBalance.Domain.Entities.Doi_Soat.Category
+<HeroTitle Title="Danh mục" Description="Danh mục quận, huyện, phường xã" />
+@if ( _loaded )
+{
+    <MudGrid Spacing="2" Justify="Justify.Center">
+        <MudItem xs="6">
+            <MudTable T="Province" ServerData="@(new Func<TableState, Task<TableData<Province>>>(ServerReload))"
+                      MultiSelection="true" @bind-SelectedItems="selectedItems" SelectOnRowClick="false"
+                      Dense="true" Hover="true" @ref="table"
+                      FixedHeader="true" FixedFooter="true" Height="400px"
+                      HorizontalScrollbar="true"
+                      RowClass="cursor-pointer" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" >
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Danh mục tỉnh</MudText>
+                    <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
+                    <MudSpacer />
+                    <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortLabel="PROVINCECODE" T="GiaVonChuanNT">PROVINCECODE</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="PROVINCENAME" T="GiaVonChuanNT">PROVINCENAME</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="DESCRIPTION" T="GiaVonChuanNT">DESCRIPTION</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="REGIONCODE" T="GiaVonChuanNT">REGIONCODE</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="PROVINCELISTCODE" T="GiaVonChuanNT">PROVINCELISTCODE</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="PROVINCECODE">@context.PROVINCECODE</MudTd>
+                    <MudTd DataLabel="PROVINCENAME">@context.PROVINCENAME</MudTd>
+                    <MudTd DataLabel="DESCRIPTION">@context.DESCRIPTION</MudTd>
+                    <MudTd DataLabel="REGIONCODE">@context.REGIONCODE</MudTd>
+                    <MudTd DataLabel="PROVINCELISTCODE">@context.PROVINCELISTCODE</MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+        <MudItem xs="6">
+            <CategoryDistrict ProvinceCode="@ProvinceCode" ProvinceName="@ProvinceName"></CategoryDistrict>
+        </MudItem>
+    </MudGrid>
+    
+
+}
+
+
+
+
+

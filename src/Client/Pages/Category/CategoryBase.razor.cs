@@ -10,7 +10,7 @@ namespace NewBalance.Client.Pages.Category
 {
     public partial class CategoryBase
     {
-        [Inject] private IFilterManager _filterManager { get; set; }
+        
         private IEnumerable<FilterData> _accountFilter;
         private string CurrentUserId { get; set; }
         private string _account;
@@ -21,7 +21,7 @@ namespace NewBalance.Client.Pages.Category
         protected override async Task OnInitializedAsync()
         {
             _currentUser = await _authenticationManager.CurrentUser();
-            _accountFilter = await _filterManager.GetAccountFilterAsync();
+            
 
             _loaded = true;
 

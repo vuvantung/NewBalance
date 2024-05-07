@@ -37,6 +37,10 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
             }
         }
 
+        
+
+        
+
         public async Task<ResponseData<GiaVonChuan>> GetCategoryGiaVonChuanAsync( int pageIndex, int pageSize, int account )
         {
             try
@@ -81,6 +85,57 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
             catch ( Exception ex )
             {
                 return new ResponseData<PostOffice>
+                {
+                    code = "error",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponseData<Province>> GetCategoryProvinceAsync( int pageIndex, int pageSize )
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<Province>>(Routes.CategoryEndpoints.GetCategoryProvince(pageIndex, pageSize));
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseData<Province>
+                {
+                    code = "error",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponseData<District>> GetCategoryDistrictAsync( int pageIndex, int pageSize , int ProvinceCode )
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<District>>(Routes.CategoryEndpoints.GetCategoryDistrict(pageIndex, pageSize, ProvinceCode));
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseData<District>
+                {
+                    code = "error",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponseData<Commune>> GetCategoryCommuneAsync( int pageIndex, int pageSize, int DistrictCode )
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<Commune>>(Routes.CategoryEndpoints.GetCategoryCommune(pageIndex, pageSize, DistrictCode));
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseData<Commune>
                 {
                     code = "error",
                     message = $"Failed connect to API: {ex}"

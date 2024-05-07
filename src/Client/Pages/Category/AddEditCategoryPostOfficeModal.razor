@@ -1,0 +1,55 @@
+﻿<EditForm Model="@AddEditPostOfficeModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Thêm Account
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>                
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.MABC)" @bind-Value="AddEditPostOfficeModel.MABC" Label="MABC" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.TENBC)" @bind-Value="AddEditPostOfficeModel.TENBC" Label="TENBC" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.MADV)" @bind-Value="AddEditPostOfficeModel.MADV" Label="MADV" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.KHUVUC)" @bind-Value="AddEditPostOfficeModel.KHUVUC" Label="KHUVUC" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.PLDUONGTHU)" @bind-Value="AddEditPostOfficeModel.PLDUONGTHU" Label="PLDUONGTHU" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.MABC_GOC)" @bind-Value="AddEditPostOfficeModel.MABC_GOC" Label="MABC_GOC" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.TRUYENDL)" @bind-Value="AddEditPostOfficeModel.TRUYENDL" Label="TRUYENDL" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" T="double" For="@(() => AddEditPostOfficeModel.HUONG)" @bind-Value="AddEditPostOfficeModel.HUONG" Label="HUONG" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.MADV_GOC)" @bind-Value="AddEditPostOfficeModel.MADV_GOC" Label="MADV_GOC" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.ACCOUNT)" @bind-Value="AddEditPostOfficeModel.ACCOUNT" Label="ACCOUNT" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.LUU_KHO)" @bind-Value="AddEditPostOfficeModel.LUU_KHO" Label="LUU_KHO" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.TTAM)" @bind-Value="AddEditPostOfficeModel.TTAM" Label="TTAM" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Hủy</MudButton>
+            <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">Lưu</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
