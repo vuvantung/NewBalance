@@ -4,20 +4,20 @@
     <MudTable ServerData="@(new Func<TableState, Task<TableData<Commune>>>(ServerReload))"
               MultiSelection="true" @bind-SelectedItems="selectedItems"
               Dense="true" Hover="true" @ref="table"
-              FixedHeader="true" FixedFooter="true" Height="600px"
+              FixedHeader="true" FixedFooter="true" Height="400px"
               HorizontalScrollbar="true">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Danh mục huyện</MudText>
+            <MudText Typo="Typo.h6">Quận @DistrictName</MudText>
             <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
             <MudSpacer />
             <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <HeaderContent>
-            <MudTh><MudTableSortLabel SortLabel="COMMUNECODE" T="GiaVonChuanNT">COMMUNECODE</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="COMMUNENAME" T="GiaVonChuanNT">COMMUNENAME</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="DISTRICTCODE" T="GiaVonChuanNT">DISTRICTCODE</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="DISTRICTNAME" T="GiaVonChuanNT">DISTRICTNAME</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="COMMUNECODE" T="GiaVonChuanNT">Mã phường xã</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="COMMUNENAME" T="GiaVonChuanNT">Tên phường xã</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DISTRICTCODE" T="GiaVonChuanNT">Mã quận</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DISTRICTNAME" T="GiaVonChuanNT">Tên quận</MudTableSortLabel></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="COMMUNECODE">@context.COMMUNECODE</MudTd>

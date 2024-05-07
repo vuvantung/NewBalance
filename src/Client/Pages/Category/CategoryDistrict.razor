@@ -1,11 +1,12 @@
 ﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
 @if ( _loaded )
 {
-    <MudTable ServerData="@(new Func<TableState, Task<TableData<District>>>(ServerReload))"
-              MultiSelection="true" @bind-SelectedItems="selectedItems"
+    <MudTable T="District" ServerData="@(new Func<TableState, Task<TableData<District>>>(ServerReload))"
+              MultiSelection="true" @bind-SelectedItems="selectedItems" SelectOnRowClick="false"
               Dense="true" Hover="true" @ref="table"
               FixedHeader="true" FixedFooter="true" Height="400px"
-              HorizontalScrollbar="true">
+              HorizontalScrollbar="true"
+              RowClass="cursor-pointer" RowClassFunc="@SelectedRowClassFuncDistrict" OnRowClick="RowClickEventDistrict">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Tỉnh @ProvinceName</MudText>
             <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
@@ -14,11 +15,11 @@
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <HeaderContent>
-            <MudTh><MudTableSortLabel SortLabel="DISTRICTCODE" T="GiaVonChuanNT">DISTRICTCODE</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="DISTRICTNAME" T="GiaVonChuanNT">DISTRICTNAME</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="DESCRIPTION" T="GiaVonChuanNT">DESCRIPTION</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="PROVINCECODE" T="GiaVonChuanNT">PROVINCECODE</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="PROVINCENAME" T="GiaVonChuanNT">PROVINCENAME</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DISTRICTCODE" T="GiaVonChuanNT">Mã quận</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DISTRICTNAME" T="GiaVonChuanNT">Tên quận</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="DESCRIPTION" T="GiaVonChuanNT">Mô tả</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="PROVINCECODE" T="GiaVonChuanNT">Mã tỉnh</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="PROVINCENAME" T="GiaVonChuanNT">Tên tỉnh</MudTableSortLabel></MudTh>
 
         </HeaderContent>
         <RowTemplate>

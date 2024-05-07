@@ -4,7 +4,7 @@
         <TitleContent>
             <MudText Typo="Typo.h6">
                 <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
-                Thêm Account
+                Thêm mới Quận
             </MudText>
         </TitleContent>
         <DialogContent>
@@ -19,7 +19,7 @@
                     <MudTextField T="string" For="@(() => AddEditDistrictModel.DESCRIPTION)" @bind-Value="AddEditDistrictModel.DESCRIPTION" Label="DESCRIPTION" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditDistrictModel.PROVINCECODE)" @bind-Value="AddEditDistrictModel.PROVINCECODE" Label="PROVINCECODE" />
+                    <MudTextField T="int" For="@(() => AddEditDistrictModel.PROVINCECODE)" @bind-Value="AddEditDistrictModel.PROVINCECODE" Label="PROVINCECODE" ReadOnly />
                 </MudItem>
             </MudGrid>
         </DialogContent>

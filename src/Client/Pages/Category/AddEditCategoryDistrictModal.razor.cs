@@ -9,7 +9,7 @@ namespace NewBalance.Client.Pages.Category
 {
     public partial class AddEditCategoryDistrictModal
     {
-        private District AddEditDistrictModel { get; set; } = new();
+        [Parameter] public District AddEditDistrictModel { get; set; } = new();
         [CascadingParameter] private MudDialogInstance MudDialog { get; set; }
         private FluentValidationValidator _fluentValidationValidator;
         private bool Validated => _fluentValidationValidator.Validate(options => { options.IncludeAllRuleSets(); });

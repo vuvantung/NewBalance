@@ -21,9 +21,6 @@ else
                 <MudSelectItem Value=@("2")>Danh mục bưu cục</MudSelectItem>
                 <MudSelectItem Value=@("3")>Danh mục giá vốn chuẩn</MudSelectItem>
                 <MudSelectItem Value=@("4")>Danh mục giá vốn chuẩn NT</MudSelectItem>
-                <MudSelectItem Value=@("5")>Danh mục tỉnh</MudSelectItem>
-                <MudSelectItem Value=@("6")>Danh mục quận</MudSelectItem>
-                <MudSelectItem Value=@("7")>Danh mục huyện</MudSelectItem>
             </MudSelect>
         </MudCardContent>
     </MudCard>
@@ -46,20 +43,5 @@ else
     if ( _categoryType == "4" )
     {
         <CategoryGiaVonChuanNT></CategoryGiaVonChuanNT>
-    }
-
-    if ( _categoryType == "5" )
-    {
-        <CategoryProvince></CategoryProvince>
-    }
-
-    if ( _categoryType == "6" )
-    {
-        <CategoryDistrict></CategoryDistrict>
-    }
-
-    if ( _categoryType == "7" )
-    {
-        <CategoryCommune></CategoryCommune>
     }
 }

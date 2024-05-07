@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NewBalance.Application.Features.Doi_Soat
 {
-    public class ReponsePost
+    public class ResponsePost
     {
         public string code { get; set; }
         public string message { get; set; }

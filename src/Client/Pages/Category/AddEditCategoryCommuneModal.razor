@@ -4,19 +4,19 @@
         <TitleContent>
             <MudText Typo="Typo.h6">
                 <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
-                Thêm Account
+                Thêm mới Huyện
             </MudText>
         </TitleContent>
         <DialogContent>
             <MudGrid>                
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditCommuneModel.COMMUNECODE)" @bind-Value="AddEditCommuneModel.COMMUNECODE" Label="COMMUNECODE" />
+                    <MudTextField T="string" For="@(() => AddEditCommuneModel.COMMUNECODE)" @bind-Value="AddEditCommuneModel.COMMUNECODE" Label="Mã huyện" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditCommuneModel.COMMUNENAME)" @bind-Value="AddEditCommuneModel.COMMUNENAME" Label="COMMUNENAME" />
+                    <MudTextField T="string" For="@(() => AddEditCommuneModel.COMMUNENAME)" @bind-Value="AddEditCommuneModel.COMMUNENAME" Label="Tên Huyện" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditCommuneModel.DISTRICTCODE)" @bind-Value="AddEditCommuneModel.DISTRICTCODE" Label="DISTRICTCODE" />
+                    <MudTextField T="string" For="@(() => AddEditCommuneModel.DISTRICTCODE)" @bind-Value="AddEditCommuneModel.DISTRICTCODE" Label="Mã quận" ReadOnly/>
                 </MudItem>
             </MudGrid>
         </DialogContent>

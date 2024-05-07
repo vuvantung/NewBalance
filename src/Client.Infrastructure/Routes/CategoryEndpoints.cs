@@ -15,6 +15,9 @@ namespace NewBalance.Client.Infrastructure.Routes
         public static string GetCategoryProvince ( int pageIndex, int pageSize) => $"api/Category/GetCategoryProvince?pageIndex={pageIndex}&pageSize={pageSize}";
         public static string GetCategoryDistrict ( int pageIndex, int pageSize, int ProvinceCode ) => $"api/Category/GetCategoryDistrict?pageIndex={pageIndex}&pageSize={pageSize}&ProvinceCode={ProvinceCode}";
         public static string GetCategoryCommune ( int pageIndex, int pageSize, int DistrictCode) => $"api/Category/GetCategoryCommune?pageIndex={pageIndex}&pageSize={pageSize}&DistrictCode={DistrictCode}";
+        public static string AddProvince = "api/Category/AddProvince";
+        public static string AddDistrict = "api/Category/AddDistrict";
+        public static string AddCommune = "api/Category/AddCommune";
 
     }
 }

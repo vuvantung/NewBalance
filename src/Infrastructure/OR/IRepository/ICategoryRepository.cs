@@ -17,5 +17,8 @@ namespace NewBalance.Infrastructure.OR.IRepository
         Task<ResponseData<Province>> GetCategoryProvinceAsync( int pageIndex, int pageSize );
         Task<ResponseData<District>> GetCategoryDistrictAsync( int pageIndex, int pageSize , int ProvinceCode);
         Task<ResponseData<Commune>> GetCategoryCommuneAsync( int pageIndex, int pageSize , int DistrictCode );
+        Task<ResponsePost> AddProvinceAsync( Province data );
+        Task<ResponsePost> AddDistrictAsync( District data );
+        Task<ResponsePost> AddCommuneAsync( Commune data );
     }
 }

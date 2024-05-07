@@ -13,6 +13,6 @@ namespace NewBalance.Infrastructure.OR.IRepository
         Task<IEnumerable<InforFileCasReport>> GetListFileCasReportAsync();
         Task<IEnumerable<DetailCasReport>> GetCasReportDetailDataAsync( int MaTinh, int TuNgay, int DenNgay, int PageIndex, int PageSize );
         Task<bool> UpdateFileCasReportSuccessAsync(int Id, string filePath );
-        Task<ReponsePost> ImportXmlCastDataAsync( string xml, string filePath );
+        Task<ResponsePost> ImportXmlCastDataAsync( string xml, string filePath );
     }
 }

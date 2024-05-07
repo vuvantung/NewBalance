@@ -20,23 +20,17 @@ namespace NewBalance.Client.Pages.Category
         private int selectedRowNumber = -1;
         private int ProvinceCode { get; set; } = 0;
         private string ProvinceName { get; set; } = string.Empty;
+        private int DistrictCode { get; set; } = 0;
+        private string DistrictName { get; set; } = string.Empty;
         private IEnumerable<Province> pagedData;
         private MudTable<Province> table;
         private HashSet<Province> selectedItems = new HashSet<Province>();
         private int totalItems;
         private bool _loaded;
         private string searchString = null;
-        protected async override Task OnParametersSetAsync()
+        protected override async Task OnInitializedAsync()
         {
-            if ( _loaded )
-            {
-                table.ReloadServerData();
-            }
-            else
-            {
-                _loaded = true;
-            }
-            
+            _loaded = true;
         }
 
         private async Task<TableData<Province>> ServerReload( TableState state )
@@ -104,10 +98,18 @@ namespace NewBalance.Client.Pages.Category
             }
         }
 
+        private void HandleDataDistrict( (int DistrictCodeCB, string DistrictNameCB) data )
+        {
+            DistrictCode = data.DistrictCodeCB;
+            DistrictName = data.DistrictNameCB;
+        }
+
         private void RowClickEvent( TableRowClickEventArgs<Province> tableRowClickEventArgs )
         {
             ProvinceCode = tableRowClickEventArgs.Item.PROVINCECODE;
             ProvinceName = tableRowClickEventArgs.Item.PROVINCENAME.Trim();
+            DistrictCode = 0;
+            DistrictName = "";
         }
 
         private string SelectedRowClassFunc( Province element, int rowNumber )

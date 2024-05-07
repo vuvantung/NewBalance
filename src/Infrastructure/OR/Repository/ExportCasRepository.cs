@@ -72,7 +72,7 @@ namespace NewBalance.Infrastructure.OR.Repository
             }
         }
 
-        public async Task<ReponsePost> ImportXmlCastDataAsync( string xml, string filePath )
+        public async Task<ResponsePost> ImportXmlCastDataAsync( string xml, string filePath )
         {
             try
             {
@@ -84,7 +84,7 @@ namespace NewBalance.Infrastructure.OR.Repository
                     "ems.EXPORT_CAS_REPORT_PKG.IMPORT_DATA_MPITS_XML",
                     parameters,
                     commandType: CommandType.StoredProcedure);
-                return new ReponsePost
+                return new ResponsePost
                 {
                     code = "SUCCESS",
                     message = "Import MPITS data successfully"
@@ -92,7 +92,7 @@ namespace NewBalance.Infrastructure.OR.Repository
             }
             catch ( Exception ex )
             {
-                return new ReponsePost
+                return new ResponsePost
                 {
                     code = "ERROR",
                     message = ex.Message,

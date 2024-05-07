@@ -6,6 +6,7 @@ using NewBalance.Infrastructure.OR.Repository;
 using System.Net;
 using System.Threading.Tasks;
 using System;
+using NewBalance.Domain.Entities.Doi_Soat.Category;
 
 namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
 {
@@ -127,5 +128,49 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
             }
         }
 
+        [HttpPost]
+        [Route("AddProvince")]
+        public async Task<IActionResult> AddProvince( Province data )
+        {
+            try
+            {
+                var response = await _categoryRepository.AddProvinceAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("AddDistrict")]
+        public async Task<IActionResult> AddDistrict( District data )
+        {
+            try
+            {
+                var response = await _categoryRepository.AddDistrictAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("AddCommune")]
+        public async Task<IActionResult> AddCommune( Commune data )
+        {
+            try
+            {
+                var response = await _categoryRepository.AddCommuneAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

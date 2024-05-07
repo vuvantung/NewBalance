@@ -12,6 +12,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing.Printing;
 
 namespace NewBalance.Infrastructure.OR.Repository
 {
@@ -361,6 +362,142 @@ namespace NewBalance.Infrastructure.OR.Repository
             }
         }
 
-        
+        public async Task<ResponsePost> AddProvinceAsync( Province data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_PROVINCECODE", data.PROVINCECODE, OracleMappingType.Int32);
+            parameters.Add("v_PROVINCENAME", data.PROVINCENAME, OracleMappingType.NVarchar2);
+            parameters.Add("v_DESCRIPTION", data.DESCRIPTION, OracleMappingType.NVarchar2);
+            parameters.Add("v_REGIONCODE", data.PROVINCENAME, OracleMappingType.Int32);
+            parameters.Add("v_PROVINCELISTCODE", data.PROVINCELISTCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.ADD_CATEGORY_PROVINCE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+
+        public async Task<ResponsePost> AddDistrictAsync( District data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_DISTRICTCODE", data.DISTRICTCODE, OracleMappingType.Int32);
+            parameters.Add("v_DISTRICTNAME", data.DISTRICTNAME, OracleMappingType.NVarchar2);
+            parameters.Add("v_DESCRIPTION", data.DESCRIPTION, OracleMappingType.NVarchar2);
+            parameters.Add("v_PROVINCECODE", data.PROVINCECODE, OracleMappingType.Int32);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2,size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.ADD_CATEGORY_DISTRICT",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+
+        public async Task<ResponsePost> AddCommuneAsync( Commune data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_COMMUNECODE", data.COMMUNECODE, OracleMappingType.Varchar2);
+            parameters.Add("v_COMMUNENAME", data.COMMUNENAME, OracleMappingType.NVarchar2);
+            parameters.Add("v_DISTRICTCODE", data.DISTRICTCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2,size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2,size: 1000, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.ADD_CATEGORY_COMMUNE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
     }
 }
