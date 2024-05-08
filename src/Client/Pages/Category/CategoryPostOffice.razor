@@ -1,4 +1,7 @@
-﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
+﻿@page "/Doi-Soat/CategoryPostOffice"
+@attribute [Authorize(Policy = Permissions.CategoryBasePermisstion.View)]
+@using NewBalance.Domain.Entities.Doi_Soat.Category
+<HeroTitle Title="Danh mục" Description="Danh mục bưu cục" />
 @if ( _loaded )
 {
     <MudTable ServerData="@(new Func<TableState, Task<TableData<PostOffice>>>(ServerReload))"
@@ -7,44 +10,35 @@
         <ToolBarContent>
             <MudText Typo="Typo.h6">Danh mục bưu cục</MudText>
             <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
-            <MudSelect @bind-Value="_account" T="string" Label="Mã tỉnh" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" SelectedValuesChanged="OnChangeSelect" Class="ms-5" Style="max-width: 200px">
-                @foreach ( var item in _accountFilter )
-                {
-                    <MudSelectItem Value="@item.VALUE">@item.TEXT</MudSelectItem>
-                }
-            </MudSelect>
             <MudSpacer />
             <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <HeaderContent>
-            <MudTh><MudTableSortLabel SortLabel="MABC" T="PostOffice">MABC</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="TENBC" T="PostOffice">TENBC</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="MADV" T="PostOffice">MADV</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="KHUVUC" T="PostOffice">KHUVUC</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="PLDUONGTHU" T="PostOffice">PLDUONGTHU</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="MABC_GOC" T="PostOffice">MABC_GOC</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="TRUYENDL" T="PostOffice">TRUYENDL</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="HUONG" T="PostOffice">HUONG</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="MADV_GOC" T="PostOffice">MADV_GOC</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="ACCOUNT" T="PostOffice">ACCOUNT</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="LUU_KHO" T="PostOffice">LUU_KHO</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="TTAM" T="PostOffice">TTAM</MudTableSortLabel></MudTh>
-
+            <MudTh><MudTableSortLabel SortLabel="POSCODE" T="PostOffice">Mã bưu cục</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="POSNAME" T="PostOffice">Tên bưu cục</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="ADDRESS" T="PostOffice">Địa chỉ</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="POSTYPECODE" T="PostOffice">Loại bưu cục</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="PROVINCECODE" T="PostOffice">Mã tỉnh</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="POSLEVELCODE" T="PostOffice">Cấp bưu cục</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="COMMUNECODE" T="PostOffice">Mã phường xã</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="UNITCODE" T="PostOffice">Mã đơn vị</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="STATUS" T="PostOffice">Trạng thái</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="VX" T="PostOffice">Vùng xa</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortLabel="VXHD" T="PostOffice">Hải đảo</MudTableSortLabel></MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="MABC">@context.MABC</MudTd>
-            <MudTd DataLabel="TENBC">@context.TENBC</MudTd>
-            <MudTd DataLabel="MADV">@context.MADV</MudTd>
-            <MudTd DataLabel="KHUVUC">@context.KHUVUC</MudTd>
-            <MudTd DataLabel="PLDUONGTHU">@context.PLDUONGTHU</MudTd>
-            <MudTd DataLabel="MABC_GOC">@context.MABC_GOC</MudTd>
-            <MudTd DataLabel="TRUYENDL">@context.TRUYENDL</MudTd>
-            <MudTd DataLabel="HUONG">@context.HUONG</MudTd>
-            <MudTd DataLabel="MADV_GOC">@context.MADV_GOC</MudTd>
-            <MudTd DataLabel="ACCOUNT">@context.ACCOUNT</MudTd>
-            <MudTd DataLabel="LUU_KHO">@context.LUU_KHO</MudTd>
-            <MudTd DataLabel="TTAM">@context.TTAM</MudTd>
+            <MudTd DataLabel="POSCODE">@context.POSCODE</MudTd>
+            <MudTd DataLabel="POSNAME">@context.POSNAME</MudTd>
+            <MudTd DataLabel="ADDRESS">@context.ADDRESS</MudTd>
+            <MudTd DataLabel="POSTYPECODE">@context.POSTYPECODE</MudTd>
+            <MudTd DataLabel="PROVINCECODE">@context.PROVINCECODE</MudTd>
+            <MudTd DataLabel="POSLEVELCODE">@context.POSLEVELCODE</MudTd>
+            <MudTd DataLabel="COMMUNECODE">@context.COMMUNECODE</MudTd>
+            <MudTd DataLabel="UNITCODE">@context.UNITCODE</MudTd>
+            <MudTd DataLabel="STATUS">@context.STATUS</MudTd>
+            <MudTd DataLabel="VX"><MudCheckBox T="bool" Checked="@context.VX" Color="Color.Secondary" CheckedChanged="@(c=>HandleCheckedChangedVX(context, c))"/></MudTd>
+            <MudTd DataLabel="VXHD"><MudCheckBox T="bool" Checked="@context.VXHD" Color="Color.Secondary" CheckedChanged="@(c=>HandleCheckedChangedHD(context, c))" /></MudTd>
         </RowTemplate>
         <NoRecordsContent>
             <MudText>No matching records found</MudText>

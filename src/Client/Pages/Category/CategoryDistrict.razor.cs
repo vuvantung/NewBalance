@@ -13,6 +13,7 @@ using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
 using NewBalance.Application.Features.Products.Commands.AddEdit;
 using NewBalance.Client.Pages.Catalog;
 using NewBalance.Domain.Entities.Catalog;
+using ClosedXML.Report.Utils;
 
 
 namespace NewBalance.Client.Pages.Category
@@ -106,7 +107,7 @@ namespace NewBalance.Client.Pages.Category
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
             var dialog = _dialogService.Show<AddEditCategoryDistrictModal>("Tạo mới", parameters, options: options);
             var result = await dialog.Result;
-            if ( !result.Cancelled )
+            if ( result.Data.AsBool() == true )
             {
                 await table.ReloadServerData();
             }

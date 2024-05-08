@@ -499,5 +499,50 @@ namespace NewBalance.Infrastructure.OR.Repository
                 return errorResponse;
             }
         }
+
+        public async Task<ResponsePost> UpdateCategoryAsync( SingleUpdateRequest data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_TABLENAME", data.TABLENAME, OracleMappingType.Varchar2);
+            parameters.Add("v_IDCOLUMNNAME", data.IDCOLUMNNAME, OracleMappingType.Varchar2);
+            parameters.Add("v_IDCOLUMNVALUE", data.IDCOLUMNVALUE, OracleMappingType.NVarchar2);
+            parameters.Add("v_UPDATECOLUMNNAME", data.CHANGECOLUMNNAME, OracleMappingType.Varchar2);
+            parameters.Add("v_UPDATECOLUMNVALUE", data.CHANGECOLUMNVALUE, OracleMappingType.NVarchar2);
+            
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.UPDATE_CATEGORY_ONE_DATE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = "SUCESSS",
+                    message = "",
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
     }
 }

@@ -10,40 +10,37 @@
         <DialogContent>
             <MudGrid>                
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.MABC)" @bind-Value="AddEditPostOfficeModel.MABC" Label="MABC" />
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.POSCODE)" @bind-Value="AddEditPostOfficeModel.POSCODE" Label="Mã bưu cục" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.TENBC)" @bind-Value="AddEditPostOfficeModel.TENBC" Label="TENBC" />
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.POSNAME)" @bind-Value="AddEditPostOfficeModel.POSNAME" Label="Tên bưu cục" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.MADV)" @bind-Value="AddEditPostOfficeModel.MADV" Label="MADV" />
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.ADDRESS)" @bind-Value="AddEditPostOfficeModel.ADDRESS" Label="Địa chỉ" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.KHUVUC)" @bind-Value="AddEditPostOfficeModel.KHUVUC" Label="KHUVUC" />
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.POSTYPECODE)" @bind-Value="AddEditPostOfficeModel.POSTYPECODE" Label="Loại bưu cục" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.PLDUONGTHU)" @bind-Value="AddEditPostOfficeModel.PLDUONGTHU" Label="PLDUONGTHU" />
+                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.PROVINCECODE)" @bind-Value="AddEditPostOfficeModel.PROVINCECODE" Label="Mã tỉnh" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.MABC_GOC)" @bind-Value="AddEditPostOfficeModel.MABC_GOC" Label="MABC_GOC" />
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.POSLEVELCODE)" @bind-Value="AddEditPostOfficeModel.POSLEVELCODE" Label="Cấp bưu cục" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.TRUYENDL)" @bind-Value="AddEditPostOfficeModel.TRUYENDL" Label="TRUYENDL" />
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.COMMUNECODE)" @bind-Value="AddEditPostOfficeModel.COMMUNECODE" Label="Mã phường xã" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" T="double" For="@(() => AddEditPostOfficeModel.HUONG)" @bind-Value="AddEditPostOfficeModel.HUONG" Label="HUONG" />
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.UNITCODE)" @bind-Value="AddEditPostOfficeModel.UNITCODE" Label="Mã đơn vị" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.MADV_GOC)" @bind-Value="AddEditPostOfficeModel.MADV_GOC" Label="MADV_GOC" />
+                    <MudTextField T="string" For="@(() => AddEditPostOfficeModel.STATUS)" @bind-Value="AddEditPostOfficeModel.STATUS" Label="Trạng thái" />
                 </MudItem>
-                <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.ACCOUNT)" @bind-Value="AddEditPostOfficeModel.ACCOUNT" Label="ACCOUNT" />
+                <MudItem xs="6" md="3">
+                    <MudCheckBox For="@(() => AddEditPostOfficeModel.VX)" @bind-Checked="@AddEditPostOfficeModel.VX" Color="Color.Secondary" Label="Vùng Xa" />
                 </MudItem>
-                <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.LUU_KHO)" @bind-Value="AddEditPostOfficeModel.LUU_KHO" Label="LUU_KHO" />
-                </MudItem>
-                <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditPostOfficeModel.TTAM)" @bind-Value="AddEditPostOfficeModel.TTAM" Label="TTAM" />
+                <MudItem xs="6" md="3">
+                    <MudCheckBox For="@(() => AddEditPostOfficeModel.VXHD)" @bind-Checked="@AddEditPostOfficeModel.VXHD" Color="Color.Secondary" Label="Hải đảo" />
                 </MudItem>
             </MudGrid>
         </DialogContent>

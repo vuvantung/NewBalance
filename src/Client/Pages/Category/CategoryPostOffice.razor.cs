@@ -9,6 +9,8 @@ using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category;
 using System;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
 using NewBalance.Domain.Entities.Doi_Soat.Filter;
+using NewBalance.Application.Features.Doi_Soat;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 
 namespace NewBalance.Client.Pages.Category
@@ -23,21 +25,14 @@ namespace NewBalance.Client.Pages.Category
         private HashSet<PostOffice> selectedItems = new HashSet<PostOffice>();
         private MudTable<PostOffice> table;
         private int totalItems;
-        private bool _loaded;
+        private bool _loaded = true;
         private string searchString = null;
-        protected async override Task OnParametersSetAsync()
+
+        protected override async Task OnInitializedAsync()
         {
-            _accountFilter = await _filterManager.GetAccountFilterAsync();
-            if ( _loaded )
-            {
-                table.ReloadServerData();
-            }
-            else
-            {
-                _loaded = true;
-            }
-            
+            _loaded = true;
         }
+
 
         private async Task<TableData<PostOffice>> ServerReload( TableState state )
         {
@@ -59,41 +54,38 @@ namespace NewBalance.Client.Pages.Category
             totalItems = res.total;
             switch ( state.SortLabel )
             {
-                case "MABC":
-                    data = data.OrderByDirection(state.SortDirection, o => o.MABC);
+                case "POSCODE":
+                    data = data.OrderByDirection(state.SortDirection, o => o.POSCODE);
                             break; 
-                case "TENBC":
-                    data = data.OrderByDirection(state.SortDirection, o => o.TENBC);
+                case "POSNAME":
+                    data = data.OrderByDirection(state.SortDirection, o => o.POSNAME);
                             break; 
-                case "MADV":
-                    data = data.OrderByDirection(state.SortDirection, o => o.MADV);
+                case "ADDRESS":
+                    data = data.OrderByDirection(state.SortDirection, o => o.ADDRESS);
                             break; 
-                case "KHUVUC":
-                    data = data.OrderByDirection(state.SortDirection, o => o.KHUVUC);
+                case "POSTYPECODE":
+                    data = data.OrderByDirection(state.SortDirection, o => o.POSTYPECODE);
                             break; 
-                case "PLDUONGTHU":
-                    data = data.OrderByDirection(state.SortDirection, o => o.PLDUONGTHU);
+                case "PROVINCECODE":
+                    data = data.OrderByDirection(state.SortDirection, o => o.PROVINCECODE);
                             break; 
-                case "MABC_GOC":
-                    data = data.OrderByDirection(state.SortDirection, o => o.MABC_GOC);
+                case "POSLEVELCODE":
+                    data = data.OrderByDirection(state.SortDirection, o => o.POSLEVELCODE);
                             break; 
-                case "TRUYENDL":
-                    data = data.OrderByDirection(state.SortDirection, o => o.TRUYENDL);
+                case "COMMUNECODE":
+                    data = data.OrderByDirection(state.SortDirection, o => o.COMMUNECODE);
                             break; 
-                case "HUONG":
-                    data = data.OrderByDirection(state.SortDirection, o => o.HUONG);
+                case "UNITCODE":
+                    data = data.OrderByDirection(state.SortDirection, o => o.UNITCODE);
                             break; 
-                case "MADV_GOC":
-                    data = data.OrderByDirection(state.SortDirection, o => o.MADV_GOC);
+                case "STATUS":
+                    data = data.OrderByDirection(state.SortDirection, o => o.STATUS);
                             break; 
-                case "ACCOUNT":
-                    data = data.OrderByDirection(state.SortDirection, o => o.ACCOUNT);
+                case "VX":
+                    data = data.OrderByDirection(state.SortDirection, o => o.VX);
                             break; 
-                case "LUU_KHO":
-                    data = data.OrderByDirection(state.SortDirection, o => o.LUU_KHO);
-                            break; 
-                case "TTAM":
-                    data = data.OrderByDirection(state.SortDirection, o => o.TTAM);
+                case "VXHD":
+                    data = data.OrderByDirection(state.SortDirection, o => o.VXHD);
                             break; 
             }
 
@@ -127,6 +119,35 @@ namespace NewBalance.Client.Pages.Category
                 await table.ReloadServerData();
             }
         }
+
+        private async Task HandleCheckedChangedVX (PostOffice item, bool isChecked )
+        {
+            var request = new SingleUpdateRequest
+            {
+                TABLENAME = "POS_TEMP",
+                IDCOLUMNNAME = "POSCODE",
+                IDCOLUMNVALUE = item.POSCODE,
+                CHANGECOLUMNNAME = "VX",
+                CHANGECOLUMNVALUE = (isChecked == true) ? "1" : "0"
+            };
+            await _categoryManager.UpdateCategoryAsync(request);
+            await table.ReloadServerData();
+        }
+
+        private async Task HandleCheckedChangedHD( PostOffice item, bool isChecked )
+        {
+            var request = new SingleUpdateRequest
+            {
+                TABLENAME = "POS_TEMP",
+                IDCOLUMNNAME = "POSCODE",
+                IDCOLUMNVALUE = item.POSCODE,
+                CHANGECOLUMNNAME = "VXHD",
+                CHANGECOLUMNVALUE = (isChecked == true) ? "1" : "0"
+            };
+            await _categoryManager.UpdateCategoryAsync(request);
+            await table.ReloadServerData();
+        }
+
     }
 
     

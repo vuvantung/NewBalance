@@ -20,5 +20,6 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
         Task<ResponsePost> AddProvinceAsync( Province data );
         Task<ResponsePost> AddDistrictAsync( District data );
         Task<ResponsePost> AddCommuneAsync( Commune data );
+        Task<ResponsePost> UpdateCategoryAsync( SingleUpdateRequest data );
     }
 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System;
 using NewBalance.Domain.Entities.Doi_Soat.Category;
+using NewBalance.Application.Features.Doi_Soat;
 
 namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
 {
@@ -165,6 +166,21 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
             try
             {
                 var response = await _categoryRepository.AddCommuneAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateSingleData")]
+        public async Task<IActionResult> UpdateSingleData( SingleUpdateRequest data )
+        {
+            try
+            {
+                var response = await _categoryRepository.UpdateCategoryAsync(data);
                 return Ok(response);
             }
             catch ( Exception ex )

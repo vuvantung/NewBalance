@@ -10,21 +10,33 @@ namespace NewBalance.Domain.Entities.Doi_Soat.Category
     public class PostOffice
     {
         [Required]
-        public int MABC { get; set; }
+        [StringLength(6)]
+        public string POSCODE { get; set; }
+        [StringLength(100)]
+        public string POSNAME { get; set; } = string.Empty;
+
+        public string ADDRESS { get; set; }
         [Required]
-        public string TENBC { get; set; }
-        public string MADV { get; set; }
+        [StringLength(2)]
+        public string POSTYPECODE { get; set; }
         [Required]
-        public int KHUVUC { get; set; }
-        public int PLDUONGTHU { get; set; }
+        [StringLength(3)]
+        public int PROVINCECODE { get; set; }
         [Required]
-        public int MABC_GOC { get; set; }
-        public int TRUYENDL { get; set; }
-        public int HUONG { get; set; }
-        public string MADV_GOC { get; set; }
+        [StringLength(3)]
+        public string POSLEVELCODE { get; set; }
         [Required]
-        public int ACCOUNT { get; set; }
-        public int LUU_KHO { get; set; }
-        public int TTAM { get; set; }
+        [StringLength(6)]
+        public string COMMUNECODE { get; set; }
+        [StringLength(6)]
+        public string UNITCODE { get; set; }
+        [StringLength(1)]
+        public string STATUS { get; set; }
+        
+        public bool VX { get; set; } 
+        public bool VXHD { get; set; }
+        //public bool isVX { get => isVX; set => isVX = (VX == 1) ? true : false; }
+        //public bool isVXHD { get => isVXHD; set => isVXHD = (VXHD == 1) ? true : false; }
+
     }
 }

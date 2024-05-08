@@ -18,7 +18,6 @@ else
         <MudCardContent Class="d-flex flex-wrap gap-4">
             <MudSelect @bind-Value="_categoryType" T="string" Label="Loại danh mục" AnchorOrigin="Origin.BottomCenter">
                 <MudSelectItem Value="@("1")">Danh mục account</MudSelectItem>
-                <MudSelectItem Value=@("2")>Danh mục bưu cục</MudSelectItem>
                 <MudSelectItem Value=@("3")>Danh mục giá vốn chuẩn</MudSelectItem>
                 <MudSelectItem Value=@("4")>Danh mục giá vốn chuẩn NT</MudSelectItem>
             </MudSelect>
@@ -28,11 +27,6 @@ else
     if ( _categoryType == "1" )
     {
         <CategoryAccount></CategoryAccount>
-    }
-
-    if ( _categoryType == "2" )
-    {
-        <CategoryPostOffice></CategoryPostOffice>
     }
 
     if ( _categoryType == "3" )
