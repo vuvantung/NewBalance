@@ -11,6 +11,9 @@ using static MudBlazor.CategoryTypes;
 using NewBalance.Domain.Entities.Doi_Soat.Filter;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
 using ClosedXML.Report.Utils;
+using NewBalance.Client.Shared.Dialogs;
+using NewBalance.Application.Features.Doi_Soat;
+using NewBalance.Shared.Wrapper;
 
 
 namespace NewBalance.Client.Pages.Category
@@ -97,6 +100,31 @@ namespace NewBalance.Client.Pages.Category
             });
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
             var dialog = _dialogService.Show<AddEditCategoryCommuneModal>("Tạo mới", parameters, options: options);
+            var result = await dialog.Result;
+
+            if ( result.Data.AsBool() == true )
+            {
+                await table.ReloadServerData();
+            }
+        }
+
+        private async Task InvokeModalDelete()
+        {
+            var request = new List<SingleUpdateRequest>();
+            foreach(var item in selectedItems )
+            {
+                request.Add(new SingleUpdateRequest
+                {
+                    TABLENAME = "Commune",
+                    IDCOLUMNNAME = "COMMUNECODE",
+                    IDCOLUMNVALUE = item.COMMUNENAME
+                });
+            }
+            var parameters = new DialogParameters<DeleteDialog>();
+            parameters.Add(x => x.ContentText, "Các phường xã đã chọn sẽ bị xóa!");
+            parameters.Add(x => x.data, request);
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<DeleteDialog>("Xóa", parameters, options: options);
             var result = await dialog.Result;
 
             if ( result.Data.AsBool() == true )

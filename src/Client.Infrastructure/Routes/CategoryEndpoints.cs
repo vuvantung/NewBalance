@@ -19,6 +19,7 @@ namespace NewBalance.Client.Infrastructure.Routes
         public static string AddDistrict = "api/Category/AddDistrict";
         public static string AddCommune = "api/Category/AddCommune";
         public static string UpdateCategory = "api/Category/UpdateSingleData";
+        public static string DeleteCategory = "api/Category/DeleteSingleData";
 
     }
 }

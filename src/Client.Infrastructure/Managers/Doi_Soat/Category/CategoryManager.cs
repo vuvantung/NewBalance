@@ -217,5 +217,23 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
                 };
             }
         }
+
+        public async Task<ResponsePost> DeleteCategoryAsync( SingleUpdateRequest data )
+        {
+            try
+            {
+                var result = await _httpClient.PostAsJsonAsync(Routes.CategoryEndpoints.DeleteCategory, data);
+                var response = await result.Content.ReadFromJsonAsync<ResponsePost>();
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponsePost
+                {
+                    code = "ERROR",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
     }
 }
