@@ -78,11 +78,11 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
             }
         }
 
-        public async Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int account )
+        public async Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int communeCode, int containVXHD )
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<ResponseData<PostOffice>>(Routes.CategoryEndpoints.GetCategoryPostOffice(pageIndex, pageSize, account));
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<PostOffice>>(Routes.CategoryEndpoints.GetCategoryPostOffice(pageIndex, pageSize, communeCode, containVXHD));
                 return response;
             }
             catch ( Exception ex )

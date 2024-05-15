@@ -22,6 +22,7 @@ namespace NewBalance.Client.Pages.Category
     {
         [Parameter] public int DistrictCode { get; set; } = 0;
         [Parameter] public string DistrictName { get; set; } = string.Empty;
+        [Parameter] public EventCallback<(int CommuneCode, string CommuneName)> DataChangedCommune { get; set; }
         [Inject] private ICategoryManager _categoryManager { get; set; }
         private IEnumerable<Commune> pagedData;
         private MudTable<Commune> table;
@@ -131,6 +132,14 @@ namespace NewBalance.Client.Pages.Category
             {
                 await table.ReloadServerData();
             }
+        }
+
+        private async Task RowClickEventCommune( TableRowClickEventArgs<Commune> tableRowClickEventArgs )
+        {
+            var communeCode = Convert.ToInt32(tableRowClickEventArgs.Item.COMMUNECODE);
+            var communeName = tableRowClickEventArgs.Item.COMMUNENAME.Trim();
+            var newData = (communeCode, communeName);
+            await DataChangedCommune.InvokeAsync(newData);
         }
     }
 

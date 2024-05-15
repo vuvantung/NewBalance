@@ -1,15 +1,35 @@
 ﻿@page "/Doi-Soat/CategoryPostOffice"
 @attribute [Authorize(Policy = Permissions.CategoryBasePermisstion.View)]
 @using NewBalance.Domain.Entities.Doi_Soat.Category
-<HeroTitle Title="Danh mục" Description="Danh mục bưu cục" />
+@if ( IsLargeCategory)
+{
+    <HeroTitle Title="Danh mục" Description="Danh mục bưu cục" />
+}
 @if ( _loaded )
 {
     <MudTable ServerData="@(new Func<TableState, Task<TableData<PostOffice>>>(ServerReload))"
               MultiSelection="true" @bind-SelectedItems="selectedItems"
-              Dense="true" Hover="true" @ref="table">
+              FixedHeader="true" FixedFooter="true" Height="400px"
+              Dense="true" Hover="true" @ref="table"
+              HorizontalScrollbar="true">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Danh mục bưu cục</MudText>
-            <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
+            @if ( IsLargeCategory )
+            {
+                <MudText Typo="Typo.h6">Danh mục bưu cục</MudText>
+            }
+            else
+            {
+                <MudText Typo="Typo.h6">Danh mục vùng xa (@CommuneName)</MudText>
+            }
+
+            @if ( IsLargeCategory)
+            {
+                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Thêm VXHD</MudButton>
+            }
+            else
+            {
+                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
+            }
             <MudSpacer />
             <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
                           AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>

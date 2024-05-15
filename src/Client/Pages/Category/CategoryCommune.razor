@@ -1,13 +1,14 @@
 ﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
 @if ( _loaded )
 {
-    <MudTable ServerData="@(new Func<TableState, Task<TableData<Commune>>>(ServerReload))"
-              MultiSelection="true" @bind-SelectedItems="selectedItems"
+    <MudTable T="Commune" ServerData="@(new Func<TableState, Task<TableData<Commune>>>(ServerReload))"
+              MultiSelection="true" @bind-SelectedItems="selectedItems" SelectOnRowClick="false"
               Dense="true" Hover="true" @ref="table"
               FixedHeader="true" FixedFooter="true" Height="400px"
-              HorizontalScrollbar="true">
+              HorizontalScrollbar="true"
+              RowClass="cursor-pointer" OnRowClick="RowClickEventCommune">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Quận @DistrictName</MudText>
+            <MudText Typo="Typo.h6">Danh mục phường xã (@DistrictName)</MudText>
             <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
             @if ( selectedItems.Count() > 0 )
             {

@@ -71,11 +71,11 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
 
         [HttpGet]
         [Route("GetCategoryPostOffice")]
-        public async Task<IActionResult> GetCategoryPostOffice( int pageIndex, int pageSize, int account )
+        public async Task<IActionResult> GetCategoryPostOffice( int pageIndex, int pageSize, int communeCode, int containVXHD )
         {
             try
             {
-                var response = await _categoryRepository.GetCategoryPostOfficeAsync(pageIndex, pageSize, account);
+                var response = await _categoryRepository.GetCategoryPostOfficeAsync(pageIndex, pageSize, communeCode, containVXHD);
                 return Ok(response);
             }
             catch ( Exception ex )

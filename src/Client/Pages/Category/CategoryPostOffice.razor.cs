@@ -17,6 +17,10 @@ namespace NewBalance.Client.Pages.Category
 {
     public partial class CategoryPostOffice
     {
+        [Parameter] public int CommuneCode { get; set; } = 0;
+        [Parameter] public string CommuneName { get; set; } = string.Empty;
+        [Parameter] public int ContainVXHD { get; set; } = 0;
+        [Parameter] public bool IsLargeCategory { get; set; } = true;
         [Inject] private IFilterManager _filterManager { get; set; }
         private IEnumerable<FilterData> _accountFilter;
         private string _account = "0";
@@ -25,18 +29,38 @@ namespace NewBalance.Client.Pages.Category
         private HashSet<PostOffice> selectedItems = new HashSet<PostOffice>();
         private MudTable<PostOffice> table;
         private int totalItems;
-        private bool _loaded = true;
+        private bool _loaded;
         private string searchString = null;
+
+        protected async override Task OnParametersSetAsync()
+        {
+            if(!IsLargeCategory )
+            {
+                if ( _loaded )
+                {
+                    table.ReloadServerData();
+                }
+                else
+                {
+                    _loaded = true;
+                }
+            }
+            
+
+        }
 
         protected override async Task OnInitializedAsync()
         {
-            _loaded = true;
+            if( IsLargeCategory)
+            {
+                _loaded = true;
+            }
         }
 
 
         private async Task<TableData<PostOffice>> ServerReload( TableState state )
         {
-            var res = await _categoryManager.GetCategoryPostOfficeAsync(state.Page, state.PageSize, Convert.ToInt32(_account));
+            var res = await _categoryManager.GetCategoryPostOfficeAsync(state.Page, state.PageSize, CommuneCode, ContainVXHD);
             IEnumerable<PostOffice> data = res.data;
 
             //data = data.Where(element =>

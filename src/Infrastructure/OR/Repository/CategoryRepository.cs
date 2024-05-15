@@ -172,11 +172,12 @@ namespace NewBalance.Infrastructure.OR.Repository
             }
         }
 
-        public async Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int account )
+        public async Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int communeCode, int containVXHD )
         {
             if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
             var parameters = new OracleDynamicParameters();
-            parameters.Add("v_ACCOUNT", account, OracleMappingType.Int32);
+            parameters.Add("v_COMMUNECODE", communeCode, OracleMappingType.Int32);
+            parameters.Add("v_CONTAINVXHD", containVXHD, OracleMappingType.Int32);
             parameters.Add("v_PAGEINDEX", pageIndex, OracleMappingType.Int32);
             parameters.Add("v_PAGESIZE", pageSize, OracleMappingType.Int32);
             parameters.Add("v_TOTAL", dbType: OracleMappingType.Int32, direction: ParameterDirection.Output);

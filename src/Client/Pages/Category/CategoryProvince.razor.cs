@@ -21,6 +21,8 @@ namespace NewBalance.Client.Pages.Category
         private int selectedRowNumber = -1;
         private int ProvinceCode { get; set; } = 0;
         private string ProvinceName { get; set; } = string.Empty;
+        private int CommuneCode { get; set; } = 0;
+        private string CommuneName { get; set; } = string.Empty;
         private int DistrictCode { get; set; } = 0;
         private string DistrictName { get; set; } = string.Empty;
         private IEnumerable<Province> pagedData;
@@ -105,12 +107,21 @@ namespace NewBalance.Client.Pages.Category
             DistrictName = data.DistrictNameCB;
         }
 
+        private void HandleDataCommune( (int CommuneCodeCB, string CommuneNameCB) data )
+        {
+            CommuneCode = data.CommuneCodeCB;
+            CommuneName = data.CommuneNameCB;
+        }
+
+
         private void RowClickEvent( TableRowClickEventArgs<Province> tableRowClickEventArgs )
         {
             ProvinceCode = tableRowClickEventArgs.Item.PROVINCECODE;
             ProvinceName = tableRowClickEventArgs.Item.PROVINCENAME.Trim();
             DistrictCode = 0;
             DistrictName = "";
+            CommuneCode = 0;
+            CommuneName = "";
         }
 
         private string SelectedRowClassFunc( Province element, int rowNumber )

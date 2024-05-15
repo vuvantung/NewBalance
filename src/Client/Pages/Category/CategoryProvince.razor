@@ -5,7 +5,7 @@
 @if ( _loaded )
 {
     <MudGrid Spacing="2" Justify="Justify.Center">
-        <MudItem xs="12">
+        <MudItem xs="6">
             <MudTable T="Province" ServerData="@(new Func<TableState, Task<TableData<Province>>>(ServerReload))"
                       MultiSelection="true" @bind-SelectedItems="selectedItems" SelectOnRowClick="false"
                       Dense="true" Hover="true" @ref="table"
@@ -48,7 +48,10 @@
             <CategoryDistrict ProvinceCode="@ProvinceCode" ProvinceName="@ProvinceName" DataChangedDistrict="@HandleDataDistrict"></CategoryDistrict>
         </MudItem>
         <MudItem xs="6">
-            <CategoryCommune DistrictCode="@DistrictCode" DistrictName="@DistrictName"></CategoryCommune>
+            <CategoryCommune DistrictCode="@DistrictCode" DistrictName="@DistrictName" DataChangedCommune="@HandleDataCommune"></CategoryCommune>
+        </MudItem>
+        <MudItem xs="6">
+            <CategoryPostOffice CommuneCode="@CommuneCode" CommuneName="@CommuneName" ContainVXHD="Convert.ToInt32(1)" IsLargeCategory="false"></CategoryPostOffice>
         </MudItem>
     </MudGrid>
     
