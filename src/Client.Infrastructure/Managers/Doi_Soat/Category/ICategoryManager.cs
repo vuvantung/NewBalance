@@ -21,6 +21,7 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
         Task<ResponsePost> AddProvinceAsync( Province data );
         Task<ResponsePost> AddDistrictAsync( District data );
         Task<ResponsePost> AddCommuneAsync( Commune data );
+        Task<ResponsePost> AddPostOfficeAsync( PostOffice data );
         Task<ResponsePost> UpdateCategoryAsync( SingleUpdateRequest data );
         Task<ResponsePost> DeleteCategoryAsync( SingleUpdateRequest data );
     }

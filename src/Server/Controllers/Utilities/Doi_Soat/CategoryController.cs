@@ -218,5 +218,21 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("AddPostOfficeEMS")]
+        public async Task<IActionResult> AddPostOffice( PostOffice data )
+        {
+            try
+            {
+                var response = await _categoryRepository.AddPostOfficeAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
     }
 }

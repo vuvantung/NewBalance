@@ -21,6 +21,7 @@ namespace NewBalance.Infrastructure.OR.IRepository
         Task<ResponsePost> AddProvinceAsync( Province data );
         Task<ResponsePost> AddDistrictAsync( District data );
         Task<ResponsePost> AddCommuneAsync( Commune data );
+        Task<ResponsePost> AddPostOfficeAsync( PostOffice data );
         Task<ResponsePost> UpdateCategoryAsync( SingleUpdateRequest data );
         Task<ResponsePost> DeleteCategoryAsync( SingleUpdateRequest data );
     }

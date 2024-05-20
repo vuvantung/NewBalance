@@ -91,15 +91,36 @@ namespace NewBalance.Client.Pages.Category
         }
         private async Task InvokeModal()
         {
-            var parameters = new DialogParameters();
-
-            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            var dialog = _dialogService.Show<AddEditCategoryProvinceModal>("Tạo mới", parameters, options: options);
-            var result = await dialog.Result;
-            if ( result.Data.AsBool() == true )
+            if ( ProvinceCode == 0 )
             {
-                await table.ReloadServerData();
+                _snackBar.Add($"Chưa chọn tỉnh", Severity.Error);
             }
+            else if ( DistrictCode == 0 )
+            {
+                _snackBar.Add($"Chưa chọn quận/huyệnh", Severity.Error);
+            }
+            else if ( CommuneCode == 0 )
+            {
+                _snackBar.Add($"Chưa chọn phường/xã", Severity.Error);
+            }
+            else
+            {
+                var parameters = new DialogParameters();
+                parameters.Add(nameof(AddEditCategoryPostOfficeModal.AddEditPostOfficeModel), new PostOffice
+                {
+                    PROVINCECODE = ProvinceCode,
+                    UNITCODE = DistrictCode.ToString(),
+                    COMMUNECODE = CommuneCode.ToString()
+                });
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+                var dialog = _dialogService.Show<AddEditCategoryPostOfficeModal>("Tạo mới", parameters, options: options);
+                var result = await dialog.Result;
+                if ( !result.Cancelled )
+                {
+                    await table.ReloadServerData();
+                }
+            }
+
         }
 
         private void HandleDataDistrict( (int DistrictCodeCB, string DistrictNameCB) data )

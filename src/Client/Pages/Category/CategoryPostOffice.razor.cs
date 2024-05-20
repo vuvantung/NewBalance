@@ -12,6 +12,7 @@ using NewBalance.Domain.Entities.Doi_Soat.Filter;
 using NewBalance.Application.Features.Doi_Soat;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NewBalance.Client.Shared.Dialogs;
+using ClosedXML.Report.Utils;
 
 
 namespace NewBalance.Client.Pages.Category
@@ -142,12 +143,58 @@ namespace NewBalance.Client.Pages.Category
         }
         private async Task InvokeModal()
         {
-            var parameters = new DialogParameters();
+            if( ProvinceCode == 0 )
+            {
+                _snackBar.Add($"Chưa chọn tỉnh", Severity.Error);
+            }
+            else if ( DistrictCode == 0 )
+            {
+                _snackBar.Add($"Chưa chọn quận/huyệnh", Severity.Error);
+            }
+            else if (CommuneCode == 0 )
+            {
+                _snackBar.Add($"Chưa chọn phường/xã", Severity.Error);
+            }
+            else
+            {
+                var parameters = new DialogParameters();
+                parameters.Add(nameof(AddEditCategoryPostOfficeModal.AddEditPostOfficeModel), new PostOffice
+                {
+                    PROVINCECODE = ProvinceCode,
+                    UNITCODE = DistrictCode.ToString(),
+                    COMMUNECODE = CommuneCode.ToString()
+                });
+                var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+                var dialog = _dialogService.Show<AddEditCategoryPostOfficeModal>("Tạo mới", parameters, options: options);
+                var result = await dialog.Result;
+                if ( !result.Cancelled )
+                {
+                    await table.ReloadServerData();
+                }
+            }
+           
+        }
 
+        private async Task InvokeModalDelete()
+        {
+            var request = new List<SingleUpdateRequest>();
+            foreach ( var item in selectedItems )
+            {
+                request.Add(new SingleUpdateRequest
+                {
+                    TABLENAME = "POS_TEMP",
+                    IDCOLUMNNAME = "POSCODE",
+                    IDCOLUMNVALUE = item.POSCODE.ToString(),
+                });
+            }
+            var parameters = new DialogParameters<DeleteDialog>();
+            parameters.Add(x => x.ContentText, "Các bưu cục đã chọn sẽ bị xóa!");
+            parameters.Add(x => x.data, request);
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
-            var dialog = _dialogService.Show<AddEditCategoryPostOfficeModal>("Tạo mới", parameters, options: options);
+            var dialog = _dialogService.Show<DeleteDialog>("Xóa", parameters, options: options);
             var result = await dialog.Result;
-            if ( !result.Cancelled )
+
+            if ( result.Data.AsBool() == true )
             {
                 await table.ReloadServerData();
             }

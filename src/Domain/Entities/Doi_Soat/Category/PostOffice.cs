@@ -20,7 +20,6 @@ namespace NewBalance.Domain.Entities.Doi_Soat.Category
         [StringLength(2, ErrorMessage = "Không được quá 2 kí tự")]
         public string POSTYPECODE { get; set; }
         [Required(ErrorMessage = "Trường này không được để trống")]
-        [StringLength(3, ErrorMessage = "Không được quá 3 kí tự")]
         public int PROVINCECODE { get; set; }
         [Required(ErrorMessage = "Trường này không được để trống")]
         [StringLength(3, ErrorMessage = "Không được quá 3 kí tự")]

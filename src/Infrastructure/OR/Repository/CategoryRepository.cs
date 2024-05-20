@@ -559,7 +559,7 @@ namespace NewBalance.Infrastructure.OR.Repository
 
                 var response = new ResponsePost
                 {
-                    code = "SUCESSS",
+                    code = "SUCCESS",
                     message = "",
                 };
                 return response;
@@ -602,7 +602,7 @@ namespace NewBalance.Infrastructure.OR.Repository
 
                 var response = new ResponsePost
                 {
-                    code = "SUCESSS",
+                    code = "SUCCESS",
                     message = "",
                 };
                 return response;
@@ -640,7 +640,7 @@ namespace NewBalance.Infrastructure.OR.Repository
                     parameters,
                     commandType: CommandType.StoredProcedure);
 
-     
+
 
                 var response = new ResponseData<MapProvinceDistrictCommune>
                 {
@@ -665,6 +665,61 @@ namespace NewBalance.Infrastructure.OR.Repository
                 var errorResponse = new ResponseData<MapProvinceDistrictCommune>
                 {
                     code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            finally { await con.DisposeAsync(); }
+        }
+
+        public async Task<ResponsePost> AddPostOfficeAsync( PostOffice data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_POSCODE", data.POSCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_POSNAME", data.POSNAME, OracleMappingType.NVarchar2);
+            parameters.Add("v_ADDRESS", data.ADDRESS, OracleMappingType.NVarchar2);
+            parameters.Add("v_POSTYPECODE", data.POSTYPECODE, OracleMappingType.NVarchar2);
+            parameters.Add("v_PROVINCECODE", data.PROVINCECODE, OracleMappingType.Varchar2);
+            parameters.Add("v_POSLEVELCODE", data.POSLEVELCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_COMMUNECODE", data.COMMUNECODE, OracleMappingType.Varchar2);
+            parameters.Add("v_UNITCODE", data.UNITCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_STATUS", data.STATUS, OracleMappingType.Int32);
+            parameters.Add("v_VX", data.VX, OracleMappingType.Int32);
+            parameters.Add("v_VXHD", data.VXHD, OracleMappingType.Int32);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.ADD_CATEGORY_POSTCODE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = "SUCCESS",
+                    message = "",
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
                     message = ex.Message
                 };
                 return errorResponse;
