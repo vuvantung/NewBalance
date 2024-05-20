@@ -39,21 +39,7 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
             }
         }
 
-        [HttpGet]
-        [Route("GetCategoryGiaVonChuan")]
-        public async Task<IActionResult> GetCategoryGiaVonChuan( int pageIndex, int pageSize, int account )
-        {
-            try
-            {
-                var response = await _categoryRepository.GetCategoryGiaVonChuanAsync(pageIndex, pageSize, account);
-                return Ok(response);
-            }
-            catch ( Exception ex )
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
-
+   
         [HttpGet]
         [Route("GetCategoryGiaVonChuanNT")]
         public async Task<IActionResult> GetCategoryGiaVonChuanNT( int pageIndex, int pageSize, int account )
@@ -218,5 +204,67 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        #region Danh mục dịch vụ
+        [HttpGet]
+        [Route("GetCategoryDM_Dich_Vu")]
+        public async Task<IActionResult> GetCategoryDM_Dich_Vu(int pageIndex, int pageSize)
+        {
+            try
+            {
+                var response = await _categoryRepository.GetCategoryDM_Dich_VuAsync(pageIndex, pageSize);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("AddDM_Dich_Vu")]
+        public async Task<IActionResult> AddDM_Dich_Vu(DM_Dich_Vu data)
+        {
+            try
+            {
+                var response = await _categoryRepository.AddDM_Dich_VuAsync(data);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        #endregion
+        #region Danh mục giá vốn
+        [HttpGet]
+        [Route("CategoryDM_GiaVonChuan")]
+        public async Task<IActionResult> GetCategoryGiaVonChuan(int pageIndex, int pageSize, int account)
+        {
+            try
+            {
+                var response = await _categoryRepository.GetCategoryGiaVonChuanAsync(pageIndex, pageSize, account);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpPost]
+        [Route("AddGiaVonChuan")]
+        public async Task<IActionResult> AddGiaVonChuan(GiaVonChuan data)
+        {
+            try
+            {
+                var response = await _categoryRepository.AddGiaVonChuanAsync(data);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        #endregion
     }
 }

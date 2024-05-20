@@ -80,57 +80,7 @@ namespace NewBalance.Infrastructure.OR.Repository
             }
         }
 
-        public async Task<ResponseData<GiaVonChuan>> GetCategoryGiaVonChuanAsync( int pageIndex, int pageSize, int account )
-        {
-            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
-            var parameters = new OracleDynamicParameters();
-            parameters.Add("v_ACCOUNT", account, OracleMappingType.Int32);
-            parameters.Add("v_PAGEINDEX", pageIndex, OracleMappingType.Int32);
-            parameters.Add("v_PAGESIZE", pageSize, OracleMappingType.Int32);
-            parameters.Add("v_TOTAL", dbType: OracleMappingType.Int32, direction: ParameterDirection.Output);
-            parameters.Add("v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
-
-            try
-            {
-                var queryResult = await con.QueryAsync<GiaVonChuan>(
-                    "CATEGORY_PKG.GET_CATEGORY_GIAVONCHUAN",
-                    parameters,
-                    commandType: CommandType.StoredProcedure);
-
-                int total = parameters.Get<int>("v_TOTAL");
-
-                var response = new ResponseData<GiaVonChuan>
-                {
-                    code = "success",
-                    message = "Thành công",
-                    total = total,
-                    data = queryResult.ToList(),
-                };
-                return response;
-            }
-            catch ( OracleException ex )
-            {
-                var errorResponse = new ResponseData<GiaVonChuan>
-                {
-                    code = "error",
-                    message = ex.Message
-                };
-                return errorResponse;
-            }
-            catch ( Exception ex )
-            {
-                var errorResponse = new ResponseData<GiaVonChuan>
-                {
-                    code = "error",
-                    message = ex.Message
-                };
-                return errorResponse;
-            }
-            finally
-            {
-                await con.DisposeAsync();
-            }
-        }
+       
 
         public async Task<ResponseData<GiaVonChuanNT>> GetCategoryGiaVonChuanNTAsync( int pageIndex, int pageSize, int account )
         {
@@ -670,5 +620,215 @@ namespace NewBalance.Infrastructure.OR.Repository
                 return errorResponse;
             }
         }
+
+        #region Danh mục dịch vụ
+        public async Task<ResponseData<DM_Dich_Vu>> GetCategoryDM_Dich_VuAsync(int pageIndex, int pageSize)
+        {
+            if (con.State == ConnectionState.Closed) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_PAGEINDEX", pageIndex, OracleMappingType.Int32);
+            parameters.Add("v_PAGESIZE", pageSize, OracleMappingType.Int32);
+            parameters.Add("v_TOTAL", dbType: OracleMappingType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.QueryAsync<DM_Dich_Vu>(
+                    "CATEGORY_PKG.GET_CATEGORY_DICHVU",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                int total = parameters.Get<int>("v_TOTAL");
+
+                var response = new ResponseData<DM_Dich_Vu>
+                {
+                    code = "success",
+                    message = "Thành công",
+                    total = total,
+                    data = queryResult.ToList(),
+                };
+                return response;
+            }
+            catch (OracleException ex)
+            {
+                var errorResponse = new ResponseData<DM_Dich_Vu>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = new ResponseData<DM_Dich_Vu>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+        public async Task<ResponsePost> AddDM_Dich_VuAsync(DM_Dich_Vu data)
+        {
+            if (con.State == ConnectionState.Closed) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+
+            parameters.Add("v_DICHVU", data.DICHVU, OracleMappingType.NVarchar2);
+            parameters.Add("v_TENDICHVU", data.TENDICHVU, OracleMappingType.NVarchar2);
+            parameters.Add("v_PHANLOAI", data.PHANLOAI, OracleMappingType.Int32);
+            parameters.Add("v_GHICHU", data.GHICHU, OracleMappingType.NVarchar2);
+            parameters.Add("v_ACCOUNT", data.ACCOUNT, OracleMappingType.NVarchar2);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.ADD_CATEGORY_DICHVU",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch (OracleException ex)
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+
+
+        #endregion
+        #region Danh mục giá vốn
+        public async Task<ResponseData<GiaVonChuan>> GetCategoryGiaVonChuanAsync(int pageIndex, int pageSize, int account)
+        {
+            if (con.State == ConnectionState.Closed) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_ACCOUNT", account, OracleMappingType.Int32);
+            parameters.Add("v_PAGEINDEX", pageIndex, OracleMappingType.Int32);
+            parameters.Add("v_PAGESIZE", pageSize, OracleMappingType.Int32);
+            parameters.Add("v_TOTAL", dbType: OracleMappingType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.QueryAsync<GiaVonChuan>(
+                    "CATEGORY_PKG.GET_CATEGORY_GIAVONCHUAN",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                int total = parameters.Get<int>("v_TOTAL");
+
+                var response = new ResponseData<GiaVonChuan>
+                {
+                    code = "success",
+                    message = "Thành công",
+                    total = total,
+                    data = queryResult.ToList(),
+                };
+                return response;
+            }
+            catch (OracleException ex)
+            {
+                var errorResponse = new ResponseData<GiaVonChuan>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = new ResponseData<GiaVonChuan>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+        public async Task<ResponsePost> AddGiaVonChuanAsync(GiaVonChuan data)
+        {
+            if (con.State == ConnectionState.Closed) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+
+            parameters.Add("v_ACCOUNT", data.ACCOUNT, OracleMappingType.Int32);
+            parameters.Add("v_NOITINH", data.NOITINH, OracleMappingType.BinaryFloat);
+            parameters.Add("v_ETLNV", data.ETLNV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_ETLLV", data.ETLLV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_EHNNV", data.EHNNV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_EHNLV", data.EHNLV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_ENNNV", data.ENNNV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_ENNLV", data.ENNLV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_LONV", data.LONV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_LOLV", data.LOLV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_PHTNT", data.PHTNT, OracleMappingType.BinaryFloat);
+            parameters.Add("v_PHTLT", data.PHTLT, OracleMappingType.BinaryFloat);
+            parameters.Add("v_THOATHUAN", data.THOATHUAN, OracleMappingType.BinaryFloat);
+            parameters.Add("v_TTB", data.TTB, OracleMappingType.BinaryFloat);
+            parameters.Add("v_TTC", data.TTC, OracleMappingType.BinaryFloat);
+            parameters.Add("v_TTV", data.TTV, OracleMappingType.BinaryFloat);
+            parameters.Add("v_ECT", data.ECT, OracleMappingType.BinaryFloat);
+            parameters.Add("v_QUOCTE", data.QUOCTE, OracleMappingType.BinaryFloat);
+            parameters.Add("v_TUNGAY", data.TUNGAY, OracleMappingType.Int32);
+            parameters.Add("v_DENNGAY", data.DENNGAY, OracleMappingType.Int32);
+            parameters.Add("v_ACCOUNTEMAIL", data.ACCOUNTEMAIL, OracleMappingType.Varchar2);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.ADD_CATEGORY_GIAVONCHUAN",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch (OracleException ex)
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch (Exception ex)
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+        #endregion
     }
 }

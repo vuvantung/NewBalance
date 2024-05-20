@@ -1,0 +1,82 @@
+﻿@page "/Doi-Soat/CategoryDM_Dich_Vu"
+@attribute [Authorize(Policy = Permissions.CategoryBasePermisstion.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<DM_Dich_Vu> _localizer
+@using NewBalance.Domain.Entities.Doi_Soat.Category
+<HeroTitle Title="Danh mục" Description="Danh mục dịch vụ" />
+@if (_loaded)
+{
+    <MudGrid Spacing="2" Justify="Justify.Center">
+        <MudItem xs="12">
+            <MudTable T="DM_Dich_Vu" ServerData="@(new Func<TableState, Task<TableData<DM_Dich_Vu>>>(ServerReload))"
+                      MultiSelection="true" @bind-SelectedItems="selectedItems" 
+                      Dense="true" Hover="true" @ref="table"
+                      HorizontalScrollbar="true"
+                      CommitEditTooltip="Commit Edit"
+                      OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+                      RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="false" ApplyButtonPosition="TableApplyButtonPosition.End" EditButtonPosition="TableEditButtonPosition.End" EditTrigger="TableEditTrigger.EditButton">
+
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Danh mục dịch vụ</MudText>
+                    <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@_localizer["Create"]</MudButton>
+                  
+                    @if (selectedItems.Count() > 0)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Error" Class="ms-5" OnClick="(() => InvokeModalDelete())">Xóa</MudButton>
+                    }
+                    <MudSpacer />
+                    <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+
+                    
+                    <MudTh><MudTableSortLabel SortLabel="DICHVU" T="DM_Dich_Vu">Mã dịch vụ</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="TENDICHVU" T="DM_Dich_Vu">Tên dịch vụ</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="PHANLOAI" T="DM_Dich_Vu">Phân loại</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="GHICHU" T="DM_Dich_Vu">Ghi chú</MudTableSortLabel></MudTh>
+                   
+                </HeaderContent>
+                <RowTemplate>
+                   
+                    <MudTd DataLabel="DICHVU">@context.DICHVU</MudTd>
+                    <MudTd DataLabel="TENDICHVU">@context.TENDICHVU</MudTd>
+                    <MudTd DataLabel="PHANLOAI">@context.PHANLOAI</MudTd>
+                    <MudTd DataLabel="GHICHU">@context.GHICHU</MudTd>
+                    
+                </RowTemplate>
+                <RowEditingTemplate>
+                    
+                    <MudTd DataLabel="DICHVU">
+                        <MudTextField @bind-Value="@context.DICHVU" />
+                    </MudTd>
+                    <MudTd DataLabel="TENDICHVU">
+                        <MudTextField @bind-Value="@context.TENDICHVU" />
+                    </MudTd>
+                    <MudTd DataLabel="PHANLOAI">
+                        <MudTextField @bind-Value="@context.PHANLOAI" />
+                    </MudTd>
+                    <MudTd DataLabel="GHICHU">
+                        <MudTextField @bind-Value="@context.GHICHU" />
+                    </MudTd>
+                </RowEditingTemplate>
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+                <EditButtonContent Context="button">
+                    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+                </EditButtonContent>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
+}
+
+
+
+
+

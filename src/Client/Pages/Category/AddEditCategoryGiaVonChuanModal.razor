@@ -1,0 +1,81 @@
+﻿<EditForm Model="@AddEditGiaVonChuanModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Thêm mới dịch vụ
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditGiaVonChuanModel.ACCOUNT)" @bind-Value="AddEditGiaVonChuanModel.ACCOUNT" Label="ACCOUNT" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.NOITINH)" @bind-Value="AddEditGiaVonChuanModel.NOITINH" Label="NOITINH" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.ETLNV)" @bind-Value="AddEditGiaVonChuanModel.ETLNV" Label="ETLNV" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.ETLLV)" @bind-Value="AddEditGiaVonChuanModel.ETLLV" Label="ETLLV" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.EHNNV)" @bind-Value="AddEditGiaVonChuanModel.EHNNV" Label="EHNNV" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.EHNLV)" @bind-Value="AddEditGiaVonChuanModel.EHNLV" Label="EHNLV" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.ENNNV)" @bind-Value="AddEditGiaVonChuanModel.ENNNV" Label="ENNNV" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.ENNLV)" @bind-Value="AddEditGiaVonChuanModel.ENNLV" Label="ENNLV" />
+                </MudItem>
+                 <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.LONV)" @bind-Value="AddEditGiaVonChuanModel.LONV" Label="LONV" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.LOLV)" @bind-Value="AddEditGiaVonChuanModel.LOLV" Label="LOLV" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.PHTNT)" @bind-Value="AddEditGiaVonChuanModel.PHTNT" Label="PHTNT" />
+                </MudItem>
+                 <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.PHTLT)" @bind-Value="AddEditGiaVonChuanModel.PHTLT" Label="PHTLT" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.THOATHUAN)" @bind-Value="AddEditGiaVonChuanModel.THOATHUAN" Label="THOATHUAN" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.TTB)" @bind-Value="AddEditGiaVonChuanModel.TTB" Label="TTB" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.TTC)" @bind-Value="AddEditGiaVonChuanModel.TTC" Label="TTC" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.TTV)" @bind-Value="AddEditGiaVonChuanModel.TTV" Label="TTV" />
+                </MudItem>
+                 <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.ECT)" @bind-Value="AddEditGiaVonChuanModel.ECT" Label="ECT" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.QUOCTE)" @bind-Value="AddEditGiaVonChuanModel.QUOCTE" Label="QUOCTE" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.TUNGAY)" @bind-Value="AddEditGiaVonChuanModel.TUNGAY" Label="TUNGAY" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditGiaVonChuanModel.DENNGAY)" @bind-Value="AddEditGiaVonChuanModel.DENNGAY" Label="DENNGAY" />
+                </MudItem>
+                
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Hủy</MudButton>
+            <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">Lưu</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
