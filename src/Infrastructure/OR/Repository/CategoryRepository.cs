@@ -74,6 +74,10 @@ namespace NewBalance.Infrastructure.OR.Repository
                 };
                 return errorResponse;
             }
+            finally
+            {
+                await con.DisposeAsync();
+            }
         }
 
         public async Task<ResponseData<GiaVonChuan>> GetCategoryGiaVonChuanAsync( int pageIndex, int pageSize, int account )
@@ -121,6 +125,10 @@ namespace NewBalance.Infrastructure.OR.Repository
                     message = ex.Message
                 };
                 return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
             }
         }
 
@@ -170,12 +178,18 @@ namespace NewBalance.Infrastructure.OR.Repository
                 };
                 return errorResponse;
             }
+            finally
+            {
+                await con.DisposeAsync();
+            }
         }
 
-        public async Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int communeCode, int containVXHD )
+        public async Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int ProvinceCode, int DistrictCode, int communeCode, int containVXHD )
         {
             if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
             var parameters = new OracleDynamicParameters();
+            parameters.Add("v_PROVINCECODE", ProvinceCode, OracleMappingType.Int32);
+            parameters.Add("v_DISTRICTCODE", DistrictCode, OracleMappingType.Int32);
             parameters.Add("v_COMMUNECODE", communeCode, OracleMappingType.Int32);
             parameters.Add("v_CONTAINVXHD", containVXHD, OracleMappingType.Int32);
             parameters.Add("v_PAGEINDEX", pageIndex, OracleMappingType.Int32);
@@ -218,6 +232,10 @@ namespace NewBalance.Infrastructure.OR.Repository
                     message = ex.Message
                 };
                 return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
             }
         }
 
@@ -266,6 +284,10 @@ namespace NewBalance.Infrastructure.OR.Repository
                 };
                 return errorResponse;
             }
+            finally
+            {
+                await con.DisposeAsync();
+            }
         }
         public async Task<ResponseData<District>> GetCategoryDistrictAsync( int pageIndex, int pageSize, int ProvinceCode )
         {
@@ -312,6 +334,10 @@ namespace NewBalance.Infrastructure.OR.Repository
                     message = ex.Message
                 };
                 return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
             }
         }
 
@@ -361,17 +387,21 @@ namespace NewBalance.Infrastructure.OR.Repository
                 };
                 return errorResponse;
             }
+            finally
+            {
+                await con.DisposeAsync();
+            }
         }
 
         public async Task<ResponsePost> AddProvinceAsync( Province data )
         {
             if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
             var parameters = new OracleDynamicParameters();
-            parameters.Add("v_PROVINCECODE", data.PROVINCECODE, OracleMappingType.Int32);
-            parameters.Add("v_PROVINCENAME", data.PROVINCENAME, OracleMappingType.NVarchar2);
-            parameters.Add("v_DESCRIPTION", data.DESCRIPTION, OracleMappingType.NVarchar2);
-            parameters.Add("v_REGIONCODE", data.PROVINCENAME, OracleMappingType.Int32);
-            parameters.Add("v_PROVINCELISTCODE", data.PROVINCELISTCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_PROVINCECODE", data.PROVINCECODE, dbType: OracleMappingType.Int32);
+            parameters.Add("v_PROVINCENAME", data.PROVINCENAME, dbType: OracleMappingType.NVarchar2);
+            parameters.Add("v_DESCRIPTION", data.DESCRIPTION, dbType: OracleMappingType.NVarchar2);
+            parameters.Add("v_REGIONCODE", data.REGIONCODE, dbType: OracleMappingType.Int32);
+            parameters.Add("v_PROVINCELISTCODE", data.PROVINCELISTCODE, dbType: OracleMappingType.Varchar2, size: 500);
             parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
             parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
 
@@ -407,6 +437,10 @@ namespace NewBalance.Infrastructure.OR.Repository
                     message = ex.Message
                 };
                 return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
             }
         }
 
@@ -453,6 +487,10 @@ namespace NewBalance.Infrastructure.OR.Repository
                     message = ex.Message
                 };
                 return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
             }
         }
 
@@ -583,6 +621,50 @@ namespace NewBalance.Infrastructure.OR.Repository
                 var errorResponse = new ResponsePost
                 {
                     code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+
+        public async Task<ResponseData<MapProvinceDistrictCommune>> GetAllCategoryProvinceDistrictCommune()
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.QueryAsync<MapProvinceDistrictCommune>(
+                    "CATEGORY_PKG.GET_ALL_CATEGORY_PROVINCE_DISTRICT_COMMUNE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+     
+
+                var response = new ResponseData<MapProvinceDistrictCommune>
+                {
+                    code = "success",
+                    message = "Thành công",
+                    total = queryResult.Count(),
+                    data = queryResult.ToList(),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponseData<MapProvinceDistrictCommune>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponseData<MapProvinceDistrictCommune>
+                {
+                    code = "error",
                     message = ex.Message
                 };
                 return errorResponse;

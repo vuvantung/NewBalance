@@ -9,12 +9,13 @@ namespace NewBalance.Domain.Entities.Doi_Soat.Category
 {
     public class Commune
     {
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public string COMMUNECODE { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public string COMMUNENAME { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public string DISTRICTCODE { get; set; } = string.Empty;
         public string DISTRICTNAME { get; set; } = string.Empty;
+        public string EmailModified { get; set; } = string.Empty;
     }
 }

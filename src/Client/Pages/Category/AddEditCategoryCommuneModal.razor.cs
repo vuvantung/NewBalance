@@ -6,7 +6,7 @@ using MudBlazor;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category;
 using NewBalance.Client.Pages.Catalog;
 using NewBalance.Domain.Entities.Doi_Soat.Category;
-
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 
@@ -26,6 +26,7 @@ namespace NewBalance.Client.Pages.Category
         }
         private async Task SaveAsync()
         {
+            
             var response = await _categoryManager.AddCommuneAsync(AddEditCommuneModel);
             if ( response.code == "SUCCESS" )
             {

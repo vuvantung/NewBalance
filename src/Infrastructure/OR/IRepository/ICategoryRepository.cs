@@ -13,10 +13,11 @@ namespace NewBalance.Infrastructure.OR.IRepository
         Task<ResponseData<Account>> GetCategoryAccountAsync( int pageIndex, int pageSize, int account );
         Task<ResponseData<GiaVonChuan>> GetCategoryGiaVonChuanAsync( int pageIndex, int pageSize, int account );
         Task<ResponseData<GiaVonChuanNT>> GetCategoryGiaVonChuanNTAsync( int pageIndex, int pageSize, int account );
-        Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int communeCode, int containVXHD );
+        Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int ProvinceCode, int DistrictCode ,int communeCode, int containVXHD );
         Task<ResponseData<Province>> GetCategoryProvinceAsync( int pageIndex, int pageSize );
         Task<ResponseData<District>> GetCategoryDistrictAsync( int pageIndex, int pageSize , int ProvinceCode);
         Task<ResponseData<Commune>> GetCategoryCommuneAsync( int pageIndex, int pageSize , int DistrictCode );
+        Task<ResponseData<MapProvinceDistrictCommune>> GetAllCategoryProvinceDistrictCommune();
         Task<ResponsePost> AddProvinceAsync( Province data );
         Task<ResponsePost> AddDistrictAsync( District data );
         Task<ResponsePost> AddCommuneAsync( Commune data );

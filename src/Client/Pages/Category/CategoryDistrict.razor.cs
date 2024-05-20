@@ -14,12 +14,15 @@ using NewBalance.Application.Features.Products.Commands.AddEdit;
 using NewBalance.Client.Pages.Catalog;
 using NewBalance.Domain.Entities.Catalog;
 using ClosedXML.Report.Utils;
+using NewBalance.Application.Features.Doi_Soat;
+using NewBalance.Client.Shared.Dialogs;
 
 
 namespace NewBalance.Client.Pages.Category
 {
     public partial class CategoryDistrict
     {
+        [Parameter] public bool IsForPostOfficeCategory { get; set; } = false;
         [Parameter] public int ProvinceCode { get; set; } = 0;
         [Parameter] public string ProvinceName { get; set; } = string.Empty;
         [Parameter] public EventCallback<(int DistrictCode, string DistrictName)> DataChangedDistrict { get; set; }
@@ -46,21 +49,30 @@ namespace NewBalance.Client.Pages.Category
 
         private async Task<TableData<District>> ServerReload( TableState state )
         {
-            var res = await _categoryManager.GetCategoryDistrictAsync(state.Page, state.PageSize, ProvinceCode);
+            ResponseData<District> res = new ResponseData<District>();
+            if ( !IsForPostOfficeCategory )
+            {
+                res = await _categoryManager.GetCategoryDistrictAsync(state.Page, state.PageSize, ProvinceCode);
+            }
+            else
+            {
+                res = await _categoryManager.GetCategoryDistrictAsync(0, 9999, ProvinceCode);
+            }
             IEnumerable<District> data = res.data;
-
-            //data = data.Where(element =>
-            //{
-            //    if ( string.IsNullOrWhiteSpace(searchString) )
-            //        return true;
-            //    if ( element.Sign.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
-            //        return true;
-            //    if ( element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
-            //        return true;
-            //    if ( $"{element.Number} {element.Position} {element.Molar}".Contains(searchString) )
-            //        return true;
-            //    return false;
-            //}).ToArray();
+            data = data.Where(element =>
+            {
+                if ( string.IsNullOrWhiteSpace(searchString) )
+                    return true;
+                if ( element.PROVINCENAME.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.DESCRIPTION.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.DISTRICTNAME.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( $"{element.PROVINCECODE} {element.DISTRICTCODE}".Contains(searchString) )
+                    return true;
+                return false;
+            }).ToArray();
             totalItems = res.total;
             switch ( state.SortLabel )
             {
@@ -119,6 +131,31 @@ namespace NewBalance.Client.Pages.Category
             var districtName = tableRowClickEventArgs.Item.DISTRICTNAME.Trim();
             var newData = (districtCode, districtName);
             await DataChangedDistrict.InvokeAsync(newData);
+        }
+
+        private async Task InvokeModalDelete()
+        {
+            var request = new List<SingleUpdateRequest>();
+            foreach ( var item in selectedItems )
+            {
+                request.Add(new SingleUpdateRequest
+                {
+                    TABLENAME = "District",
+                    IDCOLUMNNAME = "DISTRICTCODE",
+                    IDCOLUMNVALUE = item.DISTRICTCODE.ToString(),
+                });
+            }
+            var parameters = new DialogParameters<DeleteDialog>();
+            parameters.Add(x => x.ContentText, "Các phường xã đã chọn sẽ bị xóa!");
+            parameters.Add(x => x.data, request);
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<DeleteDialog>("Xóa", parameters, options: options);
+            var result = await dialog.Result;
+
+            if ( result.Data.AsBool() == true )
+            {
+                await table.ReloadServerData();
+            }
         }
 
         private string SelectedRowClassFuncDistrict( District element, int rowNumber )

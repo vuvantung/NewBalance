@@ -1,0 +1,18 @@
+﻿@namespace NewBalance.Client.Shared.Dialogs
+@using NewBalance.Application.Features.Doi_Soat
+@using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
+@inject ICategoryManager _categoryMangager;
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Downloading" Class="mr-3 mb-n1" />
+            @ContentText
+        </MudText>
+    </TitleContent>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string ContentText { get; set; }
+}

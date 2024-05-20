@@ -22,7 +22,7 @@ using System.Net.Security;
 
 namespace NewBalance.Client.Pages.Category
 {
-    public partial class CategoryProvince
+    public partial class CategoryMapPostOffice
     {
         [Inject] private ICategoryManager _categoryManager { get; set; }
         [Inject] private IJSRuntime _jsRunTime { get; set; }
@@ -46,7 +46,7 @@ namespace NewBalance.Client.Pages.Category
 
         private async Task<TableData<Province>> ServerReload( TableState state )
         {
-            var res = await _categoryManager.GetCategoryProvinceAsync(state.Page, state.PageSize);
+            var res = await _categoryManager.GetCategoryProvinceAsync(0, 99999);
             IEnumerable<Province> data = res.data;
 
             data = data.Where(element =>
@@ -71,15 +71,6 @@ namespace NewBalance.Client.Pages.Category
                     break;
                 case "PROVINCENAME":
                     data = data.OrderByDirection(state.SortDirection, o => o.PROVINCENAME);
-                    break;
-                case "DESCRIPTION":
-                    data = data.OrderByDirection(state.SortDirection, o => o.DESCRIPTION);
-                    break;
-                case "REGIONCODE":
-                    data = data.OrderByDirection(state.SortDirection, o => o.REGIONCODE);
-                    break;
-                case "PROVINCELISTCODE":
-                    data = data.OrderByDirection(state.SortDirection, o => o.PROVINCELISTCODE);
                     break;
                 
             }

@@ -1,10 +1,7 @@
-﻿@page "/Doi-Soat/CategoryPostOffice"
+﻿
 @attribute [Authorize(Policy = Permissions.CategoryBasePermisstion.View)]
 @using NewBalance.Domain.Entities.Doi_Soat.Category
-@if ( IsLargeCategory)
-{
-    <HeroTitle Title="Danh mục" Description="Danh mục bưu cục" />
-}
+
 @if ( _loaded )
 {
     <MudTable ServerData="@(new Func<TableState, Task<TableData<PostOffice>>>(ServerReload))"
@@ -24,11 +21,11 @@
 
             @if ( IsLargeCategory)
             {
-                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Thêm VXHD</MudButton>
+                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5" Size="Size.Small">Tạo mới</MudButton>
             }
             else
             {
-                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
+                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5" Size="Size.Small">Thêm VXHD</MudButton>
             }
             <MudSpacer />
             <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"

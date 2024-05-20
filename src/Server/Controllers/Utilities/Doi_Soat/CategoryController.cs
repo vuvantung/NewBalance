@@ -71,11 +71,11 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
 
         [HttpGet]
         [Route("GetCategoryPostOffice")]
-        public async Task<IActionResult> GetCategoryPostOffice( int pageIndex, int pageSize, int communeCode, int containVXHD )
+        public async Task<IActionResult> GetCategoryPostOffice( int pageIndex, int pageSize, int ProvinceCode, int DistrictCode, int communeCode, int containVXHD )
         {
             try
             {
-                var response = await _categoryRepository.GetCategoryPostOfficeAsync(pageIndex, pageSize, communeCode, containVXHD);
+                var response = await _categoryRepository.GetCategoryPostOfficeAsync(pageIndex, pageSize, ProvinceCode, DistrictCode, communeCode, containVXHD);
                 return Ok(response);
             }
             catch ( Exception ex )
@@ -121,6 +121,21 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
             try
             {
                 var response = await _categoryRepository.GetCategoryCommuneAsync(pageIndex, pageSize, DistrictCode);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAllCategoryProvinceDistrictCommune")]
+        public async Task<IActionResult> GetAllCategoryProvinceDistrictCommune()
+        {
+            try
+            {
+                var response = await _categoryRepository.GetAllCategoryProvinceDistrictCommune();
                 return Ok(response);
             }
             catch ( Exception ex )

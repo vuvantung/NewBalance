@@ -10,16 +10,16 @@
         <DialogContent>
             <MudGrid>                
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditDistrictModel.DISTRICTCODE)" @bind-Value="AddEditDistrictModel.DISTRICTCODE" Label="DISTRICTCODE" />
+                    <MudTextField T="int" For="@(() => AddEditDistrictModel.DISTRICTCODE)" @bind-Value="AddEditDistrictModel.DISTRICTCODE" Label="Mã Quận/Huyện" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditDistrictModel.DISTRICTNAME)" @bind-Value="AddEditDistrictModel.DISTRICTNAME" Label="DISTRICTNAME" />
+                    <MudTextField T="string" For="@(() => AddEditDistrictModel.DISTRICTNAME)" @bind-Value="AddEditDistrictModel.DISTRICTNAME" Label="Tên Quận/Huyện" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditDistrictModel.DESCRIPTION)" @bind-Value="AddEditDistrictModel.DESCRIPTION" Label="DESCRIPTION" />
+                    <MudTextField T="string" For="@(() => AddEditDistrictModel.DESCRIPTION)" @bind-Value="AddEditDistrictModel.DESCRIPTION" Label="Mô tả" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditDistrictModel.PROVINCECODE)" @bind-Value="AddEditDistrictModel.PROVINCECODE" Label="PROVINCECODE" ReadOnly />
+                    <MudTextField T="int" For="@(() => AddEditDistrictModel.PROVINCECODE)" @bind-Value="AddEditDistrictModel.PROVINCECODE" Label="Mã tỉnh" ReadOnly />
                 </MudItem>
             </MudGrid>
         </DialogContent>

@@ -78,11 +78,11 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
             }
         }
 
-        public async Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int communeCode, int containVXHD )
+        public async Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync( int pageIndex, int pageSize, int ProvinceCode, int DistrictCode, int communeCode, int containVXHD )
         {
             try
             {
-                var response = await _httpClient.GetFromJsonAsync<ResponseData<PostOffice>>(Routes.CategoryEndpoints.GetCategoryPostOffice(pageIndex, pageSize, communeCode, containVXHD));
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<PostOffice>>(Routes.CategoryEndpoints.GetCategoryPostOffice(pageIndex, pageSize, ProvinceCode, DistrictCode, communeCode, containVXHD));
                 return response;
             }
             catch ( Exception ex )
@@ -231,6 +231,23 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
                 return new ResponsePost
                 {
                     code = "ERROR",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponseData<MapProvinceDistrictCommune>> GetAllCategoryProvinceDistrictCommuneAsync()
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<MapProvinceDistrictCommune>>(Routes.CategoryEndpoints.GetAllCategoryProvinceDistrictCommune());
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseData<MapProvinceDistrictCommune>
+                {
+                    code = "error",
                     message = $"Failed connect to API: {ex}"
                 };
             }

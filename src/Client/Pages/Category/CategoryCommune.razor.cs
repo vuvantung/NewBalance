@@ -14,12 +14,15 @@ using ClosedXML.Report.Utils;
 using NewBalance.Client.Shared.Dialogs;
 using NewBalance.Application.Features.Doi_Soat;
 using NewBalance.Shared.Wrapper;
+using System.Security.Claims;
+using NewBalance.Client.Extensions;
 
 
 namespace NewBalance.Client.Pages.Category
 {
     public partial class CategoryCommune
     {
+        [Parameter] public bool IsForPostOfficeCategory { get; set; } = false;
         [Parameter] public int DistrictCode { get; set; } = 0;
         [Parameter] public string DistrictName { get; set; } = string.Empty;
         [Parameter] public EventCallback<(int CommuneCode, string CommuneName)> DataChangedCommune { get; set; }
@@ -30,11 +33,14 @@ namespace NewBalance.Client.Pages.Category
         private int totalItems;
         private bool _loaded;
         private string searchString = null;
+        private ClaimsPrincipal _currentUser;
         protected async override Task OnParametersSetAsync()
         {
+            _currentUser = await _authenticationManager.CurrentUser();
             if ( _loaded )
             {
                 table.ReloadServerData();
+                
             }
             else
             {
@@ -45,21 +51,30 @@ namespace NewBalance.Client.Pages.Category
 
         private async Task<TableData<Commune>> ServerReload( TableState state )
         {
-            var res = await _categoryManager.GetCategoryCommuneAsync(state.Page, state.PageSize, DistrictCode);
+            ResponseData<Commune> res = new ResponseData<Commune>();
+            if(! IsForPostOfficeCategory )
+            {
+                res = await _categoryManager.GetCategoryCommuneAsync(state.Page, state.PageSize, DistrictCode);
+            }
+            else
+            {
+                res = await _categoryManager.GetCategoryCommuneAsync(0, 9999, DistrictCode);
+            }
             IEnumerable<Commune> data = res.data;
-
-            //data = data.Where(element =>
-            //{
-            //    if ( string.IsNullOrWhiteSpace(searchString) )
-            //        return true;
-            //    if ( element.Sign.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
-            //        return true;
-            //    if ( element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
-            //        return true;
-            //    if ( $"{element.Number} {element.Position} {element.Molar}".Contains(searchString) )
-            //        return true;
-            //    return false;
-            //}).ToArray();
+            data = data.Where(element =>
+            {
+                if ( string.IsNullOrWhiteSpace(searchString) )
+                    return true;
+                if ( element.COMMUNECODE.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.COMMUNENAME.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.DISTRICTCODE.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.DISTRICTNAME.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                return false;
+            }).ToArray();
             totalItems = res.total;
             switch ( state.SortLabel )
             {
@@ -97,8 +112,10 @@ namespace NewBalance.Client.Pages.Category
             var parameters = new DialogParameters();
             parameters.Add(nameof(AddEditCategoryCommuneModal.AddEditCommuneModel), new Commune
             {
-                DISTRICTCODE = DistrictCode.ToString()
-            });
+                DISTRICTCODE = DistrictCode.ToString(),
+                EmailModified = _currentUser.GetEmail()
+            }); ;
+;
             var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
             var dialog = _dialogService.Show<AddEditCategoryCommuneModal>("Tạo mới", parameters, options: options);
             var result = await dialog.Result;
@@ -118,7 +135,7 @@ namespace NewBalance.Client.Pages.Category
                 {
                     TABLENAME = "Commune",
                     IDCOLUMNNAME = "COMMUNECODE",
-                    IDCOLUMNVALUE = item.COMMUNENAME
+                    IDCOLUMNVALUE = item.COMMUNECODE
                 });
             }
             var parameters = new DialogParameters<DeleteDialog>();

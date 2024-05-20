@@ -9,12 +9,12 @@ namespace NewBalance.Domain.Entities.Doi_Soat.Category
 {
     public class District
     {
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public int DISTRICTCODE { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public string DISTRICTNAME { get; set; } = string.Empty;
         public string DESCRIPTION { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public int PROVINCECODE { get; set; }
         public string PROVINCENAME { get; set; } = string.Empty;
     }

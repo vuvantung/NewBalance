@@ -1,14 +1,14 @@
-﻿@page "/Doi-Soat/CategoryProvinceDistrictCommune"
+﻿@page "/Doi-Soat/CategoryPostOffice"
 @attribute [Authorize(Policy = Permissions.CategoryBasePermisstion.View)]
 @using NewBalance.Domain.Entities.Doi_Soat.Category
-<HeroTitle Title="Danh mục" Description="Danh mục quận, huyện, phường xã" />
+<HeroTitle Title="Danh mục" Description="Danh mục bưu cục" />
 @if ( _loaded )
 {
     <Row>
         <MudButton Variant="Variant.Filled" Color="Color.Success" Class="ms-5 mb-5" OnClick="(() => ExportToExcel())" StartIcon="@Icons.Custom.FileFormats.FileExcel">Xuất Excel </MudButton>
     </Row>
     <MudGrid Spacing="2" Justify="Justify.Center">
-        <MudItem xs="6">
+        <MudItem xs="4">
             <MudTable T="Province" ServerData="@(new Func<TableState, Task<TableData<Province>>>(ServerReload))"
                       MultiSelection="true" @bind-SelectedItems="selectedItems" SelectOnRowClick="false"
                       Dense="true" Hover="true" @ref="table"
@@ -17,11 +17,6 @@
                       RowClass="cursor-pointer" RowClassFunc="@SelectedRowClassFunc" OnRowClick="RowClickEvent" >
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Danh mục tỉnh</MudText>
-                    <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
-                    @if ( selectedItems.Count() > 0 )
-                    {
-                        <MudButton Variant="Variant.Filled" Color="Color.Error" Class="ms-5" OnClick="(() => InvokeModalDelete())">Xóa</MudButton>
-                    }
                     <MudSpacer />
                     <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
                                   AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
@@ -29,16 +24,12 @@
                 <HeaderContent>
                     <MudTh><MudTableSortLabel SortLabel="PROVINCECODE" T="Province">Mã tỉnh</MudTableSortLabel></MudTh>
                     <MudTh><MudTableSortLabel SortLabel="PROVINCENAME" T="Province">Tên tỉnh</MudTableSortLabel></MudTh>
-                    <MudTh><MudTableSortLabel SortLabel="DESCRIPTION" T="Province">Mô tả</MudTableSortLabel></MudTh>
-                    <MudTh><MudTableSortLabel SortLabel="REGIONCODE" T="Province">Mã khu vực</MudTableSortLabel></MudTh>
-                    <MudTh><MudTableSortLabel SortLabel="PROVINCELISTCODE" T="Province">Đầu mã chấp nhận</MudTableSortLabel></MudTh>
+                   
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd DataLabel="PROVINCECODE">@context.PROVINCECODE</MudTd>
                     <MudTd DataLabel="PROVINCENAME">@context.PROVINCENAME</MudTd>
-                    <MudTd DataLabel="DESCRIPTION">@context.DESCRIPTION</MudTd>
-                    <MudTd DataLabel="REGIONCODE">@context.REGIONCODE</MudTd>
-                    <MudTd DataLabel="PROVINCELISTCODE">@context.PROVINCELISTCODE</MudTd>
+                    
                 </RowTemplate>
                 <NoRecordsContent>
                     <MudText>No matching records found</MudText>
@@ -47,18 +38,18 @@
                     <MudText>Loading...</MudText>
                 </LoadingContent>
                 <PagerContent>
-                    <MudTablePager />
+                    
                 </PagerContent>
             </MudTable>
         </MudItem>
-        <MudItem xs="6">
-            <CategoryDistrict ProvinceCode="@ProvinceCode" ProvinceName="@ProvinceName" DataChangedDistrict="@HandleDataDistrict" IsForPostOfficeCategory="false"></CategoryDistrict>
+        <MudItem xs="4">
+            <CategoryDistrict ProvinceCode="@ProvinceCode" ProvinceName="@ProvinceName" DataChangedDistrict="@HandleDataDistrict" IsForPostOfficeCategory="true"></CategoryDistrict>
         </MudItem>
-        <MudItem xs="6">
-            <CategoryCommune DistrictCode="@DistrictCode" DistrictName="@DistrictName" DataChangedCommune="@HandleDataCommune" IsForPostOfficeCategory="false"></CategoryCommune>
+        <MudItem xs="4">
+            <CategoryCommune DistrictCode="@DistrictCode" DistrictName="@DistrictName" DataChangedCommune="@HandleDataCommune" IsForPostOfficeCategory="true"></CategoryCommune>
         </MudItem>
-        <MudItem xs="6">
-            <CategoryPostOffice CommuneCode="@CommuneCode" CommuneName="@CommuneName" ContainVXHD="Convert.ToInt32(1)" IsLargeCategory="false" ></CategoryPostOffice>
+        <MudItem xs="12">
+            <CategoryPostOffice ProvinceCode="@ProvinceCode" DistrictCode="@DistrictCode" CommuneCode="@CommuneCode" ContainVXHD="Convert.ToInt32(0)" IsLargeCategory="true"></CategoryPostOffice>
         </MudItem>
     </MudGrid>
     

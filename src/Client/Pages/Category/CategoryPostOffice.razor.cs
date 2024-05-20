@@ -11,16 +11,20 @@ using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
 using NewBalance.Domain.Entities.Doi_Soat.Filter;
 using NewBalance.Application.Features.Doi_Soat;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NewBalance.Client.Shared.Dialogs;
 
 
 namespace NewBalance.Client.Pages.Category
 {
     public partial class CategoryPostOffice
     {
+        [Parameter] public int ProvinceCode { get; set; } = 0;
+        [Parameter] public int DistrictCode { get; set; } = 0;
         [Parameter] public int CommuneCode { get; set; } = 0;
         [Parameter] public string CommuneName { get; set; } = string.Empty;
         [Parameter] public int ContainVXHD { get; set; } = 0;
         [Parameter] public bool IsLargeCategory { get; set; } = true;
+        private int lastDistrict { get;set; } = 0;
         [Inject] private IFilterManager _filterManager { get; set; }
         private IEnumerable<FilterData> _accountFilter;
         private string _account = "0";
@@ -34,47 +38,52 @@ namespace NewBalance.Client.Pages.Category
 
         protected async override Task OnParametersSetAsync()
         {
-            if(!IsLargeCategory )
+            if ( _loaded )
             {
-                if ( _loaded )
-                {
-                    table.ReloadServerData();
-                }
-                else
-                {
-                    _loaded = true;
-                }
+                await table.ReloadServerData();
             }
-            
-
-        }
-
-        protected override async Task OnInitializedAsync()
-        {
-            if( IsLargeCategory)
+            else
             {
                 _loaded = true;
             }
+
         }
 
 
         private async Task<TableData<PostOffice>> ServerReload( TableState state )
         {
-            var res = await _categoryManager.GetCategoryPostOfficeAsync(state.Page, state.PageSize, CommuneCode, ContainVXHD);
+            if( IsLargeCategory )
+            {
+                if ( DistrictCode != lastDistrict ) CommuneCode = 0;
+            }
+            var res = await _categoryManager.GetCategoryPostOfficeAsync(state.Page, state.PageSize, ProvinceCode, DistrictCode, CommuneCode, ContainVXHD);
+            lastDistrict = DistrictCode;
             IEnumerable<PostOffice> data = res.data;
 
-            //data = data.Where(element =>
-            //{
-            //    if ( string.IsNullOrWhiteSpace(searchString) )
-            //        return true;
-            //    if ( element.Sign.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
-            //        return true;
-            //    if ( element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
-            //        return true;
-            //    if ( $"{element.Number} {element.Position} {element.Molar}".Contains(searchString) )
-            //        return true;
-            //    return false;
-            //}).ToArray();
+            data = data.Where(element =>
+            {
+                if ( string.IsNullOrWhiteSpace(searchString) )
+                    return true;
+                if ( element.POSCODE.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.POSNAME.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.ADDRESS.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.POSTYPECODE.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.POSLEVELCODE.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.COMMUNECODE.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.UNITCODE.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( element.STATUS.Contains(searchString, StringComparison.OrdinalIgnoreCase) )
+                    return true;
+                if ( $"{element.PROVINCECODE}".Contains(searchString) )
+                    return true;
+                return false;
+            }).ToArray();
             totalItems = res.total;
             switch ( state.SortLabel )
             {
@@ -154,8 +163,31 @@ namespace NewBalance.Client.Pages.Category
                 CHANGECOLUMNNAME = "VX",
                 CHANGECOLUMNVALUE = (isChecked == true) ? "1" : "0"
             };
-            await _categoryManager.UpdateCategoryAsync(request);
-            await table.ReloadServerData();
+
+            var parameters = new DialogParameters();
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<CofirmDialog>("Cập nhật dữ liệu", parameters, options: options);
+            var result = await dialog.Result;
+
+            if ( !result.Cancelled )
+            {
+                var res = await _categoryManager.UpdateCategoryAsync(request);
+                if ( res.code == "SUCESSS" )
+                {
+                    await table.ReloadServerData();
+                    _snackBar.Add($"Cập nhật thành công", Severity.Success);
+                }
+                else
+                {
+                    _snackBar.Add($"Lỗi xử lý", Severity.Error);
+                }
+            }
+            else
+            {
+                _snackBar.Add($"Giữ nguyên thay đổi", Severity.Info);
+            }
+            
+            
         }
 
         private async Task HandleCheckedChangedHD( PostOffice item, bool isChecked )
@@ -168,8 +200,30 @@ namespace NewBalance.Client.Pages.Category
                 CHANGECOLUMNNAME = "VXHD",
                 CHANGECOLUMNVALUE = (isChecked == true) ? "1" : "0"
             };
-            await _categoryManager.UpdateCategoryAsync(request);
-            await table.ReloadServerData();
+            var parameters = new DialogParameters();
+            var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
+            var dialog = _dialogService.Show<CofirmDialog>("Cập nhật dữ liệu", parameters, options: options);
+            var result = await dialog.Result;
+
+            if ( !result.Cancelled )
+            {
+                var res = await _categoryManager.UpdateCategoryAsync(request);
+                if(res.code == "SUCESSS" )
+                {
+                    await table.ReloadServerData();
+                    _snackBar.Add($"Cập nhật thành công", Severity.Success);
+                }
+                else
+                {
+                    _snackBar.Add($"Lỗi xử lý", Severity.Error);
+                }
+                
+            }
+            else
+            {
+                _snackBar.Add($"Giữ nguyên thay đổi", Severity.Info);
+            }
+           
         }
 
     }

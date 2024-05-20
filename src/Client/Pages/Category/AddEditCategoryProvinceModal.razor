@@ -10,19 +10,19 @@
         <DialogContent>
             <MudGrid>                
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditProvinceModel.PROVINCECODE)" @bind-Value="AddEditProvinceModel.PROVINCECODE" Label="PROVINCECODE" />
+                    <MudTextField T="int" For="@(() => AddEditProvinceModel.PROVINCECODE)" @bind-Value="AddEditProvinceModel.PROVINCECODE" Label="Mã Tỉnh" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditProvinceModel.PROVINCENAME)" @bind-Value="AddEditProvinceModel.PROVINCENAME" Label="PROVINCENAME" />
+                    <MudTextField T="string" For="@(() => AddEditProvinceModel.PROVINCENAME)" @bind-Value="AddEditProvinceModel.PROVINCENAME" Label="Tên tỉnh" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditProvinceModel.DESCRIPTION)" @bind-Value="AddEditProvinceModel.DESCRIPTION" Label="DESCRIPTION" />
+                    <MudTextField T="string" For="@(() => AddEditProvinceModel.DESCRIPTION)" @bind-Value="AddEditProvinceModel.DESCRIPTION" Label="Mô tả" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" For="@(() => AddEditProvinceModel.REGIONCODE)" @bind-Value="AddEditProvinceModel.REGIONCODE" Label="REGIONCODE" />
+                    <MudTextField T="int" For="@(() => AddEditProvinceModel.REGIONCODE)" @bind-Value="AddEditProvinceModel.REGIONCODE" Label="Mã Khu Vực" />
                 </MudItem>
                 <MudItem xs="12" md="6">
-                    <MudTextField T="string" For="@(() => AddEditProvinceModel.PROVINCELISTCODE)" @bind-Value="AddEditProvinceModel.PROVINCELISTCODE" Label="PROVINCELISTCODE" />
+                    <MudTextField T="string" For="@(() => AddEditProvinceModel.PROVINCELISTCODE)" @bind-Value="AddEditProvinceModel.PROVINCELISTCODE" Label="Đầu Mã Chấp Nhận" />
                 </MudItem>
             </MudGrid>
         </DialogContent>
@@ -32,3 +32,4 @@
         </DialogActions>
     </MudDialog>
 </EditForm>
+

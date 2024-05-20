@@ -9,18 +9,18 @@ namespace NewBalance.Domain.Entities.Doi_Soat.Category
 {
     public class Account
     {
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public string ACCOUNTUSERNAME { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public string ACCOUNTPASS { get; set; } = string.Empty;
         public int ACCOUNTADMIN { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public string ACCOUNTNAME { get; set; } = string.Empty;
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public int ACCOUNTPOSTCODE { get; set; }
         public int ACCOUNTTYPE { get; set; }
         public string MUC_HH { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Trường này không được để trống")]
         public double MUCGIATRI { get; set; }
         public string VNPE { get; set; } = string.Empty;
 
