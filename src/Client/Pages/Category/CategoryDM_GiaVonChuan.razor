@@ -1,0 +1,163 @@
+﻿@page "/Doi-Soat/CategoryDM_GiaVonChuan"
+@attribute [Authorize(Policy = Permissions.CategoryBasePermisstion.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<GiaVonChuan> _localizer
+@using NewBalance.Domain.Entities.Doi_Soat.Category
+<HeroTitle Title="Danh mục" Description="Danh mục dịch vụ" />
+@if (_loaded)
+{
+    <MudGrid Spacing="2" Justify="Justify.Center">
+        <MudItem xs="12">
+            <MudTable T="GiaVonChuan" ServerData="@(new Func<TableState, Task<TableData<GiaVonChuan>>>(ServerReload))"
+                      MultiSelection="true" @bind-SelectedItems="selectedItems"
+                      Dense="true" Hover="true" @ref="table"
+                      HorizontalScrollbar="true"
+                      CommitEditTooltip="Commit Edit"
+                      OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+                      RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="false" ApplyButtonPosition="TableApplyButtonPosition.End" EditButtonPosition="TableEditButtonPosition.End" EditTrigger="TableEditTrigger.EditButton">
+
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Danh mục giá vốn</MudText>
+                    @* <MudSelect @bind-Value="_account" T="string" Label="Ngày" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter" SelectedValuesChanged="OnChangeSelect" Class="ms-5" Style="max-width: 200px">
+                        @foreach (var item in _accountFilter)
+                        {
+                            <MudSelectItem Value="@item.VALUE">@item.TEXT</MudSelectItem>
+                        }
+                    </MudSelect> *@
+                    <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface">@_localizer["Create"]</MudButton>
+
+                    @if (selectedItems.Count() > 0)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Error" Class="ms-5" OnClick="(() => InvokeModalDelete())">Xóa</MudButton>
+                    }
+
+                    <MudSpacer />
+                    <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh><MudTableSortLabel SortLabel="ACCOUNT" T="GiaVonChuan">ACCOUNT</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="NOITINH" T="GiaVonChuan">NOITINH</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="ETLNV" T="GiaVonChuan">ETLNV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="ETLLV" T="GiaVonChuan">ETLLV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="EHNNV" T="GiaVonChuan">EHNNV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="EHNLV" T="GiaVonChuan">EHNLV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="ENNNV" T="GiaVonChuan">ENNNV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="ENNLV" T="GiaVonChuan">ENNLV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="LONV" T="GiaVonChuan">LONV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="LOLV" T="GiaVonChuan">LOLV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="PHTNT" T="GiaVonChuan">PHTNT</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="PHTLT" T="GiaVonChuan">PHTLT</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="THOATHUAN" T="GiaVonChuan">THOATHUAN</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="TTB" T="GiaVonChuan">TTB</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="TTC" T="GiaVonChuan">TTC</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="TTV" T="GiaVonChuan">TTV</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="ECT" T="GiaVonChuan">ECT</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="QUOCTE" T="GiaVonChuan">QUOCTE</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="TUNGAY" T="GiaVonChuan">TUNGAY</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel SortLabel="DENNGAY" T="GiaVonChuan">DENNGAY</MudTableSortLabel></MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="ACCOUNT">@context.ACCOUNT</MudTd>
+                    <MudTd DataLabel="NOITINH">@context.NOITINH</MudTd>
+                    <MudTd DataLabel="ETLNV">@context.ETLNV</MudTd>
+                    <MudTd DataLabel="ETLLV">@context.ETLLV</MudTd>
+                    <MudTd DataLabel="EHNNV">@context.EHNNV</MudTd>
+                    <MudTd DataLabel="EHNLV">@context.EHNLV</MudTd>
+                    <MudTd DataLabel="ENNNV">@context.ENNNV</MudTd>
+                    <MudTd DataLabel="ENNLV">@context.ENNLV</MudTd>
+                    <MudTd DataLabel="LONV">@context.LONV</MudTd>
+                    <MudTd DataLabel="LOLV">@context.LOLV</MudTd>
+                    <MudTd DataLabel="PHTNT">@context.PHTNT</MudTd>
+                    <MudTd DataLabel="PHTLT">@context.PHTLT</MudTd>
+                    <MudTd DataLabel="THOATHUAN">@context.THOATHUAN</MudTd>
+                    <MudTd DataLabel="TTB">@context.TTB</MudTd>
+                    <MudTd DataLabel="TTC">@context.TTC</MudTd>
+                    <MudTd DataLabel="TTV">@context.TTV</MudTd>
+                    <MudTd DataLabel="ECT">@context.ECT</MudTd>
+                    <MudTd DataLabel="QUOCTE">@context.QUOCTE</MudTd>
+                    <MudTd DataLabel="TUNGAY">@context.TUNGAY</MudTd>
+                    <MudTd DataLabel="DENNGAY">@context.DENNGAY</MudTd>
+                </RowTemplate>
+                <RowEditingTemplate>
+                    <MudTd DataLabel="ACCOUNT">
+                        <MudTextField @bind-Value="@context.ACCOUNT" ReadOnly />
+                    </MudTd>
+                    <MudTd DataLabel="NOITINH">
+                        <MudTextField @bind-Value="@context.NOITINH" />
+                    </MudTd>
+                    <MudTd DataLabel="ETLNV">
+                        <MudTextField @bind-Value="@context.ETLNV" />
+                    </MudTd>
+                    <MudTd DataLabel="ETLLV">
+                        <MudTextField @bind-Value="@context.ETLLV" />
+                    </MudTd>
+                    <MudTd DataLabel="EHNNV">
+                        <MudTextField @bind-Value="@context.EHNNV" />
+                    </MudTd>
+                    <MudTd DataLabel="EHNLV">
+                        <MudTextField @bind-Value="@context.EHNLV" />
+                    </MudTd>
+                    <MudTd DataLabel="ENNNV">
+                        <MudTextField @bind-Value="@context.ENNNV" />
+                    </MudTd>
+                    <MudTd DataLabel="ENNLV">
+                        <MudTextField @bind-Value="@context.ENNLV" />
+                    </MudTd>
+                    <MudTd DataLabel="LONV">
+                        <MudTextField @bind-Value="@context.LONV" />
+                    </MudTd>
+                    <MudTd DataLabel="LOLV">
+                        <MudTextField @bind-Value="@context.LOLV" />
+                    </MudTd>
+                    <MudTd DataLabel="PHTNT">
+                        <MudTextField @bind-Value="@context.PHTNT" />
+                    </MudTd>
+                    <MudTd DataLabel="PHTLT">
+                        <MudTextField @bind-Value="@context.PHTLT" />
+                    </MudTd>
+                    <MudTd DataLabel="THOATHUAN">
+                        <MudTextField @bind-Value="@context.THOATHUAN" />
+                    </MudTd>
+                    <MudTd DataLabel="TTB">
+                        <MudTextField @bind-Value="@context.TTB" />
+                    </MudTd>
+                    <MudTd DataLabel="TTC">
+                        <MudTextField @bind-Value="@context.TTC" />
+                    </MudTd>
+                    <MudTd DataLabel="TTV">
+                        <MudTextField @bind-Value="@context.TTV" />
+                    </MudTd>
+                    <MudTd DataLabel="ECT">
+                        <MudTextField @bind-Value="@context.ECT" />
+                    </MudTd>
+                    <MudTd DataLabel="QUOCTE">
+                        <MudTextField @bind-Value="@context.QUOCTE" />
+                    </MudTd>
+                    <MudTd DataLabel="TUNGAY">
+                        <MudTextField @bind-Value="@context.TUNGAY" />
+                    </MudTd>
+                    <MudTd DataLabel="DENNGAY">
+                        <MudTextField @bind-Value="@context.DENNGAY" />
+                    </MudTd>
+                </RowEditingTemplate>
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+                <EditButtonContent Context="button">
+                    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+                </EditButtonContent>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
+}
+
+
+
+
+

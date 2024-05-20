@@ -9,7 +9,7 @@ namespace NewBalance.Client.Infrastructure.Routes
     public class CategoryEndpoints
     {
         public static string GetCategoryAccount ( int pageIndex, int pageSize, int account ) => $"api/Category/GetCategoryAccount?pageIndex={pageIndex}&pageSize={pageSize}&account={account}";
-        public static string GetCategoryGiaVonChuan ( int pageIndex, int pageSize, int account ) => $"api/Category/GetCategoryGiaVonChuan?pageIndex={pageIndex}&pageSize={pageSize}&account={account}";
+        public static string GetCategoryGiaVonChuan ( int pageIndex, int pageSize, int account ) => $"api/Category/CategoryDM_GiaVonChuan?pageIndex={pageIndex}&pageSize={pageSize}&account={account}";
         public static string GetCategoryGiaVonChuanNT ( int pageIndex, int pageSize, int account ) => $"api/Category/GetCategoryGiaVonChuanNT?pageIndex={pageIndex}&pageSize={pageSize}&account={account}";
         public static string GetCategoryPostOffice ( int pageIndex, int pageSize, int ProvinceCode, int DistrictCode, int communeCode, int containVXHD ) => $"api/Category/GetCategoryPostOffice?pageIndex={pageIndex}&pageSize={pageSize}&ProvinceCode={ProvinceCode}&DistrictCode={DistrictCode}&communeCode={communeCode}&containVXHD={containVXHD}";
         public static string GetCategoryProvince ( int pageIndex, int pageSize) => $"api/Category/GetCategoryProvince?pageIndex={pageIndex}&pageSize={pageSize}";
@@ -22,6 +22,9 @@ namespace NewBalance.Client.Infrastructure.Routes
         public static string AddPostOffice = "api/Category/AddPostOfficeEMS";
         public static string UpdateCategory = "api/Category/UpdateSingleData";
         public static string DeleteCategory = "api/Category/DeleteSingleData";
+        public static string GetCategoryDM_Dich_Vu(int pageIndex, int pageSize) => $"api/Category/GetCategoryDM_Dich_Vu?pageIndex={pageIndex}&pageSize={pageSize}";
+        public static string AddDM_Dich_Vu = "api/Category/AddDM_Dich_Vu";
+        public static string AddGiaVonChuan = "api/Category/AddGiaVonChuan";
 
     }
 }

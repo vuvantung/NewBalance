@@ -44,22 +44,7 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
 
         
 
-        public async Task<ResponseData<GiaVonChuan>> GetCategoryGiaVonChuanAsync( int pageIndex, int pageSize, int account )
-        {
-            try
-            {
-                var response = await _httpClient.GetFromJsonAsync<ResponseData<GiaVonChuan>>(Routes.CategoryEndpoints.GetCategoryGiaVonChuan(pageIndex, pageSize, account));
-                return response;
-            }
-            catch ( Exception ex )
-            {
-                return new ResponseData<GiaVonChuan>
-                {
-                    code = "error",
-                    message = $"Failed connect to API: {ex}"
-                };
-            }
-        }
+      
 
         public async Task<ResponseData<GiaVonChuanNT>> GetCategoryGiaVonChuanNTAsync( int pageIndex, int pageSize, int account )
         {
@@ -252,16 +237,38 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
                 };
             }
         }
-
-        public async Task<ResponsePost> AddPostOfficeAsync( PostOffice data )
+        #region Danh mục dịch vụ
+        public async Task<ResponseData<DM_Dich_Vu>> GetCategoryDM_Dich_VuAsync(int pageIndex, int pageSize, int account)
         {
             try
             {
-                var result = await _httpClient.PostAsJsonAsync(Routes.CategoryEndpoints.AddPostOffice, data);
+                //var link = "api/Category/GetCategoryDM_Dich_Vu?pageIndex=0&pageSize=10";
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<DM_Dich_Vu>>(Routes.CategoryEndpoints.GetCategoryDM_Dich_Vu(pageIndex, pageSize));
+
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                return new ResponseData<DM_Dich_Vu>
+                {
+                    code = "error",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+
+        public async Task<ResponsePost> AddDM_Dich_VuAsync(DM_Dich_Vu data)
+        {
+            try
+            {
+                var tes = (Routes.CategoryEndpoints.AddDM_Dich_Vu, data);
+                var result = await _httpClient.PostAsJsonAsync(Routes.CategoryEndpoints.AddDM_Dich_Vu, data);
                 var response = await result.Content.ReadFromJsonAsync<ResponsePost>();
                 return response;
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 return new ResponsePost
                 {
@@ -270,5 +277,46 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
                 };
             }
         }
+
+        #endregion
+
+        #region Danh mục giá vốn
+        public async Task<ResponseData<GiaVonChuan>> GetCategoryGiaVonChuanAsync(int pageIndex, int pageSize, int account)
+        {
+            try
+            {
+                var tes = Routes.CategoryEndpoints.GetCategoryGiaVonChuan(pageIndex, pageSize, account);
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<GiaVonChuan>>(Routes.CategoryEndpoints.GetCategoryGiaVonChuan(pageIndex, pageSize, account));
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseData<GiaVonChuan>
+                {
+                    code = "error",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponsePost> AddGiaVonChuanAsync(GiaVonChuan data)
+        {
+            try
+            {
+                var tes = (Routes.CategoryEndpoints.AddGiaVonChuan, data);
+                var result = await _httpClient.PostAsJsonAsync(Routes.CategoryEndpoints.AddGiaVonChuan, data);
+                var response = await result.Content.ReadFromJsonAsync<ResponsePost>();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new ResponsePost
+                {
+                    code = "ERROR",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+        #endregion
     }
 }

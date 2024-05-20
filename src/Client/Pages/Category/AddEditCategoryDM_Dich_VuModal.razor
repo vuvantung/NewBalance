@@ -1,0 +1,32 @@
+﻿<EditForm Model="@AddEditDM_Dich_VuModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Thêm mới dịch vụ
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditDM_Dich_VuModel.DICHVU)" @bind-Value="AddEditDM_Dich_VuModel.DICHVU" Label="Mã dịch vụ" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditDM_Dich_VuModel.TENDICHVU)" @bind-Value="AddEditDM_Dich_VuModel.TENDICHVU" Label="Tên dịch vụ" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditDM_Dich_VuModel.PHANLOAI)" @bind-Value="AddEditDM_Dich_VuModel.PHANLOAI" Label="Phân loại" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditDM_Dich_VuModel.GHICHU)" @bind-Value="AddEditDM_Dich_VuModel.GHICHU" Label="Ghi chú" />
+                </MudItem>
+                
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Hủy</MudButton>
+            <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">Lưu</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>

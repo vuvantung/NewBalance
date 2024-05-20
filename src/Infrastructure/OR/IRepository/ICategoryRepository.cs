@@ -24,5 +24,11 @@ namespace NewBalance.Infrastructure.OR.IRepository
         Task<ResponsePost> AddPostOfficeAsync( PostOffice data );
         Task<ResponsePost> UpdateCategoryAsync( SingleUpdateRequest data );
         Task<ResponsePost> DeleteCategoryAsync( SingleUpdateRequest data );
+
+        Task<ResponseData<DM_Dich_Vu>> GetCategoryDM_Dich_VuAsync(int pageIndex, int pageSize);
+
+        Task<ResponsePost> AddDM_Dich_VuAsync(DM_Dich_Vu data);
+
+        Task<ResponsePost> AddGiaVonChuanAsync(GiaVonChuan data);
     }
 }
