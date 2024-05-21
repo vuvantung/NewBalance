@@ -115,6 +115,7 @@ namespace NewBalance.Client.Pages.Category
                 var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Medium, FullWidth = true, DisableBackdropClick = true };
                 var dialog = _dialogService.Show<AddEditCategoryPostOfficeModal>("Tạo mới", parameters, options: options);
                 var result = await dialog.Result;
+
                 if ( !result.Cancelled )
                 {
                     await table.ReloadServerData();
