@@ -25,6 +25,10 @@ namespace NewBalance.Client.Infrastructure.Routes
         public static string GetCategoryDM_Dich_Vu(int pageIndex, int pageSize) => $"api/Category/GetCategoryDM_Dich_Vu?pageIndex={pageIndex}&pageSize={pageSize}";
         public static string AddDM_Dich_Vu = "api/Category/AddDM_Dich_Vu";
         public static string AddGiaVonChuan = "api/Category/AddGiaVonChuan";
+        public static string UpdatePostOffice = "api/Category/UpdatePostOffice";
+        public static string UpdateProvince = "api/Category/UpdateProvince";
+        public static string UpdateDistrict = "api/Category/UpdateDistrict";
+        public static string UpdateCommune = "api/Category/UpdateCommune";
 
     }
 }

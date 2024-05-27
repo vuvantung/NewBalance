@@ -335,5 +335,77 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
                 };
             }
         }
+
+        public async Task<ResponsePost> UpdatePostOfficeAsync( PostOffice data )
+        {
+            try
+            {
+                var result = await _httpClient.PostAsJsonAsync(Routes.CategoryEndpoints.UpdatePostOffice, data);
+                var response = await result.Content.ReadFromJsonAsync<ResponsePost>();
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponsePost
+                {
+                    code = "ERROR",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponsePost> UpdateProvinceAsync( Province data )
+        {
+            try
+            {
+                var result = await _httpClient.PostAsJsonAsync(Routes.CategoryEndpoints.UpdateProvince, data);
+                var response = await result.Content.ReadFromJsonAsync<ResponsePost>();
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponsePost
+                {
+                    code = "ERROR",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponsePost> UpdateDistrictAsync( District data )
+        {
+            try
+            {
+                var result = await _httpClient.PostAsJsonAsync(Routes.CategoryEndpoints.UpdateDistrict, data);
+                var response = await result.Content.ReadFromJsonAsync<ResponsePost>();
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponsePost
+                {
+                    code = "ERROR",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponsePost> UpdateCommuneAsync( Commune data )
+        {
+            try
+            {
+                var result = await _httpClient.PostAsJsonAsync(Routes.CategoryEndpoints.UpdateCommune, data);
+                var response = await result.Content.ReadFromJsonAsync<ResponsePost>();
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponsePost
+                {
+                    code = "ERROR",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
     }
 }

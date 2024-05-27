@@ -651,8 +651,8 @@ namespace NewBalance.Infrastructure.OR.Repository
 
                 var response = new ResponsePost
                 {
-                    code = "SUCCESS",
-                    message = "",
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
                 };
                 return response;
             }
@@ -875,6 +875,204 @@ namespace NewBalance.Infrastructure.OR.Repository
                 return errorResponse;
             }
             catch (Exception ex)
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+
+        public async Task<ResponsePost> UpdatePostOfficeAsync( PostOffice data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_POSCODE", data.POSCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_POSNAME", data.POSNAME, OracleMappingType.NVarchar2);
+            parameters.Add("v_ADDRESS", data.ADDRESS, OracleMappingType.NVarchar2);
+            parameters.Add("v_POSTYPECODE", data.POSTYPECODE, OracleMappingType.NVarchar2);
+            parameters.Add("v_PROVINCECODE", data.PROVINCECODE, OracleMappingType.Varchar2);
+            parameters.Add("v_POSLEVELCODE", data.POSLEVELCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_COMMUNECODE", data.COMMUNECODE, OracleMappingType.Varchar2);
+            parameters.Add("v_UNITCODE", data.UNITCODE, OracleMappingType.Varchar2);
+            parameters.Add("v_STATUS", data.STATUS, OracleMappingType.Int32);
+            parameters.Add("v_VX", data.VX, OracleMappingType.Int32);
+            parameters.Add("v_VXHD", data.VXHD, OracleMappingType.Int32);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.UPDATE_CATEGORY_POSTCODE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+        }
+
+        public async Task<ResponsePost> UpdateProvinceAsync( Province data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_PROVINCECODE", data.PROVINCECODE, dbType: OracleMappingType.Int32);
+            parameters.Add("v_PROVINCENAME", data.PROVINCENAME, dbType: OracleMappingType.NVarchar2);
+            parameters.Add("v_DESCRIPTION", data.DESCRIPTION, dbType: OracleMappingType.NVarchar2);
+            parameters.Add("v_REGIONCODE", data.REGIONCODE, dbType: OracleMappingType.Int32);
+            parameters.Add("v_PROVINCELISTCODE", data.PROVINCELISTCODE, dbType: OracleMappingType.Varchar2, size: 500);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.UPDATE_CATEGORY_PROVINCE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
+            }
+        }
+
+        public async Task<ResponsePost> UpdateDistrictAsync( District data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_DISTRICTCODE", data.DISTRICTCODE, OracleMappingType.Int32);
+            parameters.Add("v_DISTRICTNAME", data.DISTRICTNAME, OracleMappingType.NVarchar2);
+            parameters.Add("v_DESCRIPTION", data.DESCRIPTION, OracleMappingType.NVarchar2);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.UPDATE_CATEGORY_DISTRICT",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
+            }
+        }
+
+        public async Task<ResponsePost> UpdateCommuneAsync( Commune data )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_COMMUNECODE", data.COMMUNECODE, OracleMappingType.Varchar2);
+            parameters.Add("v_COMMUNENAME", data.COMMUNENAME, OracleMappingType.NVarchar2);
+            parameters.Add("v_CODE", dbType: OracleMappingType.Varchar2, size: 500, direction: ParameterDirection.Output);
+            parameters.Add("v_MESSAGE", dbType: OracleMappingType.NVarchar2, size: 1000, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.ExecuteAsync(
+                    "CATEGORY_PKG.UPDATE_CATEGORY_COMMUNE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+
+                var response = new ResponsePost
+                {
+                    code = parameters.Get<string>("v_CODE"),
+                    message = parameters.Get<string>("v_MESSAGE"),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponsePost
+                {
+                    code = "ERROR",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
             {
                 var errorResponse = new ResponsePost
                 {

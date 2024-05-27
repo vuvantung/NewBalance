@@ -30,5 +30,9 @@ namespace NewBalance.Infrastructure.OR.IRepository
         Task<ResponsePost> AddDM_Dich_VuAsync(DM_Dich_Vu data);
 
         Task<ResponsePost> AddGiaVonChuanAsync(GiaVonChuan data);
+        Task<ResponsePost> UpdatePostOfficeAsync( PostOffice data );
+        Task<ResponsePost> UpdateProvinceAsync( Province data );
+        Task<ResponsePost> UpdateDistrictAsync( District data );
+        Task<ResponsePost> UpdateCommuneAsync( Commune data );
     }
 }

@@ -39,6 +39,7 @@ namespace NewBalance.Client.Pages.Category
         private int totalItems;
         private bool _loaded;
         private string searchString = null;
+        private Province elementBeforeEdit;
         protected override async Task OnInitializedAsync()
         {
             _loaded = true;
@@ -263,6 +264,49 @@ namespace NewBalance.Client.Pages.Category
             }
            
             dialog.Close(); 
+        }
+
+        private void BackupItem( object element )
+        {
+            elementBeforeEdit = new()
+            {
+                PROVINCECODE = ((Province)element).PROVINCECODE,
+                PROVINCENAME = ((Province)element).PROVINCENAME,
+                DESCRIPTION = ((Province)element).DESCRIPTION,
+                REGIONCODE = ((Province)element).REGIONCODE,
+                PROVINCELISTCODE = ((Province)element).PROVINCELISTCODE
+            };
+
+        }
+
+        private async void ItemHasBeenCommitted( object element )
+        {
+            var request = new Province
+            {
+                PROVINCECODE = ((Province)element).PROVINCECODE,
+                PROVINCENAME = ((Province)element).PROVINCENAME,
+                DESCRIPTION = ((Province)element).DESCRIPTION,
+                REGIONCODE = ((Province)element).REGIONCODE,
+                PROVINCELISTCODE = ((Province)element).PROVINCELISTCODE
+            };
+            var response = await _categoryManager.UpdateProvinceAsync(request);
+            if ( response.code == "SUCCESS" )
+            {
+                _snackBar.Add("Cập nhật bưu cục thành công", Severity.Success);
+            }
+            else
+            {
+                _snackBar.Add(response.message, Severity.Error);
+            }
+        }
+
+        private void ResetItemToOriginalValues( object element )
+        {
+            ((Province)element).PROVINCECODE = elementBeforeEdit.PROVINCECODE;
+            ((Province)element).PROVINCENAME = elementBeforeEdit.PROVINCENAME;
+            ((Province)element).DESCRIPTION = elementBeforeEdit.DESCRIPTION;
+            ((Province)element).REGIONCODE = elementBeforeEdit.REGIONCODE;
+            ((Province)element).PROVINCELISTCODE = elementBeforeEdit.PROVINCELISTCODE;
         }
     }
 

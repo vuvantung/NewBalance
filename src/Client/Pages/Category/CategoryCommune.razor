@@ -3,6 +3,9 @@
 {
     <MudTable T="Commune" ServerData="@(new Func<TableState, Task<TableData<Commune>>>(ServerReload))"
               MultiSelection="true" @bind-SelectedItems="selectedItems" SelectOnRowClick="false"
+              CanCancelEdit="true" CommitEditTooltip="Lưu"
+              RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+              RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="false" ApplyButtonPosition="TableApplyButtonPosition.End" EditButtonPosition="TableEditButtonPosition.End" EditTrigger="TableEditTrigger.EditButton"
               Dense="true" Hover="true" @ref="table"
               FixedHeader="true" FixedFooter="true" Height="400px"
               HorizontalScrollbar="true"
@@ -40,6 +43,20 @@
                 <MudTd DataLabel="DISTRICTNAME">@context.DISTRICTNAME</MudTd>
             }
         </RowTemplate>
+        <RowEditingTemplate>
+            <MudTd DataLabel="COMMUNECODE">
+                <MudTextField @bind-Value="@context.COMMUNECODE" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="COMMUNENAME">
+                <MudTextField @bind-Value="@context.COMMUNENAME" />
+            </MudTd>
+            <MudTd DataLabel="DISTRICTCODE">
+                <MudTextField @bind-Value="@context.DISTRICTCODE" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="DISTRICTNAME">
+                <MudTextField @bind-Value="@context.DISTRICTNAME" ReadOnly />
+            </MudTd>
+        </RowEditingTemplate>
         <NoRecordsContent>
             <MudText>No matching records found</MudText>
         </NoRecordsContent>
@@ -52,6 +69,12 @@
                 <MudTablePager />
             }
         </PagerContent>
+        <EditButtonContent Context="button">
+            @if ( !IsForPostOfficeCategory )
+            {
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+            }
+        </EditButtonContent>
     </MudTable>
 
 }

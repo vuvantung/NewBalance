@@ -34,6 +34,8 @@ namespace NewBalance.Client.Pages.Category
         private bool _loaded;
         private string searchString = null;
         private ClaimsPrincipal _currentUser;
+        private Commune elementBeforeEdit;
+        private bool isEditting = false;
         protected async override Task OnParametersSetAsync()
         {
             _currentUser = await _authenticationManager.CurrentUser();
@@ -153,10 +155,57 @@ namespace NewBalance.Client.Pages.Category
 
         private async Task RowClickEventCommune( TableRowClickEventArgs<Commune> tableRowClickEventArgs )
         {
-            var communeCode = Convert.ToInt32(tableRowClickEventArgs.Item.COMMUNECODE);
-            var communeName = tableRowClickEventArgs.Item.COMMUNENAME.Trim();
-            var newData = (communeCode, communeName);
-            await DataChangedCommune.InvokeAsync(newData);
+            if ( !isEditting )
+            {
+                var communeCode = Convert.ToInt32(tableRowClickEventArgs.Item.COMMUNECODE);
+                var communeName = tableRowClickEventArgs.Item.COMMUNENAME.Trim();
+                var newData = (communeCode, communeName);
+                await DataChangedCommune.InvokeAsync(newData);
+            }
+            
+        }
+
+        private void BackupItem( object element )
+        {
+            elementBeforeEdit = new()
+            {
+                COMMUNECODE = ((Commune)element).COMMUNECODE,
+                COMMUNENAME = ((Commune)element).COMMUNENAME,
+                DISTRICTCODE = ((Commune)element).DISTRICTCODE,
+                DISTRICTNAME = ((Commune)element).DISTRICTNAME,
+            };
+            isEditting = true;
+        }
+
+        private async void ItemHasBeenCommitted( object element )
+        {
+            var request = new Commune
+            {
+                COMMUNECODE = ((Commune)element).COMMUNECODE,
+                COMMUNENAME = ((Commune)element).COMMUNENAME,
+                DISTRICTCODE = ((Commune)element).DISTRICTCODE,
+                DISTRICTNAME = ((Commune)element).DISTRICTNAME
+            };
+            var response = await _categoryManager.UpdateCommuneAsync(request);
+            if ( response.code == "SUCCESS" )
+            {
+                _snackBar.Add("Cập nhật thành công", Severity.Success);
+                
+            }
+            else
+            {
+                _snackBar.Add(response.message, Severity.Error);
+            }
+            isEditting = false;
+        }
+
+        private void ResetItemToOriginalValues( object element )
+        {
+            ((Commune)element).COMMUNECODE = elementBeforeEdit.COMMUNECODE;
+            ((Commune)element).COMMUNENAME = elementBeforeEdit.COMMUNENAME;
+            ((Commune)element).DISTRICTCODE = elementBeforeEdit.DISTRICTCODE;
+            ((Commune)element).DISTRICTNAME = elementBeforeEdit.DISTRICTNAME;
+            isEditting = false;
         }
     }
 

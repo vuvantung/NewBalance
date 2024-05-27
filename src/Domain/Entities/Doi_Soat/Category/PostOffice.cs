@@ -29,8 +29,7 @@ namespace NewBalance.Domain.Entities.Doi_Soat.Category
         public string COMMUNECODE { get; set; }
         [StringLength(6, ErrorMessage = "Không được quá 6 kí tự")]
         public string UNITCODE { get; set; }
-        [StringLength(1, ErrorMessage = "Không được quá 1 kí tự")]
-        public string STATUS { get; set; }
+        public string STATUS { get; set; } = "0";
         public bool VX { get; set; } 
         public bool VXHD { get; set; }
         //public bool isVX { get => isVX; set => isVX = (VX == 1) ? true : false; }

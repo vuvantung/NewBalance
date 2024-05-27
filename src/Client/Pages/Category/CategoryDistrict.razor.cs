@@ -34,6 +34,8 @@ namespace NewBalance.Client.Pages.Category
         private int totalItems;
         private bool _loaded;
         private string searchString = null;
+        private bool isEditting = false;
+        private District elementBeforeEdit;
         protected async override Task OnParametersSetAsync()
         {
             if ( _loaded )
@@ -127,10 +129,14 @@ namespace NewBalance.Client.Pages.Category
 
         private async Task RowClickEventDistrict( TableRowClickEventArgs<District> tableRowClickEventArgs )
         {
-            var districtCode = tableRowClickEventArgs.Item.DISTRICTCODE;
-            var districtName = tableRowClickEventArgs.Item.DISTRICTNAME.Trim();
-            var newData = (districtCode, districtName);
-            await DataChangedDistrict.InvokeAsync(newData);
+            if ( !isEditting )
+            {
+                var districtCode = tableRowClickEventArgs.Item.DISTRICTCODE;
+                var districtName = tableRowClickEventArgs.Item.DISTRICTNAME.Trim();
+                var newData = (districtCode, districtName);
+                await DataChangedDistrict.InvokeAsync(newData);
+            }
+            
         }
 
         private async Task InvokeModalDelete()
@@ -174,6 +180,51 @@ namespace NewBalance.Client.Pages.Category
             {
                 return string.Empty;
             }
+        }
+
+        private void BackupItem( object element )
+        {
+            elementBeforeEdit = new()
+            {
+                DISTRICTCODE = ((District)element).DISTRICTCODE,
+                DISTRICTNAME = ((District)element).DISTRICTNAME,
+                DESCRIPTION = ((District)element).DESCRIPTION,
+                PROVINCECODE = ((District)element).PROVINCECODE,
+                PROVINCENAME = ((District)element).PROVINCENAME
+            };
+            isEditting = true;
+        }
+
+        private async void ItemHasBeenCommitted( object element )
+        {
+            var request = new District
+            {
+                DISTRICTCODE = ((District)element).DISTRICTCODE,
+                DISTRICTNAME = ((District)element).DISTRICTNAME,
+                DESCRIPTION = ((District)element).DESCRIPTION,
+                PROVINCECODE = ((District)element).PROVINCECODE,
+                PROVINCENAME = ((District)element).PROVINCENAME
+            };
+            var response = await _categoryManager.UpdateDistrictAsync(request);
+            if ( response.code == "SUCCESS" )
+            {
+                _snackBar.Add("Cập nhật thành công", Severity.Success);
+            }
+            else
+            {
+                _snackBar.Add(response.message, Severity.Error);
+            }
+            isEditting = false;
+        }
+
+        private void ResetItemToOriginalValues( object element )
+        {
+            ((District)element).DISTRICTCODE = elementBeforeEdit.DISTRICTCODE;
+            ((District)element).DISTRICTNAME = elementBeforeEdit.DISTRICTNAME;
+            ((District)element).DESCRIPTION = elementBeforeEdit.DESCRIPTION;
+            ((District)element).PROVINCECODE = elementBeforeEdit.PROVINCECODE;
+            ((District)element).PROVINCENAME = elementBeforeEdit.PROVINCENAME;
+            isEditting = false;
         }
 
     }

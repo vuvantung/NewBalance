@@ -282,5 +282,65 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
             }
         }
 
+        [HttpPost]
+        [Route("UpdatePostOffice")]
+        public async Task<IActionResult> UpdatePostOffice( PostOffice data )
+        {
+            try
+            {
+                var response = await _categoryRepository.UpdatePostOfficeAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateProvince")]
+        public async Task<IActionResult> UpdateProvince( Province data )
+        {
+            try
+            {
+                var response = await _categoryRepository.UpdateProvinceAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateDistrict")]
+        public async Task<IActionResult> UpdateDistrict( District data )
+        {
+            try
+            {
+                var response = await _categoryRepository.UpdateDistrictAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("UpdateCommune")]
+        public async Task<IActionResult> UpdateCommune( Commune data )
+        {
+            try
+            {
+                var response = await _categoryRepository.UpdateCommuneAsync(data);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
     }
 }

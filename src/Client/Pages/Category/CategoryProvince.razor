@@ -11,6 +11,9 @@
         <MudItem xs="6">
             <MudTable T="Province" ServerData="@(new Func<TableState, Task<TableData<Province>>>(ServerReload))"
                       MultiSelection="true" @bind-SelectedItems="selectedItems" SelectOnRowClick="false"
+                      CanCancelEdit="true" CommitEditTooltip="Lưu"
+                      RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+                      RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="false" ApplyButtonPosition="TableApplyButtonPosition.End" EditButtonPosition="TableEditButtonPosition.End" EditTrigger="TableEditTrigger.EditButton"
                       Dense="true" Hover="true" @ref="table"
                       FixedHeader="true" FixedFooter="true" Height="400px"
                       HorizontalScrollbar="true"
@@ -40,6 +43,23 @@
                     <MudTd DataLabel="REGIONCODE">@context.REGIONCODE</MudTd>
                     <MudTd DataLabel="PROVINCELISTCODE">@context.PROVINCELISTCODE</MudTd>
                 </RowTemplate>
+                <RowEditingTemplate>
+                    <MudTd DataLabel="PROVINCECODE">
+                        <MudTextField @bind-Value="@context.PROVINCECODE" ReadOnly />
+                    </MudTd>
+                    <MudTd DataLabel="PROVINCENAME">
+                        <MudTextField @bind-Value="@context.PROVINCENAME" />
+                    </MudTd>
+                    <MudTd DataLabel="DESCRIPTION">
+                        <MudTextField @bind-Value="@context.DESCRIPTION" />
+                    </MudTd>
+                    <MudTd DataLabel="REGIONCODE">
+                        <MudTextField @bind-Value="@context.REGIONCODE" MaxLength="1" />
+                    </MudTd>
+                    <MudTd DataLabel="PROVINCELISTCODE">
+                        <MudTextField @bind-Value="@context.PROVINCELISTCODE" ReadOnly />
+                    </MudTd>
+                </RowEditingTemplate>
                 <NoRecordsContent>
                     <MudText>No matching records found</MudText>
                 </NoRecordsContent>
@@ -49,6 +69,9 @@
                 <PagerContent>
                     <MudTablePager />
                 </PagerContent>
+                <EditButtonContent Context="button">
+                    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+                </EditButtonContent>
             </MudTable>
         </MudItem>
         <MudItem xs="6">

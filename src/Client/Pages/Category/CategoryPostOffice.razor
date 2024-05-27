@@ -5,6 +5,9 @@
 @if ( _loaded )
 {
     <MudTable ServerData="@(new Func<TableState, Task<TableData<PostOffice>>>(ServerReload))"
+              CanCancelEdit="true" CommitEditTooltip="Lưu"
+              RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+              RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="false" ApplyButtonPosition="TableApplyButtonPosition.End" EditButtonPosition="TableEditButtonPosition.End" EditTrigger="TableEditTrigger.EditButton"
               MultiSelection="true" @bind-SelectedItems="selectedItems"
               FixedHeader="true" FixedFooter="true" Height="400px"
               Dense="true" Hover="true" @ref="table"
@@ -29,7 +32,7 @@
             }
             else
             {
-                <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5" Size="Size.Small">Thêm VXHD</MudButton>
+                @* <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5" Size="Size.Small">Thêm VXHD</MudButton> *@
             }
             <MudSpacer />
             <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
@@ -44,7 +47,6 @@
             <MudTh><MudTableSortLabel SortLabel="POSLEVELCODE" T="PostOffice">Cấp bưu cục</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortLabel="COMMUNECODE" T="PostOffice">Mã phường xã</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortLabel="UNITCODE" T="PostOffice">Mã đơn vị</MudTableSortLabel></MudTh>
-            <MudTh><MudTableSortLabel SortLabel="STATUS" T="PostOffice">Trạng thái</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortLabel="VX" T="PostOffice">Vùng xa</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel SortLabel="VXHD" T="PostOffice">Hải đảo</MudTableSortLabel></MudTh>
         </HeaderContent>
@@ -57,10 +59,41 @@
             <MudTd DataLabel="POSLEVELCODE">@context.POSLEVELCODE</MudTd>
             <MudTd DataLabel="COMMUNECODE">@context.COMMUNECODE</MudTd>
             <MudTd DataLabel="UNITCODE">@context.UNITCODE</MudTd>
-            <MudTd DataLabel="STATUS">@context.STATUS</MudTd>
             <MudTd DataLabel="VX"><MudCheckBox T="bool" Checked="@context.VX" Color="Color.Secondary" CheckedChanged="@(c=>HandleCheckedChangedVX(context, c))"/></MudTd>
             <MudTd DataLabel="VXHD"><MudCheckBox T="bool" Checked="@context.VXHD" Color="Color.Secondary" CheckedChanged="@(c=>HandleCheckedChangedHD(context, c))" /></MudTd>
         </RowTemplate>
+        <RowEditingTemplate>
+            <MudTd DataLabel="POSCODE">
+                <MudTextField @bind-Value="@context.POSCODE" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="POSNAME">
+                <MudTextField @bind-Value="@context.POSNAME" />
+            </MudTd>
+            <MudTd DataLabel="ADDRESS">
+                <MudTextField @bind-Value="@context.ADDRESS" />
+            </MudTd>
+            <MudTd DataLabel="POSTYPECODE">
+                <MudTextField @bind-Value="@context.POSTYPECODE" MaxLength="2" />
+            </MudTd>
+            <MudTd DataLabel="PROVINCECODE">
+                <MudTextField @bind-Value="@context.PROVINCECODE" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="POSLEVELCODE">
+                <MudTextField @bind-Value="@context.POSLEVELCODE" MaxLength="3" Required />
+            </MudTd>
+            <MudTd DataLabel="COMMUNECODE">
+                <MudTextField @bind-Value="@context.COMMUNECODE" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="UNITCODE">
+                <MudTextField @bind-Value="@context.UNITCODE" ReadOnly />
+            </MudTd>
+            <MudTd DataLabel="VX">
+                <MudCheckBox T="bool" Checked="@context.VX" Color="Color.Secondary" />
+            </MudTd>
+            <MudTd DataLabel="VXHD">
+                <MudCheckBox T="bool" Checked="@context.VXHD" Color="Color.Secondary"/>
+            </MudTd>
+        </RowEditingTemplate>
         <NoRecordsContent>
             <MudText>No matching records found</MudText>
         </NoRecordsContent>
@@ -70,6 +103,9 @@
         <PagerContent>
             <MudTablePager />
         </PagerContent>
+        <EditButtonContent Context="button">
+            <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+        </EditButtonContent>
     </MudTable>
 }
 

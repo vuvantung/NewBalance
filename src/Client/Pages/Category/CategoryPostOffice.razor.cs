@@ -36,6 +36,7 @@ namespace NewBalance.Client.Pages.Category
         private int totalItems;
         private bool _loaded;
         private string searchString = null;
+        private PostOffice elementBeforeEdit;
 
         protected async override Task OnParametersSetAsync()
         {
@@ -271,6 +272,65 @@ namespace NewBalance.Client.Pages.Category
                 _snackBar.Add($"Giữ nguyên thay đổi", Severity.Info);
             }
            
+        }
+
+
+        private void BackupItem( object element )
+        {
+            elementBeforeEdit = new()
+            {
+                POSCODE = ((PostOffice)element).POSCODE,
+                POSNAME = ((PostOffice)element).POSNAME,
+                ADDRESS = ((PostOffice)element).ADDRESS,
+                POSTYPECODE = ((PostOffice)element).POSTYPECODE,
+                PROVINCECODE = ((PostOffice)element).PROVINCECODE,
+                POSLEVELCODE = ((PostOffice)element).POSLEVELCODE,
+                COMMUNECODE = ((PostOffice)element).COMMUNECODE,
+                UNITCODE = ((PostOffice)element).UNITCODE,
+                VX = ((PostOffice)element).VX,
+                VXHD = ((PostOffice)element).VXHD,
+            };
+
+        }
+
+        private async void ItemHasBeenCommitted( object element )
+        {
+            var request = new PostOffice
+            {
+                POSCODE = ((PostOffice)element).POSCODE,
+                POSNAME = ((PostOffice)element).POSNAME,
+                ADDRESS = ((PostOffice)element).ADDRESS,
+                POSTYPECODE = ((PostOffice)element).POSTYPECODE,
+                PROVINCECODE = ((PostOffice)element).PROVINCECODE,
+                POSLEVELCODE = ((PostOffice)element).POSLEVELCODE,
+                COMMUNECODE = ((PostOffice)element).COMMUNECODE,
+                UNITCODE = ((PostOffice)element).UNITCODE,
+                VX = ((PostOffice)element).VX,
+                VXHD = ((PostOffice)element).VXHD
+            };
+            var response = await _categoryManager.UpdatePostOfficeAsync(request);
+            if ( response.code == "SUCCESS" )
+            {
+                _snackBar.Add("Cập nhật bưu cục thành công", Severity.Success);
+            }
+            else
+            {
+                _snackBar.Add(response.message, Severity.Error);
+            }
+        }
+        
+        private void ResetItemToOriginalValues( object element )
+        {
+            ((PostOffice)element).POSCODE = elementBeforeEdit.POSCODE;
+            ((PostOffice)element).POSNAME = elementBeforeEdit.POSNAME;
+            ((PostOffice)element).ADDRESS = elementBeforeEdit.ADDRESS;
+            ((PostOffice)element).POSTYPECODE = elementBeforeEdit.POSTYPECODE;
+            ((PostOffice)element).PROVINCECODE = elementBeforeEdit.PROVINCECODE;
+            ((PostOffice)element).POSLEVELCODE = elementBeforeEdit.POSLEVELCODE;
+            ((PostOffice)element).COMMUNECODE = elementBeforeEdit.COMMUNECODE;
+            ((PostOffice)element).UNITCODE = elementBeforeEdit.UNITCODE;
+            ((PostOffice)element).VX = elementBeforeEdit.VX;
+            ((PostOffice)element).VXHD = elementBeforeEdit.VXHD;
         }
 
     }
