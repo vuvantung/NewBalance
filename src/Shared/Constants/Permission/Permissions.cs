@@ -162,6 +162,11 @@ namespace NewBalance.Shared.Constants.Permission
         {
             public const string View = "Permissions.CategoryBasePermisstion.View";
         }
+
+        public static class TrackingPermisstion
+        {
+            public const string View = "Permissions.TrackingPermisstion.View";
+        }
         #endregion
         //----------------------------------------------------------------------
         /// <summary>

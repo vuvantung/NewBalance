@@ -59,6 +59,7 @@ namespace NewBalance.Server
             services.AddScoped<IFilterRepository, FilterRepository>();
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ITrackingRepository, TrackingRepository>();
             
             #endregion
 

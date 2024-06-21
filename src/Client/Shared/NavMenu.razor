@@ -176,14 +176,20 @@
             }
         </MudNavGroup>
     } *@
+    
+
 
     @if (_canViewChat)
     {
         <MudNavGroup Title="Giao tiếp" @bind-Expanded=_isExpanded_Communication>
             <MudNavLink Href="/chat" Icon="@Icons.Material.Outlined.Chat">Chat</MudNavLink>                
         </MudNavGroup>        
-    }    
+    }
     
+    @if ( _canTrackingDs )
+    {
+        <MudNavLink Href="/dinh-vi" Icon="@Icons.Material.Outlined.Search">Tra cứu bưu gửi</MudNavLink>
+    }
 </MudNavMenu>
 
 @code {
@@ -209,6 +215,7 @@
     private bool _canViewDS_XLDL;
     private bool _canViewReportDs;
     private bool _canViewCategoryDs;
+    private bool _canTrackingDs;
 
     #region
     bool _isExpanded_DS_XLDL = true;
@@ -246,6 +253,7 @@
         _canViewDS_XLDL = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.DS_Xu_Ly_Du_Lieu.View)).Succeeded;
         _canViewReportDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.ReportBasePermisstion.View)).Succeeded;
         _canViewCategoryDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.CategoryBasePermisstion.View)).Succeeded;
+        _canTrackingDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.TrackingPermisstion.View)).Succeeded;
 
     }
 }
