@@ -2,9 +2,25 @@
 @attribute [Authorize(Policy = Permissions.TrackingPermisstion.View)]
 <HeroTitle Title="Định vị" Description="Tra cứu bưu gửi" />
 
-<MudTextField Label="Mã E1" Variant="Variant.Text" @bind-Value="@ItemCode">
-</MudTextField>
-<MudButton Variant="Variant.Filled" Color="Color.Success" Class="mb-5 mt-5" OnClick="Tracking">Tra cứu</MudButton>
+<MudSelect @bind-Value="_typeTracking" T="int" Label="Chọn loại trả cứu" AnchorOrigin="Origin.BottomCenter">
+    <MudSelectItem Value="1">Tra cứu đơn</MudSelectItem>
+    <MudSelectItem Value="2">Tra cứu hàng loạt</MudSelectItem>
+</MudSelect>
+
+@if(_typeTracking == 1 )
+{
+    <MudTextField Label="Mã E1" Variant="Variant.Text" @bind-Value="@ItemCode">
+    </MudTextField>
+    <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mb-5 mt-5" OnClick="Tracking">Tra cứu</MudButton>
+    <TrackingSingle TrackingInfor="@TrackingInfor"></TrackingSingle>
+}
+
+@if ( _typeTracking == 2 )
+{
+    <MudTextField Label="Mã E1" Variant="Variant.Text" @bind-Value="@ListItemCode" Lines="5" Placeholder="Nhập nhiều mã E1 cách dòng">
+    </MudTextField>
+    <MudButton Variant="Variant.Filled" Color="Color.Success" Class="mb-5 mt-5" OnClick="TrackingSLL">Tra cứu</MudButton>
+}
 
 <style>
     .mud-grid-spacing-xs-2 > .mud-grid-item {
@@ -12,214 +28,7 @@
     }
 </style>
 
-@if(TrackingInfor.ItemInfor.ITEMCODE != "")
-{
-    <MudSimpleTable Bordered=true Dense="true">
-        <tbody>
-            <tr>
-                <td width="50%" height="20" align="center" valign="top">
-                    <span style="margin-left: 3px; float: left; color: #034991; font-size: 16px; font-weight: bold;">
-                    </span>&nbsp;
-                    <span style="color:DarkGreen;font-size:Larger;font-weight:bold;">
-                        @TrackingInfor.ItemInfor.ACCEPTANCEPOSCODE - @TrackingInfor.ItemInfor.ACCEPTANCEPOSNAME
-                    </span>
-                </td>
-                <td width="50%" height="20" align="center" valign="top">
-                    <span style="margin-left: 3px; float: left; color: #034991; font-size: 16px; font-weight: bold;">
-                    </span>&nbsp;
-                    <span style="color:DarkGreen;font-size:Larger;font-weight:bold;">
-                        @TrackingInfor.ItemInfor.PROVINCECODE - @TrackingInfor.ItemInfor.PROVINCENAME
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <MudGrid Spacing="2" Justify="Justify.Center">
-                        <MudItem xs="6">
-                            Số hiệu:  @TrackingInfor.ItemInfor.ITEMCODE
-                        </MudItem>
-                        <MudItem xs="6">
-                            Mã đơn hàng/Số hiệu gốc:  @TrackingInfor.ItemInfor.EXECUTEORDER
-                        </MudItem>
-                        <MudItem xs="6">
-                            Nước chấp nhận:  @TrackingInfor.ItemInfor.ACCEPTANCECOUNTRYCODE -  @TrackingInfor.ItemInfor.ACCEPTANCECOUNTRYNAME
-                        </MudItem>
-                        <MudItem xs="6">
-                            Nước phát:  @TrackingInfor.ItemInfor.COUNTRYCODE - @TrackingInfor.ItemInfor.COUNTRYNAME
-                        </MudItem>
-                        <MudItem xs="6">
-                            Bưu cục chấp nhận: @TrackingInfor.ItemInfor.ACCEPTANCEPOSCODE - @TrackingInfor.ItemInfor.ACCEPTANCEPOSNAME
-                        </MudItem>
-                        <MudItem xs="6">
-                            Bưu cục phát: @TrackingInfor.ItemInfor.PROVINCECODE - @TrackingInfor.ItemInfor.PROVINCENAME
-                        </MudItem>                  
-                        <MudItem xs="6">
-                            Người gửi: @TrackingInfor.ItemInfor.SENDERFULLNAME
-                        </MudItem>
-                        <MudItem xs="6">
-                            Người nhận: @TrackingInfor.ItemInfor.RECEIVERFULLNAME
-                        </MudItem>
-                        <MudItem xs="6">
-                            Địa chỉ gửi: @TrackingInfor.ItemInfor.SENDERADDRESS
-                        </MudItem>
-                         <MudItem xs="6">
-                            Địa chỉ nhận: @TrackingInfor.ItemInfor.RECEIVERADDRESS
-                        </MudItem>
-                        <MudItem xs="12">
-                            Nội dung hàng gửi: @TrackingInfor.ItemInfor.SENDINGCONTENT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Cước chính: @TrackingInfor.ItemInfor.MAINFREIGHT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Số điện thoại nhận: @TrackingInfor.ItemInfor.RECEIVERTEL
-                        </MudItem>
-                        <MudItem xs="6">
-                            Cước xăng dầu: @TrackingInfor.ItemInfor.FUELSURCHARGEFREIGHT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Chiều rộng: @TrackingInfor.ItemInfor.WIDTH
-                        </MudItem>
-                        <MudItem xs="6">
-                            Cước vùng xa: @TrackingInfor.ItemInfor.FARREGIONFREIGHT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Chiều dài: @TrackingInfor.ItemInfor.LENGTH
-                        </MudItem>
-                        <MudItem xs="6">
-                            Tổng cước GTGT: @TrackingInfor.ItemInfor.SUBFREIGHT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Chiều cao: @TrackingInfor.ItemInfor.HEIGHT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Tổng cước (chưa bao gồm Vat): @TrackingInfor.ItemInfor.TOTALFREIGHT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Khối lượng thực tế: @TrackingInfor.ItemInfor.WEIGHT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Tổng cước thu ở người gửi: @TrackingInfor.ItemInfor.TOTALFREIGHTVAT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Khối lượng quy đổi: @TrackingInfor.ItemInfor.WEIGHTCONVERT
-                        </MudItem>
-                        <MudItem xs="6">
-                            Bưu tá thu gom
-                        </MudItem>
-                        <MudItem xs="6">
-                            Bưu tá phát hàng
-                        </MudItem>
-                    </MudGrid>
-                </td>
-            
-            </tr>
-        </tbody>
-    </MudSimpleTable>
-}
 
-@if (TrackingInfor.ServiceInfor.Any() )
-{
-    <MudTable Items="@TrackingInfor.ServiceInfor" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" Class="mt-5">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Dịch vụ GTGT</MudText>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>STT</MudTh>
-            <MudTh>Dịch Vụ</MudTh>
-            <MudTh>Thông tin dịch vụ</MudTh>
-            <MudTh>Thời gian cập nhật</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="STT">1</MudTd>
-            <MudTd DataLabel="Dịch Vụ">@context.DICHVU</MudTd>
-            <MudTd DataLabel="Thông tin dịch vụ">@context.TONGCUOC</MudTd>
-            <MudTd DataLabel="Thời gian cập nhật">@context.THOIGIANCAPNHAT</MudTd>
-        </RowTemplate>
-    </MudTable>
-}
-
-
-
-@if ( TrackingInfor.AffairInfor.Any() )
-{
-    <MudTable Items="@TrackingInfor.AffairInfor" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" Class="mt-5">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Lịch sử lập sự vụ</MudText>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>STT</MudTh>
-            <MudTh>Loại sự vụ</MudTh>
-            <MudTh>Số hiệu sự vụ</MudTh>
-            <MudTh>Thời gian tạo</MudTh>
-            <MudTh>Người lập</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="STT">1</MudTd>
-            <MudTd DataLabel="Loại sự vụ">@context.LOAI_SU_VU</MudTd>
-            <MudTd DataLabel="Số hiệu sự vụ">@context.SO_HIEU_SU_VU</MudTd>
-            <MudTd DataLabel="Thời gian tạo">@context.THOI_GIAN_TAO</MudTd>
-            <MudTd DataLabel="Người lập">@context.NGUOI_LAP</MudTd>
-        </RowTemplate>
-    </MudTable>
-
-}
-
-@if ( TrackingInfor.StatusTrace.Any() )
-{
-    <MudTable Items="@TrackingInfor.StatusTrace" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" Class="mt-5" Striped="true"
-              FixedHeader="true" FixedFooter="true" Height="400px"
-              HorizontalScrollbar="true">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Thông tin trạng thái</MudText>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>STT</MudTh>
-            <MudTh>Ngày</MudTh>
-            <MudTh>Giờ</MudTh>
-            <MudTh>Trạng thái bưu gửi</MudTh>
-            <MudTh>Tại bưu cục</MudTh>
-            <MudTh>Thời gian cập nhật</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="STT">1</MudTd>
-            <MudTd DataLabel="Ngày">@context.NGAY</MudTd>
-            <MudTd DataLabel="Giờ">@context.GIO</MudTd>
-            <MudTd DataLabel="Trạng thái bưu gửi">@context.Trang_Thai_BG</MudTd>
-            <MudTd DataLabel="Tại bưu cục">@context.TAI_BUU_CUC</MudTd>
-            <MudTd DataLabel="Thời gian cập nhật">@context.THOI_GIAN_CAP_NHAT</MudTd>
-        </RowTemplate>
-    </MudTable>
-}
-
-
-@if ( TrackingInfor.DeliveryStatus.Any() )
-{
-    <MudTable Items="@TrackingInfor.DeliveryStatus" Dense="true" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" Class="mt-5" Striped="true">
-        <ToolBarContent>
-            <MudText Typo="Typo.h6">Thông tin phát</MudText>
-        </ToolBarContent>
-        <HeaderContent>
-            <MudTh>STT</MudTh>
-            <MudTh>Ngày giờ phát</MudTh>
-            <MudTh>Ngày nhập TT phát</MudTh>
-            <MudTh>Bưu cục phát</MudTh>
-            <MudTh>Người nhận/Lý do</MudTh>
-            <MudTh>Thời gian cập nhật</MudTh>
-            <MudTh>Tuyến phát/Bưu tá</MudTh>
-        </HeaderContent>
-        <RowTemplate>
-            <MudTd DataLabel="STT">1</MudTd>
-            <MudTd DataLabel="Ngày giờ phát">@context.NGAY_GIO_PHAT</MudTd>
-            <MudTd DataLabel="Ngày nhập TT phát">@context.NGAY_NHAP_TT_PHAT</MudTd>
-            <MudTd DataLabel="Bưu cục phát">@context.BUU_CUC_PHAT</MudTd>
-            <MudTd DataLabel="Người nhận/Lý do">@context.LY_DO</MudTd>
-            <MudTd DataLabel="Thời gian cập nhật">@context.THOI_GIAN_CAP_NHAT</MudTd>
-            <MudTd DataLabel="Tuyến phát/Bưu tá">@context.BUU_CUC_PHAT</MudTd>
-        </RowTemplate>
-    </MudTable>
-
-}
 
 
 

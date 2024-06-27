@@ -1,4 +1,5 @@
 ﻿using NewBalance.Application.Features.Doi_Soat;
+using NewBalance.Application.Requests.Doi_soat;
 using NewBalance.Domain.Entities.Doi_Soat.Tracking;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,6 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Tracking
     public interface ITrackingManager
     {
         Task<ResponseSingle<TrackingInfor>> TrackingItem( string ItemCode );
+        Task<ResponseData<LastStatusItem>> TrackingSLL( TrackingSLLRequest request );
     }
 }

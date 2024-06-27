@@ -13,6 +13,8 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NewBalance.Application.Requests.Doi_soat;
+using NewBalance.Domain.Entities.Doi_Soat.Report;
 
 namespace NewBalance.Infrastructure.OR.Repository
 {
@@ -79,6 +81,61 @@ namespace NewBalance.Infrastructure.OR.Repository
                     message = ex.Message
                 };
                 return errorResponse;
+            }
+        }
+
+        public async Task<ResponseData<LastStatusItem>> TrackingSLL( TrackingSLLRequest request )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parametersRequest = new OracleDynamicParameters();
+            var parametersExecute = new OracleDynamicParameters();
+            var parametersQuery = new OracleDynamicParameters();
+            parametersRequest.Add("P_INPUT", request.XmlData, OracleMappingType.Clob);
+            parametersExecute.Add("v_IdSession", request.SessionID, OracleMappingType.Varchar2);
+            parametersQuery.Add("v_idSession", request.SessionID, OracleMappingType.Varchar2);
+            parametersQuery.Add("v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+            try
+            {
+                // Insert vào bảng tạm
+                await con.ExecuteAsync(
+                    "EMS.TrackAndTrace_SLL.INSERT_E1_XML",
+                    parametersRequest,
+                    commandType: CommandType.StoredProcedure);
+
+                // Chạy lấy dữ liệu vào bảng tạm
+                await con.ExecuteAsync(
+                    "EMS.TrackAndTrace_SLL.UDP_Delivery",
+                    parametersExecute,
+                    commandType: CommandType.StoredProcedure);
+
+                // Query dữ liệu sau khi chạy xong
+                var resultQuery = await con.QueryAsync<LastStatusItem>(
+                    "EMS.TrackAndTrace_SLL.GetListDelivery",
+                    parametersQuery,
+                    commandType: CommandType.StoredProcedure);
+
+                return new ResponseData<LastStatusItem>
+                {
+                    code = "success",
+                    message = "Lấy dữ liêu thành công",
+                    data = resultQuery.ToList()
+                };
+            }
+            catch ( OracleException ex )
+            {
+                return new ResponseData<LastStatusItem>
+                {
+                    code = "error",
+                    message = $"Lấy dữ liêu thất bại: {ex.Message.Substring(0,200)}"
+                };
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseData<LastStatusItem>
+                {
+                    code = "error",
+                    message = $"Lấy dữ liêu thất bại: {ex.Message.Substring(0, 200)}"
+                };
             }
         }
     }

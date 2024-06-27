@@ -9,5 +9,6 @@ namespace NewBalance.Client.Infrastructure.Routes
     public static class TrackingEndPoints
     {
         public static string TrackingItem( string ItemCode ) => $"api/Tracking/TrackingItem?ItemCode={ItemCode}";
+        public static string TrackingSLL = $"api/Tracking/TrackingSLL";
     }
 }

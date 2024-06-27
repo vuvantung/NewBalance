@@ -9,6 +9,7 @@ using NewBalance.Application.Features.Doi_Soat;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using NewBalance.Infrastructure.OR.Repository;
+using NewBalance.Application.Requests.Doi_soat;
 namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
 {
     [Route("api/[controller]")]
@@ -31,6 +32,21 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
             try
             {
                 var response = await _trackingRepository.TrackingItem(ItemCode);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("TrackingSLL")]
+        public async Task<IActionResult> TrackingSLL( TrackingSLLRequest request  )
+        {
+            try
+            {
+                var response = await _trackingRepository.TrackingSLL(request);
                 return Ok(response);
             }
             catch ( Exception ex )
