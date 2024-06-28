@@ -26,6 +26,7 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Tracking
         {
             try
             {
+                //_httpClient.Timeout = TimeSpan.FromMinutes(30);
                 var result = await _httpClient.PostAsJsonAsync(Routes.TrackingEndPoints.TrackingSLL, request);
                 var response = await result.Content.ReadFromJsonAsync<ResponseData<LastStatusItem>>();
                 return response;
@@ -38,6 +39,7 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Tracking
                     message = $"Failed connect to API: {ex}"
                 };
             }
+            
         }
     }
 }

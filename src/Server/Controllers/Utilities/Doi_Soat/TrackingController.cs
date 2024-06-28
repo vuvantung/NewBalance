@@ -41,6 +41,7 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
         }
 
         [HttpPost]
+        [RequestSizeLimit(52428800)]
         [Route("TrackingSLL")]
         public async Task<IActionResult> TrackingSLL( TrackingSLLRequest request  )
         {

@@ -100,19 +100,19 @@ namespace NewBalance.Infrastructure.OR.Repository
                 await con.ExecuteAsync(
                     "EMS.TrackAndTrace_SLL.INSERT_E1_XML",
                     parametersRequest,
-                    commandType: CommandType.StoredProcedure);
+                    commandType: CommandType.StoredProcedure, commandTimeout: 1800);
 
                 // Chạy lấy dữ liệu vào bảng tạm
                 await con.ExecuteAsync(
                     "EMS.TrackAndTrace_SLL.UDP_Delivery",
                     parametersExecute,
-                    commandType: CommandType.StoredProcedure);
+                    commandType: CommandType.StoredProcedure, commandTimeout: 1800);
 
                 // Query dữ liệu sau khi chạy xong
                 var resultQuery = await con.QueryAsync<LastStatusItem>(
                     "EMS.TrackAndTrace_SLL.GetListDelivery",
                     parametersQuery,
-                    commandType: CommandType.StoredProcedure);
+                    commandType: CommandType.StoredProcedure, commandTimeout: 1800);
 
                 return new ResponseData<LastStatusItem>
                 {
@@ -136,6 +136,10 @@ namespace NewBalance.Infrastructure.OR.Repository
                     code = "error",
                     message = $"Lấy dữ liêu thất bại: {ex.Message.Substring(0, 200)}"
                 };
+            }
+            finally
+            {
+                await con.DisposeAsync();
             }
         }
     }

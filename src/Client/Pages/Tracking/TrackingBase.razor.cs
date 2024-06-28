@@ -52,44 +52,56 @@ namespace NewBalance.Client.Pages.Tracking
         {
 
             string[] trackingNumbersArray = ListItemCode.Trim().Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-            // Create the root element
-            var sessionId = DateTime.Now.ToString("yyyyMMddHHmmss");
-            XElement documentElement = new XElement("DOCUMENTELEMENT");
-
-            // Create TRACK elements and add them directly to DOCUMENTELEMENT
-            foreach ( string trackingNumber in trackingNumbersArray )
+            if( trackingNumbersArray.Count() > 100000 )
             {
-                XElement trackElement = new XElement("TRACK",
-                    new XElement("SH_BG", trackingNumber),
-                    new XElement("IDSESSION", sessionId),
-                    new XElement("IDUSER", _currentUser.GetUserId())
-                );
-
-                // Add all child elements to the TRACK element at once
-                documentElement.Add(trackElement);
-                
+                //dialog.Close();
+                _snackBar.Add("Vượt quá giới hạn tìm kiếm ( Giới hạn 100000 mã )", Severity.Error);
             }
-
-            // Create XDocument and add the root element
-            XDocument xmlDocument = new XDocument(documentElement);
-
-            // Output the XML
-            string xmlString = xmlDocument.ToString();
-            var response = await _trackingManager.TrackingSLL(new TrackingSLLRequest
+            else
             {
-                SessionID = $"{sessionId}{_currentUser.GetUserId()}",
-                XmlData = xmlString
-            });
-            await ExportToExcel(response);
+                var parameters = new DialogParameters<Loading>();
+                parameters.Add(x => x.ContentText, "Xin vui lòng đợi");
+                var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
+                var dialog = await _dialogService.ShowAsync<Loading>("Xóa", parameters, options: options);
+                // Create the root element
+                var sessionId = DateTime.Now.ToString("yyyyMMddHHmmss");
+                XElement documentElement = new XElement("DOCUMENTELEMENT");
+
+                // Create TRACK elements and add them directly to DOCUMENTELEMENT
+                foreach ( string trackingNumber in trackingNumbersArray )
+                {
+                    XElement trackElement = new XElement("TRACK",
+                        new XElement("SH_BG", trackingNumber),
+                        new XElement("IDSESSION", sessionId),
+                        new XElement("IDUSER", _currentUser.GetUserId())
+                    );
+
+                    // Add all child elements to the TRACK element at once
+                    documentElement.Add(trackElement);
+
+                }
+
+                // Create XDocument and add the root element
+                XDocument xmlDocument = new XDocument(documentElement);
+
+                // Output the XML
+                string xmlString = xmlDocument.ToString();
+                var response = await _trackingManager.TrackingSLL(new TrackingSLLRequest
+                {
+                    SessionID = $"{sessionId}{_currentUser.GetUserId()}",
+                    XmlData = xmlString
+                });
+                await ExportToExcel(response);
+                dialog.Close();
+            }
+            
+            
 
         }
 
         private async Task ExportToExcel( ResponseData<LastStatusItem> listExport )
         {
-            var parameters = new DialogParameters<Loading>();
-            parameters.Add(x => x.ContentText, "Xin vui lòng đợi");
-            var options = new DialogOptions { MaxWidth = MaxWidth.Small, FullWidth = true, DisableBackdropClick = true };
-            var dialog = await _dialogService.ShowAsync<Loading>("Xóa", parameters, options: options);
+            
             try
             {
 
@@ -170,7 +182,7 @@ namespace NewBalance.Client.Pages.Tracking
                 _snackBar.Add($"Xuất file thất bại: {ex.Message}", Severity.Error);
             }
 
-            dialog.Close();
+            
         }
     }
 }
