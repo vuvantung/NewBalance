@@ -10,5 +10,7 @@ namespace NewBalance.Client.Infrastructure.Routes
     {
         public static string GetFilterAccount = "api/Filter/GetFilterAccount";
         public static string GetFilterTypeReport = "api/Filter/GetFilterTypeReport";
+        public static string GetFilterProvince = "api/Filter/GetFilterProvince";
+        public static string GetFilterDistrict (string ProvinceCode) => $"api/Filter/GetFilterDistrict?ProvinceCode={ProvinceCode}";
     }
 }

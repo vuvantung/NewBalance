@@ -15,8 +15,11 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
         Task<ResponseData<GiaVonChuanNT>> GetCategoryGiaVonChuanNTAsync( int pageIndex, int pageSize, int account );
         Task<ResponseData<PostOffice>> GetCategoryPostOfficeAsync(int pageIndex, int pageSize, int ProvinceCode, int DistrictCode, int communeCode, int containVXHD );
         Task<ResponseData<Province>> GetCategoryProvinceAsync( int pageIndex, int pageSize );
+        Task<ResponseData<Province>> GetCategoryProvinceAsync_V2( string strProvinceCode, string strProvinceName, int pageIndex, int pageSize );
         Task<ResponseData<District>> GetCategoryDistrictAsync( int pageIndex, int pageSize ,int ProvinceCode);
+        Task<ResponseData<District>> GetCategoryDistrictAsync_V2( string strProvinceCode, string strDistrictCode, string strDistrictName, int pageIndex, int pageSize );
         Task<ResponseData<Commune>> GetCategoryCommuneAsync( int pageIndex, int pageSize, int DistrictCode );
+        Task<ResponseData<Commune>> GetCategoryCommuneAsync_V2( string strProvinceCode, string strDistrictCode, string strCommuneCode, string strCommuneName, int pageIndex, int pageSize );
         Task<ResponseData<MapProvinceDistrictCommune>> GetAllCategoryProvinceDistrictCommuneAsync( );
         Task<ResponsePost> AddProvinceAsync( Province data );
         Task<ResponsePost> AddDistrictAsync( District data );

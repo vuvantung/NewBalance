@@ -45,6 +45,45 @@ namespace NewBalance.Infrastructure.OR.Repository
             }
         }
 
+        public async Task<IEnumerable<FilterData>> GetFilterDistrictAsync( string ProvinceCode )
+        {
+            try
+            {
+                if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+                var parameters = new OracleDynamicParameters();
+                parameters.Add(name: "v_ProvinceCode", ProvinceCode, dbType: OracleMappingType.Varchar2);
+                parameters.Add(name: "v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+                var queryResult = await con.QueryAsync<FilterData>(
+                    "ems.FILTER_PKG.FILTER_DISTRICT",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+                return queryResult;
+            }
+            catch ( Exception ex )
+            {
+                return Enumerable.Empty<FilterData>();
+            }
+        }
+
+        public async Task<IEnumerable<FilterData>> GetFilterProvinceAsync()
+        {
+            try
+            {
+                if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+                var parameters = new OracleDynamicParameters();
+                parameters.Add(name: "v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+                var queryResult = await con.QueryAsync<FilterData>(
+                    "ems.FILTER_PKG.FILTER_PROVINCE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+                return queryResult;
+            }
+            catch ( Exception ex )
+            {
+                return Enumerable.Empty<FilterData>();
+            }
+        }
+
         public async Task<IEnumerable<FilterData>> GetFilterTypeReportAsync()
         {
             try

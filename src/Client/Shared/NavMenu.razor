@@ -147,6 +147,16 @@
             }
         </MudNavGroup>
     }
+
+    @if ( _canViewCategoryPostalDs )
+    {
+        <MudNavGroup Title="Danh mục bưu chính" @bind-Expanded=_isExpanded_CatalogPostal>
+            <MudNavLink Href="/Doi-Soat/danh-muc-buu-chinh/dmTinhTP" Icon="@Icons.Material.Outlined.CallToAction">Danh mục tỉnh/ thành phố</MudNavLink>
+            <MudNavLink Href="/Doi-Soat/danh-muc-buu-chinh/dmQuanHuyen" Icon="@Icons.Material.Outlined.CallToAction">Danh mục quận/ huyện</MudNavLink>
+            <MudNavLink Href="/Doi-Soat/danh-muc-buu-chinh/dmPhuongXa" Icon="@Icons.Material.Outlined.CallToAction">Danh mục phường/ xã</MudNavLink>
+        </MudNavGroup>
+    }
+
     @if (_canViewDS_XLDL)
     {
         <MudNavGroup Title="Thông tin dữ liệu" @bind-Expanded=_isExpanded_DS_XLDL>
@@ -215,6 +225,7 @@
     private bool _canViewDS_XLDL;
     private bool _canViewReportDs;
     private bool _canViewCategoryDs;
+    private bool _canViewCategoryPostalDs;
     private bool _canTrackingDs;
 
     #region
@@ -226,6 +237,7 @@
     bool _isExpanded_Administrator = false;
     bool _isExpanded_Communication = false;
     bool _isExpanded_CatalogManagement = false;
+    bool _isExpanded_CatalogPostal = false;
     bool _isExpanded_Report = false;
     bool _isExpanded_Document = false;
     bool _isExpanded_Personal = false;
@@ -253,6 +265,7 @@
         _canViewDS_XLDL = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.DS_Xu_Ly_Du_Lieu.View)).Succeeded;
         _canViewReportDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.ReportBasePermisstion.View)).Succeeded;
         _canViewCategoryDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.CategoryBasePermisstion.View)).Succeeded;
+        _canViewCategoryPostalDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.CategoryPostalPermisstion.View)).Succeeded;
         _canTrackingDs = (await _authorizationService.AuthorizeAsync(_authenticationStateProviderUser, Permissions.TrackingPermisstion.View)).Succeeded;
 
     }

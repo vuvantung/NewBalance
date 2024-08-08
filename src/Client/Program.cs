@@ -18,6 +18,7 @@ using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Report;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category;
 using NewBalance.Client.Infrastructure.Managers.Doi_Soat.Tracking;
+using MudExtensions.Services;
 //using Microsoft.AspNetCore.Hosting;
 
 
@@ -31,12 +32,13 @@ namespace NewBalance.Client
             .CreateDefault(args)
                           .AddRootComponents()
                           .AddClientServices();
+            builder.Services.AddMudExtensions();
             builder.Services.AddScoped<IDS_MATINH_FILESService, DS_MATINH_FILESService>();
             builder.Services.AddScoped<IFilterManager, FilterManager>();
             builder.Services.AddScoped<IReportManager, ReportManager>();
             builder.Services.AddScoped<ICategoryManager, CategoryManager>();
             builder.Services.AddScoped<ITrackingManager, TrackingManager>();
-           
+
             var host = builder.Build();
             
             var storageService = host.Services.GetRequiredService<ClientPreferenceManager>();

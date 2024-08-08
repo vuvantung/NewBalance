@@ -1,0 +1,31 @@
+﻿<EditForm Model="@AddEditCommuneModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                Thêm mới Huyện
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>                
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditCommuneModel.COMMUNECODE)" @bind-Value="AddEditCommuneModel.COMMUNECODE" Label="Mã huyện" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditCommuneModel.COMMUNENAME)" @bind-Value="AddEditCommuneModel.COMMUNENAME" Label="Tên Huyện" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudSelectExtended Value="@ProvinceCode" ItemCollection="provinceList" SearchBox="true" T="string" Label="Tỉnh thành phố" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" ValueChanged="ChangeProvince"/>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudSelectExtended ItemCollection="districtList" SearchBox="true" T="string" Label="Tỉnh quận huyện" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" @bind-Value="DistrictCode" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Hủy</MudButton>
+            <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">Lưu</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>

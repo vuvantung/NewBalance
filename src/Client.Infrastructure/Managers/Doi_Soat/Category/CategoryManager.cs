@@ -40,9 +40,6 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
             }
         }
 
-        
-
-        
 
       
 
@@ -97,6 +94,23 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
             }
         }
 
+        public async Task<ResponseData<Province>> GetCategoryProvinceAsync_V2( string strProvinceCode, string strProvinceName, int pageIndex, int pageSize )
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<Province>>(Routes.CategoryEndpoints.GetCategoryProvince_V2(strProvinceCode, strProvinceName,pageIndex, pageSize));
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseData<Province>
+                {
+                    code = "error",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
         public async Task<ResponseData<District>> GetCategoryDistrictAsync( int pageIndex, int pageSize , int ProvinceCode )
         {
             try
@@ -114,11 +128,45 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Category
             }
         }
 
+        public async Task<ResponseData<District>> GetCategoryDistrictAsync_V2(string strProvinceCode,string strDistrictCode, string strDistrictName, int pageIndex, int pageSize )
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<District>>(Routes.CategoryEndpoints.GetCategoryDistrict_V2(strProvinceCode, strDistrictCode, strDistrictName, pageIndex, pageSize));
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseData<District>
+                {
+                    code = "error",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
         public async Task<ResponseData<Commune>> GetCategoryCommuneAsync( int pageIndex, int pageSize, int DistrictCode )
         {
             try
             {
                 var response = await _httpClient.GetFromJsonAsync<ResponseData<Commune>>(Routes.CategoryEndpoints.GetCategoryCommune(pageIndex, pageSize, DistrictCode));
+                return response;
+            }
+            catch ( Exception ex )
+            {
+                return new ResponseData<Commune>
+                {
+                    code = "error",
+                    message = $"Failed connect to API: {ex}"
+                };
+            }
+        }
+
+        public async Task<ResponseData<Commune>> GetCategoryCommuneAsync_V2( string strProvinceCode, string strDistrictCode, string strCommuneCode, string strCommuneName, int pageIndex, int pageSize )
+        {
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<ResponseData<Commune>>(Routes.CategoryEndpoints.GetCategoryCommune_V2(strProvinceCode, strDistrictCode, strCommuneCode, strCommuneName, pageIndex, pageSize));
                 return response;
             }
             catch ( Exception ex )

@@ -1,4 +1,5 @@
-﻿@if ( TrackingInfor.ItemInfor.ITEMCODE != "" )
+﻿
+@if ( TrackingInfor.ItemInfor.ITEMCODE != "" )
 {
     <MudSimpleTable Bordered=true Dense="true">
         <tbody>
@@ -117,7 +118,7 @@
             <MudTh>Thời gian cập nhật</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="STT">1</MudTd>
+            <MudTd DataLabel="STT">@(TrackingInfor.ServiceInfor.ToList().IndexOf(context) + 1)</MudTd>
             <MudTd DataLabel="Dịch Vụ">@context.DICHVU</MudTd>
             <MudTd DataLabel="Thông tin dịch vụ">@context.TONGCUOC</MudTd>
             <MudTd DataLabel="Thời gian cập nhật">@context.THOIGIANCAPNHAT</MudTd>
@@ -141,7 +142,7 @@
             <MudTh>Người lập</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="STT">1</MudTd>
+            <MudTd DataLabel="STT">@(TrackingInfor.AffairInfor.ToList().IndexOf(context) + 1)</MudTd>
             <MudTd DataLabel="Loại sự vụ">@context.LOAI_SU_VU</MudTd>
             <MudTd DataLabel="Số hiệu sự vụ">@context.SO_HIEU_SU_VU</MudTd>
             <MudTd DataLabel="Thời gian tạo">@context.THOI_GIAN_TAO</MudTd>
@@ -168,7 +169,7 @@
             <MudTh>Thời gian cập nhật</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="STT">1</MudTd>
+            <MudTd DataLabel="STT">@(TrackingInfor.StatusTrace.ToList().IndexOf(context) + 1)</MudTd>
             <MudTd DataLabel="Ngày">@context.NGAY</MudTd>
             <MudTd DataLabel="Giờ">@context.GIO</MudTd>
             <MudTd DataLabel="Trạng thái bưu gửi">@context.Trang_Thai_BG</MudTd>
@@ -195,7 +196,7 @@
             <MudTh>Tuyến phát/Bưu tá</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="STT">1</MudTd>
+            <MudTd DataLabel="STT">@(TrackingInfor.DeliveryStatus.ToList().IndexOf(context) + 1)</MudTd>
             <MudTd DataLabel="Ngày giờ phát">@context.NGAY_GIO_PHAT</MudTd>
             <MudTd DataLabel="Ngày nhập TT phát">@context.NGAY_NHAP_TT_PHAT</MudTd>
             <MudTd DataLabel="Bưu cục phát">@context.BUU_CUC_PHAT</MudTd>

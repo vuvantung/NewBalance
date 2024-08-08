@@ -163,6 +163,12 @@ namespace NewBalance.Shared.Constants.Permission
             public const string View = "Permissions.CategoryBasePermisstion.View";
         }
 
+        public static class CategoryPostalPermisstion
+        {
+            public const string View = "Permissions.CategoryPostalPermisstion.View";
+            public const string Edit = "Permissions.CategoryPostalPermisstion.Edit";
+        }
+
         public static class TrackingPermisstion
         {
             public const string View = "Permissions.TrackingPermisstion.View";

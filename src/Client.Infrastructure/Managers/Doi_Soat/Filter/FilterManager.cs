@@ -33,6 +33,34 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter
             }
         }
 
+        public async Task<IEnumerable<FilterData>> GetDistrictFilterAsync( string ProvinceCode )
+        {
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<FilterData>>(Routes.FiltersEndpoints.GetFilterDistrict(ProvinceCode));
+            if ( response.Any() )
+            {
+                return response;
+            }
+            else
+            {
+
+                return Enumerable.Empty<FilterData>();
+            }
+        }
+
+        public async Task<IEnumerable<FilterData>> GetProvinceFilterAsync()
+        {
+            var response = await _httpClient.GetFromJsonAsync<IEnumerable<FilterData>>(Routes.FiltersEndpoints.GetFilterProvince);
+            if ( response.Any() )
+            {
+                return response;
+            }
+            else
+            {
+
+                return Enumerable.Empty<FilterData>();
+            }
+        }
+
         public async Task<IEnumerable<FilterData>> GetTypeReportFilterAsync()
         {
             var response = await _httpClient.GetFromJsonAsync<IEnumerable<FilterData>>(Routes.FiltersEndpoints.GetFilterTypeReport);

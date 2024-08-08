@@ -86,6 +86,21 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
         }
 
         [HttpGet]
+        [Route("GetCategoryProvince_V2")]
+        public async Task<IActionResult> GetCategoryProvince_V2( string strProvinceCode, string strProvinceName, int pageIndex, int pageSize )
+        {
+            try
+            {
+                var response = await _categoryRepository.GetCategoryProvinceAsync_V2(strProvinceCode, strProvinceName,pageIndex, pageSize);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("GetCategoryDistrict")]
         public async Task<IActionResult> GetCategoryDistrict( int pageIndex, int pageSize, int ProvinceCode )
         {
@@ -101,12 +116,42 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
         }
 
         [HttpGet]
+        [Route("GetCategoryDistrict_V2")]
+        public async Task<IActionResult> GetCategoryDistrict_V2( string strProvinceCode, string strDistrictCode, string strDistrictName, int pageIndex, int pageSize )
+        {
+            try
+            {
+                var response = await _categoryRepository.GetCategoryDistrictAsync_V2(strProvinceCode, strDistrictCode, strDistrictName, pageIndex, pageSize);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("GetCategoryCommune")]
         public async Task<IActionResult> GetCategoryCommune( int pageIndex, int pageSize, int DistrictCode )
         {
             try
             {
                 var response = await _categoryRepository.GetCategoryCommuneAsync(pageIndex, pageSize, DistrictCode);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetCategoryCommune_V2")]
+        public async Task<IActionResult> GetCategoryCommune_V2(string strProvinceCode, string strDistrictCode, string strCommuneCode, string strCommuneName, int pageIndex, int pageSize )
+        {
+            try
+            {
+                var response = await _categoryRepository.GetCategoryCommuneAsync_V2(strProvinceCode, strDistrictCode, strCommuneCode, strCommuneName, pageIndex, pageSize);
                 return Ok(response);
             }
             catch ( Exception ex )

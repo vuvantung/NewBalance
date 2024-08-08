@@ -239,6 +239,58 @@ namespace NewBalance.Infrastructure.OR.Repository
                 await con.DisposeAsync();
             }
         }
+        public async Task<ResponseData<Province>> GetCategoryProvinceAsync_V2( string strProvinceCode, string strProvinceName, int pageIndex, int pageSize )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_STR_PROVINCECODE", strProvinceCode, OracleMappingType.Varchar2);
+            parameters.Add("v_STR_PROVINCENAME", strProvinceName, OracleMappingType.NVarchar2);
+            parameters.Add("v_PAGEINDEX", pageIndex, OracleMappingType.Int32);
+            parameters.Add("v_PAGESIZE", pageSize, OracleMappingType.Int32);
+            parameters.Add("v_TOTAL", dbType: OracleMappingType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.QueryAsync<Province>(
+                    "CATEGORY_PKG.GET_CATEGORY_PROVINCE_WITH_SEARCH",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                int total = parameters.Get<int>("v_TOTAL");
+
+                var response = new ResponseData<Province>
+                {
+                    code = "success",
+                    message = "Thành công",
+                    total = total,
+                    data = queryResult.ToList(),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponseData<Province>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponseData<Province>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
+            }
+        }
         public async Task<ResponseData<District>> GetCategoryDistrictAsync( int pageIndex, int pageSize, int ProvinceCode )
         {
             if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
@@ -291,6 +343,59 @@ namespace NewBalance.Infrastructure.OR.Repository
             }
         }
 
+        public async Task<ResponseData<District>> GetCategoryDistrictAsync_V2( string strProvinceCode, string strDistrictCode, string strDistrictName, int pageIndex, int pageSize )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_PROVINCECODE", strProvinceCode, OracleMappingType.Varchar2);
+            parameters.Add("v_STR_DISTRICTCODE", strDistrictCode, OracleMappingType.Varchar2);
+            parameters.Add("v_STR_DISTRICTNAME", strDistrictName, OracleMappingType.NVarchar2);
+            parameters.Add("v_PAGEINDEX", pageIndex, OracleMappingType.Int32);
+            parameters.Add("v_PAGESIZE", pageSize, OracleMappingType.Int32);
+            parameters.Add("v_TOTAL", dbType: OracleMappingType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.QueryAsync<District>(
+                    "CATEGORY_PKG.GET_CATEGORY_DISTRICT_WITH_SEARCH",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                int total = parameters.Get<int>("v_TOTAL");
+
+                var response = new ResponseData<District>
+                {
+                    code = "success",
+                    message = "Thành công",
+                    total = total,
+                    data = queryResult.ToList(),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponseData<District>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponseData<District>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
+            }
+        }
         public async Task<ResponseData<Commune>> GetCategoryCommuneAsync( int pageIndex, int pageSize , int DistrictCode )
         {
             if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
@@ -305,6 +410,61 @@ namespace NewBalance.Infrastructure.OR.Repository
             {
                 var queryResult = await con.QueryAsync<Commune>(
                     "CATEGORY_PKG.GET_CATEGORY_COMMUNE",
+                    parameters,
+                    commandType: CommandType.StoredProcedure);
+
+                int total = parameters.Get<int>("v_TOTAL");
+
+                var response = new ResponseData<Commune>
+                {
+                    code = "success",
+                    message = "Thành công",
+                    total = total,
+                    data = queryResult.ToList(),
+                };
+                return response;
+            }
+            catch ( OracleException ex )
+            {
+                var errorResponse = new ResponseData<Commune>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            catch ( Exception ex )
+            {
+                var errorResponse = new ResponseData<Commune>
+                {
+                    code = "error",
+                    message = ex.Message
+                };
+                return errorResponse;
+            }
+            finally
+            {
+                await con.DisposeAsync();
+            }
+        }
+
+        public async Task<ResponseData<Commune>> GetCategoryCommuneAsync_V2( string strProvinceCode, string strDistrictCode, string strCommuneCode, string strCommuneName, int pageIndex, int pageSize )
+        {
+            if ( con.State == ConnectionState.Closed ) await con.OpenAsync();
+            var parameters = new OracleDynamicParameters();
+            parameters.Add("v_PROVINCECODE", strProvinceCode, OracleMappingType.Varchar2);
+            parameters.Add("v_DISTRICTCODE", strDistrictCode, OracleMappingType.Varchar2);
+            parameters.Add("v_STR_COMMUNECODE", strCommuneCode, OracleMappingType.NVarchar2);
+            parameters.Add("v_STR_COMMUNENAME", strCommuneName, OracleMappingType.NVarchar2);
+            parameters.Add("v_PAGEINDEX", pageIndex, OracleMappingType.Int32);
+            parameters.Add("v_PAGESIZE", pageSize, OracleMappingType.Int32);
+            parameters.Add("v_TOTAL", dbType: OracleMappingType.Int32, direction: ParameterDirection.Output);
+            parameters.Add("v_ListStage", dbType: OracleMappingType.RefCursor, direction: ParameterDirection.Output);
+
+            try
+            {
+                var queryResult = await con.QueryAsync<Commune>(
+                    "CATEGORY_PKG.GET_CATEGORY_COMMUNE_WITH_SEARCH",
                     parameters,
                     commandType: CommandType.StoredProcedure);
 

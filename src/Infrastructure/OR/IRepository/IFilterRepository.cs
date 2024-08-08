@@ -11,5 +11,7 @@ namespace NewBalance.Infrastructure.OR.IRepository
     {
         Task<IEnumerable<FilterData>> GetFilterAccountAsync();
         Task<IEnumerable<FilterData>> GetFilterTypeReportAsync();
+        Task<IEnumerable<FilterData>> GetFilterProvinceAsync();
+        Task<IEnumerable<FilterData>> GetFilterDistrictAsync(string ProvinceCode);
     }
 }

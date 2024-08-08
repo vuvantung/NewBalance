@@ -11,5 +11,7 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Filter
     {
         Task<IEnumerable<FilterData>> GetAccountFilterAsync();
         Task<IEnumerable<FilterData>> GetTypeReportFilterAsync();
+        Task<IEnumerable<FilterData>> GetProvinceFilterAsync();
+        Task<IEnumerable<FilterData>> GetDistrictFilterAsync(string ProvinceCode);
     }
 }

@@ -1,0 +1,35 @@
+﻿<EditForm Model="@AddEditProvinceModel" OnValidSubmit="SaveAsync">
+    <FluentValidationValidator @ref="_fluentValidationValidator" />
+    <MudDialog>
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Add" Class="mr-3 mb-n1" />
+                @Title
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudGrid>                
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditProvinceModel.PROVINCECODE)" @bind-Value="AddEditProvinceModel.PROVINCECODE" Label="Mã Tỉnh" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditProvinceModel.PROVINCENAME)" @bind-Value="AddEditProvinceModel.PROVINCENAME" Label="Tên tỉnh" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditProvinceModel.DESCRIPTION)" @bind-Value="AddEditProvinceModel.DESCRIPTION" Label="Mô tả" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" For="@(() => AddEditProvinceModel.REGIONCODE)" @bind-Value="AddEditProvinceModel.REGIONCODE" Label="Mã Khu Vực" />
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudTextField T="string" For="@(() => AddEditProvinceModel.PROVINCELISTCODE)" @bind-Value="AddEditProvinceModel.PROVINCELISTCODE" Label="Đầu Mã Chấp Nhận" />
+                </MudItem>
+            </MudGrid>
+        </DialogContent>
+        <DialogActions>
+            <MudButton DisableElevation Variant="Variant.Filled" OnClick="Cancel">Hủy</MudButton>
+            <MudButton DisableElevation Variant="Variant.Filled" ButtonType="ButtonType.Submit" Disabled="@(!Validated)" Color="Color.Success">Lưu</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+

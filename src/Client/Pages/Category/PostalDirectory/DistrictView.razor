@@ -1,0 +1,72 @@
+﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
+@page "/Doi-Soat/danh-muc-buu-chinh/dmQuanHuyen"
+@attribute [Authorize(Policy = Permissions.CategoryPostalPermisstion.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<CategoryBase> _localizer
+<HeroTitle Title="@_localizer["Danh mục bưu chính"]" Description="@_localizer["Danh mục quận/huyên"]" />
+<MudCard Class="mb-10">
+    <MudCardContent>
+        <MudStack Row="true" Spacing="4" Class="mb-5">
+            <MudTextField T="string" Label="Mã quận/huyện:" Typo="Typo.input" @bind-Value="strDistrictCode"></MudTextField>
+            <MudTextField T="string" Label="Tên quận/huyện:" Typo="Typo.input" @bind-Value="strDistrictName"></MudTextField>
+        </MudStack>
+        <MudStack Row="true" Spacing="4" Class="mb-5">
+            <MudSelectExtended ItemCollection="provinceList" SearchBox="true" T="string" Label="Tỉnh thành phố" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" HelperText="Chọn tỉnh/thành phố" @bind-Value="strProvinceCode" />
+        </MudStack>
+
+        <MudStack Row="true" Spacing="4">
+            <MudLoadingButton @bind-Loading="_loading" OnClick="FilterSearch" StartIcon="@Icons.Material.Outlined.Search" LoadingAdornment="Adornment.Start" Variant="Variant.Filled" Color="Color.Primary">Tìm kiếm</MudLoadingButton>
+            <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Success" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
+            @if ( selectedItems.Count() > 0 )
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Error" Class="ms-5" OnClick="(() => InvokeModalDelete())">Xóa</MudButton>
+            }
+        </MudStack>
+    </MudCardContent>
+</MudCard>
+
+<MudTable T="District" ServerData="@(new Func<TableState, Task<TableData<District>>>(ServerReload))"
+          MultiSelection="true" @bind-SelectedItems="selectedItems"
+          Dense="true" Hover="true" @ref="table"
+          HorizontalScrollbar="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Danh mục quận/huyện </MudText>
+        <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Primary" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
+        @if ( selectedItems.Count() > 0 )
+        {
+            <MudButton Variant="Variant.Filled" Color="Color.Error" Class="ms-5" OnClick="(() => InvokeModalDelete())">Xóa</MudButton>
+        }
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="DISTRICTCODE" T="District">Mã quận</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="DISTRICTNAME" T="District">Tên quận</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="DESCRIPTION" T="District">Mô tả</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="PROVINCECODE" T="District">Mã tỉnh</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="PROVINCENAME" T="District">Tên tỉnh</MudTableSortLabel></MudTh>
+        <MudTh Style="text-align:right">Chỉnh chửa</MudTh>
+
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="DISTRICTCODE">@context.DISTRICTCODE</MudTd>
+        <MudTd DataLabel="DISTRICTNAME">@context.DISTRICTNAME</MudTd>
+        <MudTd DataLabel="DESCRIPTION">@context.DESCRIPTION</MudTd>
+        <MudTd DataLabel="PROVINCECODE">@context.PROVINCECODE</MudTd>
+        <MudTd DataLabel="PROVINCENAME">@context.PROVINCENAME</MudTd>
+        <MudTd>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => InvokeModal(@context.DISTRICTCODE))">Chỉnh sửa</MudButton>
+        </MudTd>
+    </RowTemplate>
+   
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+
+    </PagerContent>
+</MudTable>

@@ -51,5 +51,33 @@ namespace NewBalance.Server.Controllers.Utilities.Doi_Soat
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        [HttpGet]
+        [Route("GetFilterProvince")]
+        public async Task<IActionResult> GetFilterProvince()
+        {
+            try
+            {
+                var response = await _filterRepository.GetFilterProvinceAsync();
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+        [HttpGet]
+        [Route("GetFilterDistrict")]
+        public async Task<IActionResult> GetFilterDistrict(string ProvinceCode)
+        {
+            try
+            {
+                var response = await _filterRepository.GetFilterDistrictAsync(ProvinceCode);
+                return Ok(response);
+            }
+            catch ( Exception ex )
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

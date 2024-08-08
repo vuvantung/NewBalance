@@ -1,0 +1,65 @@
+﻿@using NewBalance.Domain.Entities.Doi_Soat.Category
+@page "/Doi-Soat/danh-muc-buu-chinh/dmTinhTP"
+@attribute [Authorize(Policy = Permissions.CategoryPostalPermisstion.View)]
+@inject Microsoft.Extensions.Localization.IStringLocalizer<CategoryBase> _localizer
+<HeroTitle Title="@_localizer["Danh mục bưu chính"]" Description="@_localizer["Danh mục tỉnh thành phố"]" />
+
+<MudCard Class="mb-10">
+    <MudCardContent>
+        <MudStack Row="true" Spacing="4" Class="mb-5">
+            <MudTextField T="string" Label="Mã tỉnh/thành phố:" Typo="Typo.input" @bind-Value="strProvinceCode"></MudTextField>
+            <MudTextField T="string" Label="Tên tỉnh:" Typo="Typo.input" @bind-Value="strProvinceName"></MudTextField>
+        </MudStack>
+        
+        <MudStack Row="true" Spacing="4">
+            <MudLoadingButton @bind-Loading="_loading" OnClick="FilterSearch" StartIcon="@Icons.Material.Outlined.Search" LoadingAdornment="Adornment.Start" Variant="Variant.Filled" Color="Color.Primary">Tìm kiếm</MudLoadingButton>
+            <MudButton DisableElevation Variant="Variant.Filled" Color="Color.Success" OnClick="(() => InvokeModal())" StartIcon="@Icons.Material.Filled.Add" IconColor="Color.Surface" Class="ms-5">Tạo mới</MudButton>
+            @if ( selectedItems.Count() > 0 )
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Error" Class="ms-5" OnClick="(() => InvokeModalDelete())">Xóa</MudButton>
+            }
+        </MudStack>
+    </MudCardContent>
+</MudCard>
+
+
+<MudTable T="Province" ServerData="@(new Func<TableState, Task<TableData<Province>>>(ServerReload))"
+            MultiSelection="true" @bind-SelectedItems="selectedItems" SelectOnRowClick="false"
+            Dense="true" Hover="true" @ref="table">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Danh mục tỉnh</MudText>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+                        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortLabel="PROVINCECODE" T="Province">Mã tỉnh</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="PROVINCENAME" T="Province">Tên tỉnh</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="DESCRIPTION" T="Province">Mô tả</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="REGIONCODE" T="Province">Mã khu vực</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortLabel="PROVINCELISTCODE" T="Province">Đầu mã chấp nhận</MudTableSortLabel></MudTh>
+        <MudTh Style="text-align:right">Chỉnh chửa</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="PROVINCECODE">@context.PROVINCECODE</MudTd>
+        <MudTd DataLabel="PROVINCENAME">@context.PROVINCENAME</MudTd>
+        <MudTd DataLabel="DESCRIPTION">@context.DESCRIPTION</MudTd>
+        <MudTd DataLabel="REGIONCODE">@context.REGIONCODE</MudTd>
+        <MudTd DataLabel="PROVINCELISTCODE">@context.PROVINCELISTCODE</MudTd>
+        <MudTd>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="@(() => InvokeModal(@context.PROVINCECODE))">Chỉnh sửa</MudButton>
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+</MudTable>

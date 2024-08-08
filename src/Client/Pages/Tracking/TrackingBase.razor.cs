@@ -52,10 +52,10 @@ namespace NewBalance.Client.Pages.Tracking
         {
 
             string[] trackingNumbersArray = ListItemCode.Trim().Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-            if( trackingNumbersArray.Count() > 100000 )
+            if( trackingNumbersArray.Count() > 5000 )
             {
                 //dialog.Close();
-                _snackBar.Add("Vượt quá giới hạn tìm kiếm ( Giới hạn 100000 mã )", Severity.Error);
+                _snackBar.Add("Vượt quá giới hạn tìm kiếm ( Giới hạn 5000 mã )", Severity.Error);
             }
             else
             {

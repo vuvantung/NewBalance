@@ -15,6 +15,7 @@ namespace NewBalance.Client.Infrastructure.Managers.Doi_Soat.Tracking
         public TrackingManager( HttpClient httpClient )
         {
             _httpClient = httpClient;
+            _httpClient.Timeout = TimeSpan.FromMinutes(5);
         }
         public async Task<ResponseSingle<TrackingInfor>> TrackingItem( string ItemCode )
         {
